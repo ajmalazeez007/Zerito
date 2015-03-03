@@ -1,0 +1,25 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="info.androidhive.zerito.HomeActivity">
+
+    <item
+        android:title="zerito"
+        android:orderInCategory="100"
+        android:icon="@android:drawable/stat_sys_download"
+        app:showAsAction="always">
+        <menu >
+            <item
+                android:id="@+id/menu_fr"
+                android:orderInCategory="100"
+                android:title="Friend Requests"
+                app:showAsAction="never"/>
+            <item
+                android:id="@+id/menu_aboutus"
+                android:orderInCategory="100"
+                android:title="About US"
+                app:showAsAction="never"/>
+
+        </menu>
+    </item>
+</menu>
