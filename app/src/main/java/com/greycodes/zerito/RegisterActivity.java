@@ -297,6 +297,7 @@ public class RegisterActivity extends ActionBarActivity {
 
                 }else{
                     Toast.makeText(getApplicationContext(),"No Internet Connection",Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(),msg,Toast.LENGTH_LONG).show();
 
                 }
 
