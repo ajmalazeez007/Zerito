@@ -2,20 +2,24 @@ package com.greycodes.zerito.helper;
 
 import android.app.Service;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.IBinder;
 
-import com.greycodes.zerito.util.Utils;
+import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
 
-import java.io.InputStream;
-
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ChangeWallpaperService extends Service {
-   String imageURL;
-    public ChangeWallpaperService() {
-    }
+   String url;
 
     @Override
     public IBinder onBind(Intent intent) {
@@ -25,38 +29,32 @@ public class ChangeWallpaperService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        imageURL=intent.getStringExtra("url");
-        new DownloadImage().execute();
+        url="dasdsa";
         return super.onStartCommand(intent, flags, startId);
     }
-    // DownloadImage AsyncTask
-    private class DownloadImage extends AsyncTask<String, Void, Bitmap> {
 
-
+    class ChangeWallpaperAsync extends AsyncTask<Void,Void,Void>{
 
         @Override
-        protected Bitmap doInBackground(String... URL) {
+        protected Void doInBackground(Void... params) {
+            HttpClient httpclient = new DefaultHttpClient();
+            HttpPost httppost = new HttpPost(url);
 
-
-            Bitmap bitmap = null;
             try {
-// Download Image from URL
-                InputStream input = new java.net.URL(imageURL).openStream();
-// Decode Bitmap
-                bitmap = BitmapFactory.decodeStream(input);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            return bitmap;
-        }
+// Add your data
+                List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
+                nameValuePairs.add(new BasicNameValuePair("myHttpData", "dsad"));
+                httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
 
-        @Override
-        protected void onPostExecute(Bitmap result) {
-// Set the bitmap into ImageView
-          //  image.setImageBitmap(result);
-            Utils utils = new Utils(getApplicationContext());
-            utils.setAsWallpaper(result);
-// Close progressdialog
+// Execute HTTP Post Request
+                HttpResponse response = httpclient.execute(httppost);
+
+            } catch (ClientProtocolException e) {
+// TODO Auto-generated catch block
+            } catch (IOException e) {
+// TODO Auto-generated catch block
+            }
+            return null;
         }
     }
 }

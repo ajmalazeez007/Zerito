@@ -66,7 +66,7 @@ public class GcmBroadcastReceiver extends WakefulBroadcastReceiver {
                 //url mob1,mob2,img_id
                 //after mob2=img_id
                 String url ="";
-                Intent service = new Intent(ctx,ChangeWallpaperService.class);
+                Intent service = new Intent(ctx,SetWallpaperService.class);
                 service.putExtra("url",url);
                 ctx.startService(service);
                 type=3;
