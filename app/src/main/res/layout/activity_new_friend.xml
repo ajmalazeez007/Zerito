@@ -33,22 +33,26 @@
 
     <EditText
         android:id="@+id/nf_phoneno"
-        android:layout_width="200dp"
-        android:hint="Mob number"
-        android:layout_height="wrap_content"
+        android:layout_width="250dp"
+        android:hint="Mobile Number"
+        android:layout_height="30dp"
         android:layout_below="@id/ll1"
+        android:textColorHint="#a9a9a9"
         android:layout_centerHorizontal="true"
-        android:background="#ffffff"
+        android:background="@drawable/rounded_edittextwhite"
+        android:paddingLeft="10dp"
         android:layout_marginTop="180dp"
         />
     <EditText
         android:id="@+id/nf_pin"
         android:hint="PIN"
-        android:layout_width="200dp"
-        android:layout_height="wrap_content"
+        android:textColorHint="#a9a9a9"
+        android:layout_width="250dp"
+        android:layout_height="30dp"
         android:layout_below="@id/nf_phoneno"
         android:layout_centerHorizontal="true"
-        android:background="#ffffff"
+        android:paddingLeft="10dp"
+        android:background="@drawable/rounded_edittextwhite"
         android:layout_marginTop="20dp"
         />
 
@@ -58,12 +62,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/plus"
-        android:layout_marginBottom="64dp"
         android:layout_alignParentBottom="true"
-        android:layout_toRightOf="@+id/pin"
-        android:layout_toEndOf="@+id/pin" />
-
-
-
+        android:layout_alignParentRight="true"
+        android:layout_margin="16dp"/>
 
 </RelativeLayout>

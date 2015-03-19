@@ -96,9 +96,12 @@ SharedPreferences sharedPreferences;
                                     MyFriendService.class);
                             startService(intent);
                         } else {
-                            intent = new Intent(getApplicationContext(),
+                          /*  intent = new Intent(getApplicationContext(),
                                     RegisterActivity.class);
-                            startActivity(intent);
+                            startActivity(intent);  */
+                            intent = new Intent(getApplicationContext(),
+                                    MyFriendService.class);
+                            startService(intent);
                         }
                       ;
                         // closing spalsh activity
@@ -135,9 +138,12 @@ SharedPreferences sharedPreferences;
                                     MyFriendService.class);
                             startService(intent);
                         } else {
-                            intent = new Intent(getApplicationContext(),
+                            /*intent = new Intent(getApplicationContext(),
                                     RegisterActivity.class);
-                            startActivity(intent);
+                            startActivity(intent); */
+                            intent = new Intent(getApplicationContext(),
+                                    MyFriendService.class);
+                            startService(intent);
                         }
 
                         // closing spalsh activity

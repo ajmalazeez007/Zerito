@@ -69,11 +69,11 @@ public class FullScreenViewActivity extends ActionBarActivity implements OnClick
 
 		// hide the action bar in fullscreen mode
 
-        if(!AppController.custommsg){
+    /*    if(!AppController.custommsg){
             et_custom.setVisibility(View.GONE);
             tv_preview.setVisibility(View.GONE);
             Toast.makeText(getApplicationContext(),"View Gone",Toast.LENGTH_LONG).show();
-        }
+        }*/
 		getSupportActionBar().hide();
 
 		utils = new Utils(getApplicationContext());
