@@ -1,14 +1,12 @@
 package com.greycodes.zerito.helper;
 
 import android.app.Service;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.IBinder;
 import android.widget.Toast;
-
-import com.greycodes.zerito.FriendRequestActivity;
-import com.greycodes.zerito.app.AppController;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -19,8 +17,6 @@ import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
-import org.apache.http.params.BasicHttpParams;
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -31,13 +27,10 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
-
-public class FriendRequestService extends Service {
-   SharedPreferences sharedPreferences;
-    String results,url,mob1;
-    String[] name,mobnum;
-    int[] id;
-    int count;
+public class SendRequestService extends Service {
+    String mob1,mob2,pin,url,results;
+    HttpResponse response;
+    SharedPreferences sharedPreferences;
     @Override
     public IBinder onBind(Intent intent) {
         // TODO: Return the communication channel to the service.
@@ -46,18 +39,19 @@ public class FriendRequestService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-
-        sharedPreferences= getSharedPreferences("zerito",MODE_PRIVATE);
-         mob1=sharedPreferences.getString("mobnum","");
-        url="http://ieeelinktest.x20.in/app2/pendingrequests.php";
-        Toast.makeText(getApplicationContext(),""+mob1,Toast.LENGTH_LONG).show();
-        new FriendRequestAsync().execute();
+        sharedPreferences= getSharedPreferences("zerito", Context.MODE_PRIVATE);
+        url = "http://ieeelinktest.x20.in/app2/pair.php";
+        mob1=sharedPreferences.getString("mobnum","000000");
+        mob2=intent.getStringExtra("mob1");
+        pin=intent.getStringExtra("pin");
+        Toast.makeText(getApplicationContext(),"mob1 "+mob1+" mob1 "+mob2+" pin "+pin,Toast.LENGTH_LONG).show();
+        new SendRequestAsync().execute();
         return super.onStartCommand(intent, flags, startId);
     }
-    class FriendRequestAsync extends AsyncTask<String, String, String> {
+    class SendRequestAsync extends AsyncTask<Void,Void,Void>{
+
         @Override
-        protected String doInBackground(String... params) {
-// TODO Auto-generated method stub
+        protected Void doInBackground(Void... params) {
             HttpClient httpclient = new DefaultHttpClient();
             HttpPost httppost = new HttpPost(url);
 
@@ -65,11 +59,12 @@ public class FriendRequestService extends Service {
                 // Add your data
                 List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
                 nameValuePairs.add(new BasicNameValuePair("mob1", mob1));
-
+                nameValuePairs.add(new BasicNameValuePair("pin", pin));
+                nameValuePairs.add(new BasicNameValuePair("mob2", mob2));
                 httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
 
                 // Execute HTTP Post Request
-                HttpResponse response = httpclient.execute(httppost);
+                 response = httpclient.execute(httppost);
                 InputStream inputstream = null;
                 HttpEntity entity = response.getEntity();
 
@@ -90,47 +85,27 @@ public class FriendRequestService extends Service {
             }
             return null;
         }
-        @Override
-        protected void onPostExecute(String result) {
-// TODO Auto-generated method stub
-            super.onPostExecute(result);
-            Toast.makeText(getApplicationContext(),results,Toast.LENGTH_LONG).show();
 
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            Toast.makeText(getApplicationContext(),results,Toast.LENGTH_LONG).show();
             try {
                 JSONObject jsonObject = new JSONObject(results);
-                JSONArray  jsonArray = jsonObject.getJSONArray("friends");
+                if(jsonObject.getInt("success")==1){
+                    Toast.makeText(getApplicationContext(),jsonObject.getString("msg"),Toast.LENGTH_LONG).show();
+                }else if (jsonObject.getInt("success")==2){
+                    Toast.makeText(getApplicationContext(),jsonObject.getString("msg"),Toast.LENGTH_LONG).show();
 
-                count = jsonArray.length();
-                if (count==0){
-                    Toast.makeText(getApplicationContext(),"No frnds",Toast.LENGTH_LONG).show();
+                }else{
+                    Toast.makeText(getApplicationContext(),"Error",Toast.LENGTH_LONG).show();
 
                 }
-                name = new String[count];
-                mobnum = new String[count];
-                id = new int[count];
-                for (int i=0;i<count;i++){
-                    name[i]= jsonArray.getJSONObject(i).getString("name");
-                    mobnum[i]= jsonArray.getJSONObject(i).getString("mob_no");
-                    id[i]= jsonArray.getJSONObject(i).getInt("id");
-                }
-                AppController.name = name;
-                AppController.mobnum = mobnum;
-                AppController.id = id;
-            FriendRequestAdapter friendRequestAdapter= new FriendRequestAdapter(getApplicationContext(),name,mobnum,id);
-                AppController.friendRequestAdapter=friendRequestAdapter;
-                Intent intent =new Intent(FriendRequestService.this, FriendRequestActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(intent);
-                stopSelf();
-
-
             } catch (JSONException e) {
-                Toast.makeText(getApplicationContext(),e.toString(),Toast.LENGTH_LONG).show();
                 e.printStackTrace();
-                stopSelf();
             }
-
 
         }
     }
-}
+    }
+

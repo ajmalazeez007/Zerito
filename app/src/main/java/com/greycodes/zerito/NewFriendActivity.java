@@ -1,5 +1,6 @@
 package com.greycodes.zerito;
 
+import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -9,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.greycodes.zerito.helper.SendRequestService;
 
 
 public class NewFriendActivity extends ActionBarActivity {
@@ -36,7 +38,10 @@ TextView tv_mob,tv_pin;
                     Toast.makeText(getApplicationContext(),"Mobile number must have 4 digits",Toast.LENGTH_LONG).show();
 
                 }else {
-                    Toast.makeText(getApplicationContext(),"Success",Toast.LENGTH_LONG).show();
+                    Intent service= new Intent(NewFriendActivity.this, SendRequestService.class);
+                    service.putExtra("mob1",mob);
+                    service.putExtra("pin",pin);
+                    startService(service);
 
                 }
             }

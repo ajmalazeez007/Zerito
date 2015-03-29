@@ -88,6 +88,25 @@
             android:name=".PreviewActivity"
             android:label="@string/title_activity_preview" >
         </activity>
+
+        <service
+            android:name=".helper.SendRequestService"
+            android:enabled="true"
+            android:exported="true" >
+        </service>
+        <service
+            android:name=".helper.SetWallpaperService"
+            android:enabled="true" />
+        <service
+            android:name=".helper.RegisterService"
+            android:enabled="true"
+            android:exported="true" >
+        </service>
+        <service
+            android:name=".helper.FriendAcceptService"
+            android:enabled="true"
+            android:exported="true" >
+        </service>
     </application>
 
 </manifest>

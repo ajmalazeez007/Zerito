@@ -1,10 +1,16 @@
 package com.greycodes.zerito.helper;
 
 import android.app.Service;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.IBinder;
+import android.widget.Toast;
 
+import com.greycodes.zerito.app.AppController;
+
+import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.ClientProtocolException;
@@ -14,12 +20,18 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
 public class ChangeWallpaperService extends Service {
-   String url;
+   String url,imgurl,mob1,mob2,results;
+    HttpResponse response;
+    SharedPreferences sharedPreferences;
+
 
     @Override
     public IBinder onBind(Intent intent) {
@@ -29,11 +41,27 @@ public class ChangeWallpaperService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        url="dasdsa";
+        url="http://ieeelinktest.x20.in/app2/wall_change.php";
+        sharedPreferences= getSharedPreferences("zerito", Context.MODE_PRIVATE);
+        mob1=sharedPreferences.getString("mobnum","000000");
+        imgurl= intent.getStringExtra("url");
+        mob2= AppController.selectedmob;
+
+
+    new ChangeWallpaperAsync().execute();
+
         return super.onStartCommand(intent, flags, startId);
     }
 
     class ChangeWallpaperAsync extends AsyncTask<Void,Void,Void>{
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            Toast.makeText(getApplicationContext(),results,Toast.LENGTH_LONG).show();
+
+            super.onPostExecute(aVoid);
+
+            stopSelf();
+        }
 
         @Override
         protected Void doInBackground(Void... params) {
@@ -43,16 +71,30 @@ public class ChangeWallpaperService extends Service {
             try {
 // Add your data
                 List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
-                nameValuePairs.add(new BasicNameValuePair("myHttpData", "dsad"));
+                nameValuePairs.add(new BasicNameValuePair("mob1", mob1));
+                nameValuePairs.add(new BasicNameValuePair("mob2", mob2));
+                nameValuePairs.add(new BasicNameValuePair("img_link",imgurl));
                 httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
 
 // Execute HTTP Post Request
-                HttpResponse response = httpclient.execute(httppost);
+                response = httpclient.execute(httppost);
+                InputStream inputstream = null;
+                HttpEntity entity = response.getEntity();
+
+                inputstream = entity.getContent();
+
+                BufferedReader reader = new BufferedReader(new InputStreamReader(inputstream,"UTF-8"),8);
+                StringBuilder theStringBuilder = new StringBuilder();
+                String line = null;
+                while((line= reader.readLine())!=null){
+                    theStringBuilder.append(line+ '\n');
+                }
+                results = theStringBuilder.toString();
 
             } catch (ClientProtocolException e) {
-// TODO Auto-generated catch block
+                // TODO Auto-generated catch block
             } catch (IOException e) {
-// TODO Auto-generated catch block
+                // TODO Auto-generated catch block
             }
             return null;
         }

@@ -1,6 +1,7 @@
 package com.greycodes.zerito.helper;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -42,7 +43,7 @@ public class FriendRequestAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
         if(convertView==null)
         {
             LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -62,9 +63,12 @@ public class FriendRequestAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
                 Toast.makeText(context,"Accpet "+tv_accept.getTag(),Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(context,FriendAcceptService.class);
+                intent.putExtra("mob2",mob[((int) tv_accept.getTag())]);
+                context.startService(intent);
             }
         });
-        tv_accept.setOnClickListener(new View.OnClickListener() {
+        tv_reject.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Toast.makeText(context,"Reject  "+tv_reject.getTag(),Toast.LENGTH_LONG).show();

@@ -30,7 +30,7 @@ ListView listView;
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Toast.makeText(getApplicationContext(),AppController.name[position],Toast.LENGTH_LONG).show();
-                AppController.selectedid=AppController.id[position];
+                AppController.selectedmob=AppController.mobnum[position];
                 startActivity(new Intent(HomeActivity.this,MainActivity.class));
             }
         });

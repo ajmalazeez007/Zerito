@@ -17,6 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.gcm.GoogleCloudMessaging;
+import com.greycodes.zerito.helper.RegisterService;
 
 import java.io.IOException;
 import java.io.OutputStream;
@@ -114,14 +115,14 @@ public class RegisterActivity extends ActionBarActivity {
                 }else if(phone.length()<5){
                     Toast.makeText(getApplicationContext(),"phone number must be atleast 5 digit",Toast.LENGTH_LONG).show();
 
-                }else  if (regid.equals("")) {
+                }else if (!sharedPreferences.getBoolean("register",false))  {
                     registerInBackground();
                 } else {
-                    Toast.makeText(getApplicationContext(), "Device registered, registration ID=" + regid,
-                            Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(),"You are already registered",Toast.LENGTH_LONG).show();
+
        /* PackageManager p = getPackageManager();
         p.setComponentEnabledSetting(getComponentName(), PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP);*/
-                }
+              }
 
 
             }
@@ -174,7 +175,7 @@ public class RegisterActivity extends ActionBarActivity {
                     // The request to your server should be authenticated if your app
                     // is using accounts.
                     sendRegistrationIdToBackend();
-
+                   // storeRegistrationId(context, regid);
                     // For this demo: we don't need to send it because the device
                     // will send upstream messages to a server that echo back the
                     // message using the 'from' address in the message.
@@ -201,17 +202,24 @@ public class RegisterActivity extends ActionBarActivity {
                 params.put("name",name);
                 params.put("mob_num",phone);
                 params.put("pin",pin);
-                long backoff = BACKOFF_MILLI_SECONDS + random.nextInt(1000);
+                Intent intent = new Intent(RegisterActivity.this, RegisterService.class);
+                intent.putExtra("name",name);
+                intent.putExtra("pin",pin);
+                intent.putExtra("id",regid);
+                intent.putExtra("mob",phone);
+
+                startService(intent);
+          /*      long backoff = BACKOFF_MILLI_SECONDS + random.nextInt(1000);
                 // Once GCM returns a registration id, we need to register on our server
                 // As the server might be down, we will retry it a couple
                 // times.
                 for (int i = 1; i <= MAX_ATTEMPTS; i++) {
                     Log.d(TAG, "Attempt #" + i + " to register");
                     try {
-                        post(serverUrl, params);
+                     //   post(serverUrl, params);
                         // displayMessage(context, "Registered");
                         return;
-                    } catch (IOException e) {
+                    } catch (Exception e) {
                         // Here we are simplifying and retrying on any error; in a real
                         // application, it should retry only on unrecoverable errors
                         // (like HTTP error code 503).
@@ -235,9 +243,9 @@ public class RegisterActivity extends ActionBarActivity {
                 //  String message = context.getString(R.string.server_register_error,
                 //        MAX_ATTEMPTS);
                 //CommonUtilities.displayMessage(context, message);
-
+*/
             }
-            private  void post(String endpoint, Map<String, String> params)throws IOException{
+    /*        private  void post(String endpoint, Map<String, String> params)throws IOException{
                 URL url;
                 try {
                     url = new URL(endpoint);
@@ -273,6 +281,9 @@ public class RegisterActivity extends ActionBarActivity {
                     out.write(bytes);
                     out.close();
                     // handle the response
+
+
+
                     int status = conn.getResponseCode();
                     if (status != 200) {
                         throw new IOException("Post failed with error code " + status);
@@ -283,12 +294,17 @@ public class RegisterActivity extends ActionBarActivity {
                     }
                 }
             }
-
+*/
             protected void onPostExecute(String msg) {
                 //setContentView(R.layout.activity_gcm_broadcast_receiver);
+              //  Toast.makeText(getApplicationContext(),msg,Toast.LENGTH_LONG).show();
+                /*
                 if(stat){
-                    storeRegistrationId(context, regid);
+
                     SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putString("mobnum",phone);
+                    editor.putString("name",name);
+                    editor.putString("pin",pin);
                     editor.putBoolean("register", true);
                     editor.commit();
                     Intent intent =new Intent(RegisterActivity.this,MainActivity.class);
@@ -297,10 +313,10 @@ public class RegisterActivity extends ActionBarActivity {
 
                 }else{
                     Toast.makeText(getApplicationContext(),"No Internet Connection",Toast.LENGTH_LONG).show();
-                    Toast.makeText(getApplicationContext(),msg,Toast.LENGTH_LONG).show();
+
 
                 }
-
+*/
             }
 
 

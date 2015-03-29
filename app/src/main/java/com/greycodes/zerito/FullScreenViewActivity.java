@@ -33,6 +33,7 @@ import com.android.volley.toolbox.ImageLoader.ImageContainer;
 import com.android.volley.toolbox.ImageLoader.ImageListener;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.greycodes.zerito.app.AppController;
+import com.greycodes.zerito.helper.ChangeWallpaperService;
 import com.greycodes.zerito.picasa.model.Wallpaper;
 import com.greycodes.zerito.util.Utils;
 
@@ -43,7 +44,7 @@ public class FullScreenViewActivity extends ActionBarActivity implements OnClick
 	public static final String TAG_SEL_IMAGE = "selectedImage";
 	private Wallpaper selectedPhoto;
 	private ImageView fullImageView;
-	private LinearLayout llSetWallpaper, llDownloadWallpaper;
+	private LinearLayout llSetWallpaper, friendsWallpaper;
 	private Utils utils;
 	private ProgressBar pbLoader;
     String fullResolutionUrl;
@@ -64,7 +65,7 @@ public class FullScreenViewActivity extends ActionBarActivity implements OnClick
         et_custom= (EditText) findViewById(R.id.fi_customtext);
 		fullImageView = (ImageView) findViewById(R.id.imgFullscreen);
 		llSetWallpaper = (LinearLayout) findViewById(R.id.llSetWallpaper);
-		llDownloadWallpaper = (LinearLayout) findViewById(R.id.llDownloadWallpaper);
+		friendsWallpaper = (LinearLayout) findViewById(R.id.friendswallpaper);
 		pbLoader = (ProgressBar) findViewById(R.id.pbLoader);
 
 		// hide the action bar in fullscreen mode
@@ -80,12 +81,12 @@ public class FullScreenViewActivity extends ActionBarActivity implements OnClick
 
 		// layout click listeners
 		llSetWallpaper.setOnClickListener(this);
-		llDownloadWallpaper.setOnClickListener(this);
+		friendsWallpaper.setOnClickListener(this);
         tv_preview.setOnClickListener(this);
 
 		// setting layout buttons alpha/opacity
 		llSetWallpaper.getBackground().setAlpha(70);
-		llDownloadWallpaper.getBackground().setAlpha(70);
+		friendsWallpaper.getBackground().setAlpha(70);
 
 		Intent i = getIntent();
 		selectedPhoto = (Wallpaper) i.getSerializableExtra(TAG_SEL_IMAGE);
@@ -112,7 +113,7 @@ public class FullScreenViewActivity extends ActionBarActivity implements OnClick
 		// show loader before making request
 		pbLoader.setVisibility(View.VISIBLE);
 		llSetWallpaper.setVisibility(View.GONE);
-		llDownloadWallpaper.setVisibility(View.GONE);
+		friendsWallpaper.setVisibility(View.GONE);
 
 		// volley's json obj request
 		JsonObjectRequest jsonObjReq = new JsonObjectRequest(Method.GET, url,
@@ -182,7 +183,7 @@ public class FullScreenViewActivity extends ActionBarActivity implements OnClick
 												pbLoader.setVisibility(View.GONE);
 												llSetWallpaper
 														.setVisibility(View.VISIBLE);
-												llDownloadWallpaper
+												friendsWallpaper
 														.setVisibility(View.VISIBLE);
 											}
 										}
@@ -267,11 +268,14 @@ public class FullScreenViewActivity extends ActionBarActivity implements OnClick
 				.getBitmap();
 		switch (v.getId()) {
 		// button Download Wallpaper tapped
-		case R.id.llDownloadWallpaper:
+		case R.id.friendswallpaper:
 			//utils.saveImageToSDCard(bitmap);
             //Toast.makeText(getApplicationContext(),fullResolutionUrl,Toast.LENGTH_LONG).show();
             AppController.imageBitmap=bitmap;
-            startActivity(new Intent(FullScreenViewActivity.this,PreviewActivity.class));
+            Intent intent = new Intent(FullScreenViewActivity.this, ChangeWallpaperService.class);
+            intent.putExtra("url",fullResolutionUrl);
+            startService(intent);
+           // startActivity(new Intent(FullScreenViewActivity.this,PreviewActivity.class));
 			break;
 		// button Set As Wallpaper tapped
 		case R.id.llSetWallpaper:

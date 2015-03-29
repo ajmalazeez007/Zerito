@@ -96,11 +96,10 @@ SharedPreferences sharedPreferences;
                                     MyFriendService.class);
                             startService(intent);
                         } else {
-                          /*  intent = new Intent(getApplicationContext(),
+                          intent = new Intent(getApplicationContext(),
                                     RegisterActivity.class);
-                            startActivity(intent);  */
-                            intent = new Intent(getApplicationContext(),
-                                    MyFriendService.class);
+                            startActivity(intent);
+
                             startService(intent);
                         }
                       ;
@@ -138,11 +137,10 @@ SharedPreferences sharedPreferences;
                                     MyFriendService.class);
                             startService(intent);
                         } else {
-                            /*intent = new Intent(getApplicationContext(),
-                                    RegisterActivity.class);
-                            startActivity(intent); */
                             intent = new Intent(getApplicationContext(),
-                                    MyFriendService.class);
+                                    RegisterActivity.class);
+                            startActivity(intent);
+
                             startService(intent);
                         }
 

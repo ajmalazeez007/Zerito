@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#1f1f1f"
-    android:id="@+id/">
+    >
 
 
     <LinearLayout
@@ -38,6 +38,8 @@
         android:layout_height="30dp"
         android:layout_below="@id/ll1"
         android:textColorHint="#a9a9a9"
+        android:textColor="#000"
+        android:inputType="number"
         android:layout_centerHorizontal="true"
         android:background="@drawable/rounded_edittextwhite"
         android:paddingLeft="10dp"
@@ -52,6 +54,8 @@
         android:layout_below="@id/nf_phoneno"
         android:layout_centerHorizontal="true"
         android:paddingLeft="10dp"
+        android:textColor="#000"
+        android:inputType="number"
         android:background="@drawable/rounded_edittextwhite"
         android:layout_marginTop="20dp"
         />

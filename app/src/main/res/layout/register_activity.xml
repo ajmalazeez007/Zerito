@@ -3,6 +3,14 @@
     android:layout_width="match_parent"
     android:background="#5e182c"
     android:layout_height="match_parent">
+<ScrollView
+    android:layout_width="wrap_content"
+    android:fillViewport="true"
+    android:layout_height="wrap_content">
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
 
    <ImageView
        android:layout_width="wrap_content"
@@ -70,8 +78,9 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:src="@drawable/signup"
-    android:layout_marginTop="17dp"
-    android:layout_centerHorizontal="true"
-    android:layout_below="@id/pin"/>
+    android:layout_centerVertical="true"
+    android:layout_centerHorizontal="true" />
 
+    </RelativeLayout>
+</ScrollView>
 </RelativeLayout>

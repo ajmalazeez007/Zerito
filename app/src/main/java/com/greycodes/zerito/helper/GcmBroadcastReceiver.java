@@ -17,6 +17,8 @@ import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.greycodes.zerito.MainActivity;
 import com.greycodes.zerito.R;
 
+import java.util.Random;
+
 
 /**
  * Handling of GCM messages.
@@ -41,44 +43,51 @@ public class GcmBroadcastReceiver extends WakefulBroadcastReceiver {
         } else if (GoogleCloudMessaging.MESSAGE_TYPE_DELETED.equals(messageType)) {
             sendNotification("Deleted messages on server: " + intent.getExtras().toString());
         } else {
-            if(intent.getExtras().getString("Type").equals("1")){
-                type=1;
-                sendNotification(intent.getExtras().getString("Message"));
-                //register
 
-            }else if (intent.getExtras().getInt("Type")==2){
-                //pair
-                //mob1 initiates the request
-                //mob2 gets the push
-                //mob1,mob2,pin    mob2=pin
-                //Mob_no,
-                sendNotification(intent.getExtras().getString("Message"));
-                type=2;
-                Toast.makeText(ctx,"mobile "+intent.getExtras().getString("Mob_no"),Toast.LENGTH_LONG).show();
-                Toast.makeText(ctx,"name "+intent.getExtras().getString("Name"),Toast.LENGTH_LONG).show();
-               // Toast.makeText(ctx,intent.getExtras().getString("Mob_no"),Toast.LENGTH_LONG).show();
+            Toast.makeText(ctx,intent.getExtras().toString(),Toast.LENGTH_LONG).show();
+
+                if(intent.getExtras().getString("Type").equals("1")){
+                    type=1;
+                    sendNotification(intent.getExtras().getString("Message"));
+                    //register
+
+                }else  if(intent.getExtras().getString("Type").equals("2")){
+                    //pair
+                    //mob1 initiates the request
+                    //mob2 gets the push
+                    //mob1,mob2,pin    mob2=pin
+                    //Mob_no,
+                    sendNotification(intent.getExtras().getString("Name")+intent.getExtras().getString("Mob_no"));
+                    type=2;
+                    Toast.makeText(ctx,"mobile "+intent.getExtras().getString("Mob_no"),Toast.LENGTH_LONG).show();
+                    Toast.makeText(ctx,"name "+intent.getExtras().getString("Name"),Toast.LENGTH_LONG).show();
+                    // Toast.makeText(ctx,intent.getExtras().getString("Mob_no"),Toast.LENGTH_LONG).show();
 
 
 //mob1,mob2
-            }
-            else if (intent.getExtras().getString("Type").equals("3")){
-                //wallpaper change
-                //url mob1,mob2,img_id
-                //after mob2=img_id
-                String url ="";
-                Intent service = new Intent(ctx,SetWallpaperService.class);
-                service.putExtra("url",url);
-                ctx.startService(service);
-                type=3;
-                Toast.makeText(ctx,intent.getExtras().getString("img_link"),Toast.LENGTH_LONG).show();
-                Toast.makeText(ctx,intent.getExtras().getString("Mob_no"),Toast.LENGTH_LONG).show();
-                Toast.makeText(ctx,intent.getExtras().getString("Name"),Toast.LENGTH_LONG).show();
+                }
+                else if (intent.getExtras().getString("Type").equals("3")){
+                    //wallpaper change
+                    //url mob1,mob2,img_id
+                    //after mob2=img_id
+                    String url =intent.getExtras().getString("img_link");
+                    Intent service = new Intent(ctx,SetWallpaperService.class);
+                    service.putExtra("url",url);
+                    ctx.startService(service);
+                    type=3;
+                    sendNotification(intent.getExtras().getString("Message"));
+                  /*  Toast.makeText(ctx,intent.getExtras().getString("img_link"),Toast.LENGTH_LONG).show();
+                    Toast.makeText(ctx,intent.getExtras().getString("Mob_no"),Toast.LENGTH_LONG).show();
+                    Toast.makeText(ctx,intent.getExtras().getString("Name"),Toast.LENGTH_LONG).show();
+*/
+                }else if (intent.getExtras().getString("Type").equals("4")){
+                    //geneeral notification
+                      type=4;
+                    sendNotification(intent.getExtras().getString("Message"));
+                    Toast.makeText(ctx,"Type 4",Toast.LENGTH_LONG).show();
+                }
 
-            }else if (intent.getExtras().getString("Type").equals("4")){
-                //geneeral notification
-                type=4;
-                sendNotification(intent.getExtras().getString("Message"));
-            }
+
 
             Toast.makeText(ctx,"push ..",Toast.LENGTH_LONG).show();
         }
@@ -135,6 +144,8 @@ public class GcmBroadcastReceiver extends WakefulBroadcastReceiver {
 
         mBuilder.setDefaults(defaults);
         mBuilder.setContentIntent(contentIntent);
+        Random rand = new Random();
+        NOTIFICATION_ID= rand.nextInt((1000 - 10) + 1) + 10;
         mNotificationManager.notify(NOTIFICATION_ID, mBuilder.build());
         NOTIFICATION_ID++;
     }

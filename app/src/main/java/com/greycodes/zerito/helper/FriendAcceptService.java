@@ -19,7 +19,6 @@ import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
-import org.apache.http.params.BasicHttpParams;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -31,13 +30,11 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
+public class FriendAcceptService extends Service {
+    SharedPreferences sharedPreferences;
+    String results,url,mob1,mob2,flag;
 
-public class FriendRequestService extends Service {
-   SharedPreferences sharedPreferences;
-    String results,url,mob1;
-    String[] name,mobnum;
-    int[] id;
-    int count;
+
     @Override
     public IBinder onBind(Intent intent) {
         // TODO: Return the communication channel to the service.
@@ -46,15 +43,18 @@ public class FriendRequestService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-
         sharedPreferences= getSharedPreferences("zerito",MODE_PRIVATE);
-         mob1=sharedPreferences.getString("mobnum","");
-        url="http://ieeelinktest.x20.in/app2/pendingrequests.php";
+        mob2=sharedPreferences.getString("mobnum","");
+        mob1=intent.getStringExtra("mob2");
+        flag=intent.getStringExtra("flag");
+
+        url="http://ieeelinktest.x20.in/app2/pair_complete.php";
         Toast.makeText(getApplicationContext(),""+mob1,Toast.LENGTH_LONG).show();
-        new FriendRequestAsync().execute();
+        new FriendAcceptAsync().execute();
         return super.onStartCommand(intent, flags, startId);
     }
-    class FriendRequestAsync extends AsyncTask<String, String, String> {
+
+    class FriendAcceptAsync extends AsyncTask<String, String, String> {
         @Override
         protected String doInBackground(String... params) {
 // TODO Auto-generated method stub
@@ -65,6 +65,7 @@ public class FriendRequestService extends Service {
                 // Add your data
                 List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
                 nameValuePairs.add(new BasicNameValuePair("mob1", mob1));
+                nameValuePairs.add(new BasicNameValuePair("mob2", mob2));
 
                 httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
 
@@ -94,33 +95,19 @@ public class FriendRequestService extends Service {
         protected void onPostExecute(String result) {
 // TODO Auto-generated method stub
             super.onPostExecute(result);
-            Toast.makeText(getApplicationContext(),results,Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), results, Toast.LENGTH_LONG).show();
 
             try {
                 JSONObject jsonObject = new JSONObject(results);
-                JSONArray  jsonArray = jsonObject.getJSONArray("friends");
+              if(jsonObject.getBoolean("success")){
+                  Toast.makeText(getApplicationContext(),jsonObject.getString("msg"),Toast.LENGTH_LONG).show();
 
-                count = jsonArray.length();
-                if (count==0){
-                    Toast.makeText(getApplicationContext(),"No frnds",Toast.LENGTH_LONG).show();
+              }else if (!jsonObject.getBoolean("success")){
+                  Toast.makeText(getApplicationContext(),jsonObject.getString("msg"),Toast.LENGTH_LONG).show();
 
-                }
-                name = new String[count];
-                mobnum = new String[count];
-                id = new int[count];
-                for (int i=0;i<count;i++){
-                    name[i]= jsonArray.getJSONObject(i).getString("name");
-                    mobnum[i]= jsonArray.getJSONObject(i).getString("mob_no");
-                    id[i]= jsonArray.getJSONObject(i).getInt("id");
-                }
-                AppController.name = name;
-                AppController.mobnum = mobnum;
-                AppController.id = id;
-            FriendRequestAdapter friendRequestAdapter= new FriendRequestAdapter(getApplicationContext(),name,mobnum,id);
-                AppController.friendRequestAdapter=friendRequestAdapter;
-                Intent intent =new Intent(FriendRequestService.this, FriendRequestActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(intent);
+              }else{
+
+              }
                 stopSelf();
 
 
