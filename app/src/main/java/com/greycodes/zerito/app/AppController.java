@@ -11,6 +11,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.Volley;
 import com.greycodes.zerito.helper.FriendRequestAdapter;
+import com.greycodes.zerito.helper.HistoryAdapter;
 import com.greycodes.zerito.helper.MyFriendsAdapter;
 import com.greycodes.zerito.util.LruBitmapCache;
 import com.greycodes.zerito.util.PrefManager;
@@ -32,7 +33,7 @@ public class AppController extends Application {
     public static String selectedmob;
     public static boolean custommsg;
     public static Bitmap imageBitmap;
-
+    public static HistoryAdapter historyAdapter;
 	@Override
 	public void onCreate() {
 		super.onCreate();

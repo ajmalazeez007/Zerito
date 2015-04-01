@@ -11,6 +11,7 @@ import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.IBinder;
 import android.support.v4.app.NotificationCompat;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.greycodes.zerito.MainActivity;
@@ -19,11 +20,13 @@ import com.greycodes.zerito.SplashActivity;
 import com.greycodes.zerito.util.Utils;
 
 import java.io.InputStream;
+import java.sql.Timestamp;
 import java.util.Random;
+import java.util.TimeZone;
 
 
 public class SetWallpaperService extends Service {
-   String imageURL;
+   String imageURL,imgText;
     private NotificationManager mNotificationManager;
     public static int NOTIFICATION_ID = 1;
     public SetWallpaperService() {
@@ -38,9 +41,10 @@ public class SetWallpaperService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         imageURL=intent.getStringExtra("url");
+        imgText=intent.getStringExtra("imgtext");
         Toast.makeText(getApplicationContext(),"Wallchange service",Toast.LENGTH_LONG).show();
         new DownloadImage().execute();
-        return super.onStartCommand(intent, flags, startId);
+         return super.onStartCommand(intent, flags, startId);
     }
     // DownloadImage AsyncTask
     private class DownloadImage extends AsyncTask<String, Void, Bitmap> {
@@ -67,9 +71,13 @@ public class SetWallpaperService extends Service {
         protected void onPostExecute(Bitmap result) {
 // Set the bitmap into ImageView
           //  image.setImageBitmap(result);
-            Utils utils = new Utils(getApplicationContext());
-            utils.setAsWallpaper(result);
-            sendNotification("Wallpaper change service");
+            try {
+                Utils utils = new Utils(getApplicationContext());
+                utils.setAsWallpaper(result,imgText);
+                sendNotification("Wallpaper change service");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
             stopSelf();
 // Close progressdialog
         }

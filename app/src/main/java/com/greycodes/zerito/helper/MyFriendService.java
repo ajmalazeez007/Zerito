@@ -47,11 +47,15 @@ public class MyFriendService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
 
-        sharedPreferences= getSharedPreferences("zerito",MODE_PRIVATE);
-        mob1=sharedPreferences.getString("mobnum","");
-        url="http://ieeelinktest.x20.in/app2/find_friends.php";
-        Toast.makeText(getApplicationContext(),""+mob1,Toast.LENGTH_LONG).show();
-        new FriendRequestAsync().execute();
+        try {
+            sharedPreferences= getSharedPreferences("zerito",MODE_PRIVATE);
+            mob1=sharedPreferences.getString("mobnum","");
+            url="http://ieeelinktest.x20.in/app2/find_friends.php";
+            Toast.makeText(getApplicationContext(),""+mob1,Toast.LENGTH_LONG).show();
+            new FriendRequestAsync().execute();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return super.onStartCommand(intent, flags, startId);
     }
     class FriendRequestAsync extends AsyncTask<String, String, String> {
@@ -106,7 +110,6 @@ public class MyFriendService extends Service {
                 for (int i=0;i<count;i++){
                     name[i]= jsonArray.getJSONObject(i).getString("name");
                     mobnum[i]= jsonArray.getJSONObject(i).getString("mob_no");
-                    id[i]= jsonArray.getJSONObject(i).getInt("id");
                 }
                 AppController.name = name;
                 AppController.mobnum = mobnum;

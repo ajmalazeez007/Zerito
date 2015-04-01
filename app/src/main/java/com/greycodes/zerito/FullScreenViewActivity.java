@@ -44,7 +44,7 @@ public class FullScreenViewActivity extends ActionBarActivity implements OnClick
 	public static final String TAG_SEL_IMAGE = "selectedImage";
 	private Wallpaper selectedPhoto;
 	private ImageView fullImageView;
-	private LinearLayout llSetWallpaper, friendsWallpaper;
+	private LinearLayout myWallpaper, friendsWallpaper;
 	private Utils utils;
 	private ProgressBar pbLoader;
     String fullResolutionUrl;
@@ -64,7 +64,7 @@ public class FullScreenViewActivity extends ActionBarActivity implements OnClick
         tv_preview = (TextView) findViewById(R.id.fi_preview);
         et_custom= (EditText) findViewById(R.id.fi_customtext);
 		fullImageView = (ImageView) findViewById(R.id.imgFullscreen);
-		llSetWallpaper = (LinearLayout) findViewById(R.id.llSetWallpaper);
+		myWallpaper = (LinearLayout) findViewById(R.id.fi_mywallpaper);
 		friendsWallpaper = (LinearLayout) findViewById(R.id.friendswallpaper);
 		pbLoader = (ProgressBar) findViewById(R.id.pbLoader);
 
@@ -80,12 +80,15 @@ public class FullScreenViewActivity extends ActionBarActivity implements OnClick
 		utils = new Utils(getApplicationContext());
 
 		// layout click listeners
-		llSetWallpaper.setOnClickListener(this);
+		myWallpaper.setOnClickListener(this);
 		friendsWallpaper.setOnClickListener(this);
         tv_preview.setOnClickListener(this);
+        /*Only for custom album */
+       // tv_preview.setVisibility(View.GONE);
+      //  et_custom.setVisibility(View.GONE);
 
 		// setting layout buttons alpha/opacity
-		llSetWallpaper.getBackground().setAlpha(70);
+		myWallpaper.getBackground().setAlpha(70);
 		friendsWallpaper.getBackground().setAlpha(70);
 
 		Intent i = getIntent();
@@ -112,7 +115,7 @@ public class FullScreenViewActivity extends ActionBarActivity implements OnClick
 
 		// show loader before making request
 		pbLoader.setVisibility(View.VISIBLE);
-		llSetWallpaper.setVisibility(View.GONE);
+		myWallpaper.setVisibility(View.GONE);
 		friendsWallpaper.setVisibility(View.GONE);
 
 		// volley's json obj request
@@ -181,7 +184,7 @@ public class FullScreenViewActivity extends ActionBarActivity implements OnClick
 												// hide loader and show set &
 												// download buttons
 												pbLoader.setVisibility(View.GONE);
-												llSetWallpaper
+												myWallpaper
 														.setVisibility(View.VISIBLE);
 												friendsWallpaper
 														.setVisibility(View.VISIBLE);
@@ -272,14 +275,16 @@ public class FullScreenViewActivity extends ActionBarActivity implements OnClick
 			//utils.saveImageToSDCard(bitmap);
             //Toast.makeText(getApplicationContext(),fullResolutionUrl,Toast.LENGTH_LONG).show();
             AppController.imageBitmap=bitmap;
+            String imgtext= et_custom.getText().toString();
             Intent intent = new Intent(FullScreenViewActivity.this, ChangeWallpaperService.class);
             intent.putExtra("url",fullResolutionUrl);
+            intent.putExtra("imgtext",imgtext);
             startService(intent);
            // startActivity(new Intent(FullScreenViewActivity.this,PreviewActivity.class));
 			break;
 		// button Set As Wallpaper tapped
-		case R.id.llSetWallpaper:
-			utils.setAsWallpaper(bitmap);
+		case R.id.fi_mywallpaper:
+			utils.setAsWallpaper(bitmap,"");
 			break;
             case R.id.fi_preview:
                 AppController.imageBitmap=bitmap;

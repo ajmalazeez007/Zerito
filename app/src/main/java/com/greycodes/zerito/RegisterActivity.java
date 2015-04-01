@@ -32,19 +32,14 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 
 public class RegisterActivity extends ActionBarActivity {
-    public static final String EXTRA_MESSAGE = "message";
     public static final String PROPERTY_REG_ID = "registration_id";
-    private static final String PROPERTY_APP_VERSION = "appVersion";
-    static final String DISPLAY_MESSAGE_ACTION="com.example.test.DISPLAY_MESSAGE";
     static final String SERVER_URL = "http://ieeelinktest.x20.in/app2/register.php";
     //static final String SERVER_URL = "http://ieeelinktest.x20.in/register.php";
-    private final static int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
     public static String acc = "";
     public String msg = "";
     Boolean stat=true;
     public static String accn = "";
     String SENDER_ID = "187588160331";
-    //String SENDER_ID = "958223906294";
 
     static final String TAG = "GCMDemo";
     TextView mDisplay;
@@ -60,6 +55,7 @@ public class RegisterActivity extends ActionBarActivity {
     EditText etphone;
     EditText etname,etpin;
     ImageView submit;
+    TextView tvsignin;
     SharedPreferences sharedPreferences;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,14 +77,21 @@ public class RegisterActivity extends ActionBarActivity {
         etname =(EditText)findViewById(R.id.name);
         etphone =(EditText)findViewById(R.id.phone);
         etpin =(EditText)findViewById(R.id.pin);
-
-
+        tvsignin = (TextView) findViewById(R.id.signin);
+        submit = (ImageView) findViewById(R.id.submit);
 
         context = getApplicationContext();
         gcm = GoogleCloudMessaging.getInstance(this);
         regid = getRegistrationId(context);
 
-        submit = (ImageView) findViewById(R.id.submit);
+        tvsignin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(RegisterActivity.this,SignInActivity.class));
+            }
+        });
+
+
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -196,12 +199,7 @@ public class RegisterActivity extends ActionBarActivity {
                 final int BACKOFF_MILLI_SECONDS = 2000;
                 final Random random = new Random();
                 Log.i(TAG, "registering device (regId = " + regid + ")");
-                String serverUrl = SERVER_URL;
-                Map<String, String> params = new HashMap<String, String>();
-                params.put("regId", regid);
-                params.put("name",name);
-                params.put("mob_num",phone);
-                params.put("pin",pin);
+
                 Intent intent = new Intent(RegisterActivity.this, RegisterService.class);
                 intent.putExtra("name",name);
                 intent.putExtra("pin",pin);

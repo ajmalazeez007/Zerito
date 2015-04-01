@@ -34,7 +34,7 @@
     <!-- Set as wallpaper button -->
 
     <LinearLayout
-        android:id="@+id/llSetWallpaper"
+        android:id="@+id/fi_mywallpaper"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
@@ -54,7 +54,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingLeft="10dp"
-            android:text="@string/set_wallpaper"
+            android:text="My Wallpaper"
             android:textColor="@color/white"
             android:textSize="18dp" />
 
@@ -103,7 +103,7 @@
         android:paddingTop="4dp"
 
         android:layout_marginBottom="30dp"
-        android:layout_above="@id/llSetWallpaper"
+        android:layout_above="@id/fi_mywallpaper"
         android:layout_height="wrap_content" />
     <EditText
         android:id="@+id/fi_customtext"
@@ -114,7 +114,7 @@
         android:background="@drawable/rounded_edittextwhite"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="30dp"
-        android:layout_above="@id/llSetWallpaper"
+        android:layout_above="@id/fi_mywallpaper"
         android:layout_width="fill_parent"
         android:textColor="#000"
         android:layout_marginLeft="10dp"

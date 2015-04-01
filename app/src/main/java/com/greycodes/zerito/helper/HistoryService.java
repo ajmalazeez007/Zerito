@@ -7,7 +7,8 @@ import android.os.AsyncTask;
 import android.os.IBinder;
 import android.widget.Toast;
 
-import com.greycodes.zerito.FriendRequestActivity;
+import com.greycodes.zerito.HistoryActivity;
+import com.greycodes.zerito.HomeActivity;
 import com.greycodes.zerito.app.AppController;
 
 import org.apache.http.HttpEntity;
@@ -31,25 +32,25 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class FriendRequestService extends Service {
-   SharedPreferences sharedPreferences;
+public class HistoryService extends Service {
+    SharedPreferences sharedPreferences;
     String results,url,mob1;
-    String[] name,mobnum;
-    int[] id;
+    String[] name, time;
+    int[] type;
     int count;
+
     @Override
     public IBinder onBind(Intent intent) {
         // TODO: Return the communication channel to the service.
         throw new UnsupportedOperationException("Not yet implemented");
     }
-
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
 
         try {
             sharedPreferences= getSharedPreferences("zerito",MODE_PRIVATE);
             mob1=sharedPreferences.getString("mobnum","");
-            url="http://ieeelinktest.x20.in/app2/pendingrequests.php";
+            url="http://ieeelinktest.x20.in/app2/history.php";
             Toast.makeText(getApplicationContext(),""+mob1,Toast.LENGTH_LONG).show();
             new FriendRequestAsync().execute();
         } catch (Exception e) {
@@ -67,7 +68,7 @@ public class FriendRequestService extends Service {
             try {
                 // Add your data
                 List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
-                nameValuePairs.add(new BasicNameValuePair("mob1", mob1));
+                nameValuePairs.add(new BasicNameValuePair("mob_num", mob1));
 
                 httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
 
@@ -97,38 +98,31 @@ public class FriendRequestService extends Service {
         protected void onPostExecute(String result) {
 // TODO Auto-generated method stub
             super.onPostExecute(result);
-            Toast.makeText(getApplicationContext(),results,Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(),results, Toast.LENGTH_LONG).show();
 
             try {
                 JSONObject jsonObject = new JSONObject(results);
-                JSONArray  jsonArray = jsonObject.getJSONArray("friends");
-
+                JSONArray jsonArray = jsonObject.getJSONArray("history");
                 count = jsonArray.length();
-                if (count==0){
-                    Toast.makeText(getApplicationContext(),"No frnds",Toast.LENGTH_LONG).show();
-
-                }
                 name = new String[count];
-                mobnum = new String[count];
-                id = new int[count];
+                time = new String[count];
+                type = new int[count];
                 for (int i=0;i<count;i++){
                     name[i]= jsonArray.getJSONObject(i).getString("name");
-                    mobnum[i]= jsonArray.getJSONObject(i).getString("mob_no");
-                    id[i]= jsonArray.getJSONObject(i).getInt("id");
+                    time[i]= jsonArray.getJSONObject(i).getString("time");
+                    type[i]= jsonArray.getJSONObject(i).getInt("type");
                 }
-                AppController.name = name;
-                AppController.mobnum = mobnum;
-                AppController.id = id;
-            FriendRequestAdapter friendRequestAdapter= new FriendRequestAdapter(getApplicationContext(),name,mobnum, id);
-                AppController.friendRequestAdapter=friendRequestAdapter;
-                Intent intent =new Intent(FriendRequestService.this, FriendRequestActivity.class);
+
+                HistoryAdapter historyAdapter= new HistoryAdapter(getApplicationContext(), name,time, type);
+                AppController.historyAdapter=historyAdapter;
+                Intent intent=new Intent(HistoryService.this, HistoryActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
                 stopSelf();
 
 
             } catch (JSONException e) {
-                Toast.makeText(getApplicationContext(),e.toString(),Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(),"Error: "+ e.toString(), Toast.LENGTH_LONG).show();
                 e.printStackTrace();
                 stopSelf();
             }

@@ -44,9 +44,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".MainActivity"
-            android:screenOrientation="portrait" >
+        <activity android:name=".MainActivity" >
         </activity>
         <activity
             android:name=".FullScreenViewActivity"
@@ -107,6 +105,27 @@
             android:enabled="true"
             android:exported="true" >
         </service>
+
+        <activity
+            android:name=".SignInActivity"
+            android:label="@string/title_activity_sign_in" >
+        </activity>
+
+        <service
+            android:name=".helper.SignInService"
+            android:enabled="true"
+            android:exported="true" >
+        </service>
+        <service
+            android:name=".helper.HistoryService"
+            android:enabled="true"
+            android:exported="true" >
+        </service>
+
+        <activity
+            android:name=".HistoryActivity"
+            android:label="@string/title_activity_history" >
+        </activity>
     </application>
 
 </manifest>

@@ -13,7 +13,7 @@ import android.widget.Toast;
 
 import com.greycodes.zerito.app.AppController;
 import com.greycodes.zerito.helper.FriendRequestService;
-
+import com.greycodes.zerito.helper.HistoryService;
 
 
 public class HomeActivity extends ActionBarActivity {
@@ -56,14 +56,20 @@ ListView listView;
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
+
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.menu_fr) {
-            Toast.makeText(getApplicationContext(),"Friend request",Toast.LENGTH_LONG).show();
-            startService(new Intent(HomeActivity.this, FriendRequestService.class));
-            return true;
+        switch (item.getItemId()){
+            case R.id.menu_fr:
+                Toast.makeText(getApplicationContext(),"Friend request",Toast.LENGTH_LONG).show();
+                startService(new Intent(HomeActivity.this, FriendRequestService.class));
+                return true;
+            case R.id.menu_history:
+                Toast.makeText(getApplicationContext(),"History",Toast.LENGTH_LONG).show();
+                startService(new Intent(HomeActivity.this, HistoryService.class));
+                return true;
         }
+
 
         return super.onOptionsItemSelected(item);
     }

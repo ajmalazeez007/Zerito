@@ -39,13 +39,17 @@ public class SendRequestService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        sharedPreferences= getSharedPreferences("zerito", Context.MODE_PRIVATE);
-        url = "http://ieeelinktest.x20.in/app2/pair.php";
-        mob1=sharedPreferences.getString("mobnum","000000");
-        mob2=intent.getStringExtra("mob1");
-        pin=intent.getStringExtra("pin");
-        Toast.makeText(getApplicationContext(),"mob1 "+mob1+" mob1 "+mob2+" pin "+pin,Toast.LENGTH_LONG).show();
-        new SendRequestAsync().execute();
+        try {
+            sharedPreferences= getSharedPreferences("zerito", Context.MODE_PRIVATE);
+            url = "http://ieeelinktest.x20.in/app2/pair.php";
+            mob1=sharedPreferences.getString("mobnum","000000");
+            mob2=intent.getStringExtra("mob1");
+            pin=intent.getStringExtra("pin");
+            Toast.makeText(getApplicationContext(),"mob1 "+mob1+" mob1 "+mob2+" pin "+pin,Toast.LENGTH_LONG).show();
+            new SendRequestAsync().execute();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return super.onStartCommand(intent, flags, startId);
     }
     class SendRequestAsync extends AsyncTask<Void,Void,Void>{

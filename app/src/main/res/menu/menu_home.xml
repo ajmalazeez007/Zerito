@@ -15,6 +15,11 @@
                 android:title="Friend Requests"
                 app:showAsAction="never"/>
             <item
+                android:id="@+id/menu_history"
+                android:orderInCategory="100"
+                android:title="History"
+                app:showAsAction="never"/>
+            <item
                 android:id="@+id/menu_aboutus"
                 android:orderInCategory="100"
                 android:title="About US"

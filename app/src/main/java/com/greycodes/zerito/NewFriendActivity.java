@@ -17,6 +17,7 @@ public class NewFriendActivity extends ActionBarActivity {
 TextView tv_mob,tv_pin;
     ImageView add;
     String mob,pin;
+    //http://ramsandroid4all.blogspot.in/2014/01/display-all-contacts-from-contacts.html
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

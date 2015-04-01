@@ -47,12 +47,12 @@ public class FriendRequestAdapter extends BaseAdapter {
         if(convertView==null)
         {
             LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = layoutInflater.inflate(R.layout.friendrequest_listitem, parent, false);
+            convertView = layoutInflater.inflate(R.layout.listitem_pendingrequest, parent, false);
         }
         TextView tv_name = (TextView) convertView.findViewById(R.id.fr_name);
         TextView tv_mob = (TextView) convertView.findViewById(R.id.fr_mob);
-        final TextView tv_accept = (TextView) convertView.findViewById(R.id.fr_accept);
-        final TextView tv_reject = (TextView) convertView.findViewById(R.id.fr_reject);
+        final ImageView tv_accept = (ImageView) convertView.findViewById(R.id.fr_accept);
+        final ImageView tv_reject = (ImageView) convertView.findViewById(R.id.fr_reject);
 
         tv_name.setText(name[position]);
         tv_mob.setText(mob[position]);

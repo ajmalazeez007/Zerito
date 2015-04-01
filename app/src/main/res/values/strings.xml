@@ -26,5 +26,7 @@
     <string name="title_activity_friend_list">FriendListActivity</string>
     <string name="title_activity_new_friend">NewFriendActivity</string>
     <string name="title_activity_preview">PreviewActivity</string>
+    <string name="title_activity_sign_in">SignInActivity</string>
+    <string name="title_activity_history">HistoryActivity</string>
 
 </resources>

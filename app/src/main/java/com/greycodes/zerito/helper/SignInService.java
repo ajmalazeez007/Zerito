@@ -8,6 +8,7 @@ import android.os.AsyncTask;
 import android.os.IBinder;
 import android.widget.Toast;
 
+import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.greycodes.zerito.MainActivity;
 
 import org.apache.http.HttpEntity;
@@ -28,11 +29,14 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RegisterService extends Service {
-  String name,mob,id,pin,url,results;
+public class SignInService extends Service {
+    String name,mob,pin,url,results;
     HttpResponse response;
     SharedPreferences sharedPreferences;
     public static final String PROPERTY_REG_ID = "registration_id";
+    String regid;
+    GoogleCloudMessaging gcm;
+    String SENDER_ID = "187588160331";
     @Override
     public IBinder onBind(Intent intent) {
         // TODO: Return the communication channel to the service.
@@ -43,13 +47,13 @@ public class RegisterService extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
         try {
             sharedPreferences= getSharedPreferences("zerito", Context.MODE_PRIVATE);
-            url="http://ieeelinktest.x20.in/app2/register.php";
-            name= intent.getStringExtra("name");
+            url="http://ieeelinktest.x20.in/app2/login.php";
+
             mob= intent.getStringExtra("mob");
             pin= intent.getStringExtra("pin");
-            id= intent.getStringExtra("id");
+            gcm = GoogleCloudMessaging.getInstance(this);
 
-            new RegisterAsync().execute();
+            new SignInAsync().execute();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -57,7 +61,7 @@ public class RegisterService extends Service {
     }
 
 
-    class RegisterAsync extends AsyncTask<Void,Void,Void> {
+    class SignInAsync extends AsyncTask<Void,Void,Void> {
 
         @Override
         protected Void doInBackground(Void... params) {
@@ -66,11 +70,14 @@ public class RegisterService extends Service {
 
             try {
 
+                    if (gcm == null) {
+                        gcm = GoogleCloudMessaging.getInstance(getApplicationContext());
+                    }
+                    regid = gcm.register(SENDER_ID);
 
                 // Add your data
                 List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
-                nameValuePairs.add(new BasicNameValuePair("regId", id));
-                nameValuePairs.add(new BasicNameValuePair("name", name));
+                nameValuePairs.add(new BasicNameValuePair("regId", regid));
                 nameValuePairs.add(new BasicNameValuePair("mob_num", mob));
                 nameValuePairs.add(new BasicNameValuePair("pin", pin));
                 httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
@@ -101,14 +108,17 @@ public class RegisterService extends Service {
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
+
+
             Toast.makeText(getApplicationContext(), results, Toast.LENGTH_LONG).show();
             try {
                 JSONObject jsonObject = new JSONObject(results);
                 if(jsonObject.getInt("success")==1){
+                    name = jsonObject.getString("name");
                     SharedPreferences.Editor editor = sharedPreferences.edit();
                     editor.putString("mobnum",mob);
                     editor.putString("name",name);
-                    editor.putString(PROPERTY_REG_ID, id);
+                    editor.putString(PROPERTY_REG_ID, regid);
                     editor.putString("pin",pin);
                     editor.putBoolean("register", true);
                     editor.commit();
@@ -117,7 +127,7 @@ public class RegisterService extends Service {
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     getApplication().startActivity(intent);
                 }else if (jsonObject.getInt("success")==2){
-                    Toast.makeText(getApplicationContext(), "Already registered", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "Incorrect Mobile Number/PIN", Toast.LENGTH_LONG).show();
                 }else {
                     Toast.makeText(getApplicationContext(), "Error", Toast.LENGTH_LONG).show();
                 }
@@ -127,6 +137,8 @@ public class RegisterService extends Service {
             }
 
             stopSelf();
+
         }
+
     }
 }

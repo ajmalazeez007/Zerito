@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.IBinder;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.greycodes.zerito.app.AppController;
@@ -24,11 +25,13 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.TimeZone;
 
 public class ChangeWallpaperService extends Service {
-   String url,imgurl,mob1,mob2,results;
+   String url,imgurl,mob1,mob2,results,imgtext;
     HttpResponse response;
     SharedPreferences sharedPreferences;
 
@@ -41,14 +44,27 @@ public class ChangeWallpaperService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        url="http://ieeelinktest.x20.in/app2/wall_change.php";
-        sharedPreferences= getSharedPreferences("zerito", Context.MODE_PRIVATE);
-        mob1=sharedPreferences.getString("mobnum","000000");
-        imgurl= intent.getStringExtra("url");
-        mob2= AppController.selectedmob;
+        try {
+            url="http://ieeelinktest.x20.in/app2/wall_change.php";
+            sharedPreferences= getSharedPreferences("zerito", Context.MODE_PRIVATE);
+            mob1=sharedPreferences.getString("mobnum","000000");
+            imgurl= intent.getStringExtra("url");
+            imgtext= intent.getStringExtra("imgtext");
+            mob2= AppController.selectedmob;
+            int time = (int) (System.currentTimeMillis());
+            Timestamp tsTemp = new Timestamp(time);
+            String ts =  tsTemp.toString();
+            Toast.makeText(getApplicationContext(),"Time stamp"+ts,Toast.LENGTH_LONG).show();
+            Log.d("timestamp", ts);
+            TimeZone tz = TimeZone.getDefault();
+            Toast.makeText(getApplicationContext(),"TimeZone   "+tz.getDisplayName(false, TimeZone.SHORT)+" Timezon id :: " +tz.getID(),Toast.LENGTH_LONG).show();
 
 
-    new ChangeWallpaperAsync().execute();
+           new ChangeWallpaperAsync().execute();
+        } catch (Exception e) {
+            stopSelf();
+            e.printStackTrace();
+        }
 
         return super.onStartCommand(intent, flags, startId);
     }
@@ -74,6 +90,7 @@ public class ChangeWallpaperService extends Service {
                 nameValuePairs.add(new BasicNameValuePair("mob1", mob1));
                 nameValuePairs.add(new BasicNameValuePair("mob2", mob2));
                 nameValuePairs.add(new BasicNameValuePair("img_link",imgurl));
+                nameValuePairs.add(new BasicNameValuePair("img_text",imgtext));
                 httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
 
 // Execute HTTP Post Request
@@ -94,6 +111,8 @@ public class ChangeWallpaperService extends Service {
             } catch (ClientProtocolException e) {
                 // TODO Auto-generated catch block
             } catch (IOException e) {
+                // TODO Auto-generated catch block
+            }catch (Exception e) {
                 // TODO Auto-generated catch block
             }
             return null;

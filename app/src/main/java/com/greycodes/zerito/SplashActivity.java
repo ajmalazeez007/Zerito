@@ -41,7 +41,7 @@ SharedPreferences sharedPreferences;
 		// Preparing volley's json object request
         int type=getIntent().getIntExtra("type",0);
         if(type==0){
-            setContentView(R.layout.splash);
+            setContentView(R.layout.activity_splash);
             sharedPreferences= getSharedPreferences("zerito", Context.MODE_PRIVATE);
             // Picasa request to get list of albums
             String url = AppConst.URL_PICASA_ALBUMS

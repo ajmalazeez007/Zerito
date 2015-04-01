@@ -43,14 +43,20 @@ public class FriendAcceptService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        sharedPreferences= getSharedPreferences("zerito",MODE_PRIVATE);
-        mob2=sharedPreferences.getString("mobnum","");
-        mob1=intent.getStringExtra("mob2");
-        flag=intent.getStringExtra("flag");
+        try {
+            sharedPreferences= getSharedPreferences("zerito",MODE_PRIVATE);
 
-        url="http://ieeelinktest.x20.in/app2/pair_complete.php";
-        Toast.makeText(getApplicationContext(),""+mob1,Toast.LENGTH_LONG).show();
-        new FriendAcceptAsync().execute();
+            mob2=sharedPreferences.getString("mobnum","");
+            mob1=intent.getStringExtra("mob2");
+            flag=intent.getStringExtra("flag");
+
+            url="http://ieeelinktest.x20.in/app2/pair_complete.php";
+            Toast.makeText(getApplicationContext(),""+mob1,Toast.LENGTH_LONG).show();
+            new FriendAcceptAsync().execute();
+        } catch (Exception e) {
+            stopSelf();
+            e.printStackTrace();
+        }
         return super.onStartCommand(intent, flags, startId);
     }
 

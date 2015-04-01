@@ -1,35 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="wrap_content"
+
+    android:layout_height="wrap_content"
+
+    android:layout_width="fill_parent"
     android:orientation="vertical">
 
     <TextView
-        android:layout_width="match_parent"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="name"
-        android:textSize="40dp"
-        android:id="@+id/prl_name"/>
+        android:text="Steve Jobs"
+        android:textSize="27sp"
+        android:paddingLeft="10dp"
+        android:layout_marginTop="5dp"
+        android:id="@+id/fr_name"/>
     <TextView
-        android:layout_width="match_parent"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:text="9020404022"
-        android:textSize="40dp"
-        android:id="@+id/prl_phone"/>
+        android:layout_marginTop="5dp"
+        android:textSize="20sp"
+        android:paddingLeft="10dp"
+        android:id="@+id/fr_mob"/>
     <LinearLayout
+
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
-    <Button
-        android:id="@+id/prl_accept"
-        android:layout_width="wrap_content"
-        android:layout_weight="1"
+        android:orientation="horizontal"
+        android:layout_marginTop="10dp">
+
+    <ImageView
+        android:id="@+id/fr_accept"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="Accept"/>
-    <Button
-        android:id="@+id/prl_reject"
-        android:layout_weight="1"
-        android:layout_width="wrap_content"
+        android:src="@drawable/acceptselector"
+
+        android:layout_weight="1"/>
+    <ImageView
+        android:id="@+id/fr_reject"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="Reject"/>
+        android:src="@drawable/rejectselector"
+
+        android:layout_weight="1"/>
     </LinearLayout>
 </LinearLayout>
