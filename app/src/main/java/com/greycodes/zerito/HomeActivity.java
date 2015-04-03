@@ -9,14 +9,23 @@ import android.provider.ContactsContract;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.ContextMenu;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.PopupWindow;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.i18n.phonenumbers.NumberParseException;
+import com.google.i18n.phonenumbers.PhoneNumberUtil;
+import com.google.i18n.phonenumbers.Phonenumber;
 import com.greycodes.zerito.app.AppController;
 import com.greycodes.zerito.helper.FriendAcceptService;
 import com.greycodes.zerito.helper.FriendRequestService;
@@ -24,6 +33,13 @@ import com.greycodes.zerito.helper.HistoryService;
 
 import java.util.ArrayList;
 import java.util.List;
+import android.app.Activity;
+import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup.LayoutParams;
+import android.widget.Button;
+import android.widget.PopupWindow;
 
 
 public class HomeActivity extends ActionBarActivity {
@@ -34,10 +50,13 @@ public class HomeActivity extends ActionBarActivity {
     private final int RESULT_OK = -1;
     private static final int PICK_CONTACT_REQUEST = 1;
     private static final int PICK_CONTACT = 0;
+    String selectedNumber;
+    FrameLayout frameLayout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+        frameLayout = (FrameLayout) findViewById(R.id.home_layout);
         listView = (ListView) findViewById(R.id.home_listview);
         add = (ImageView) findViewById(R.id.home_addfirend);
         listView.setAdapter(AppController.myFriendsAdapter);
@@ -76,7 +95,6 @@ public class HomeActivity extends ActionBarActivity {
         if (resultCode == RESULT_OK) {
             switch (requestCode) {
                 case CONTACT_PICKER_RESULT:
-                    Toast.makeText(getApplicationContext(),"Contact picker",Toast.LENGTH_LONG).show();
 
                     Cursor cursor = null;
                     String phoneNumber = "";
@@ -108,18 +126,48 @@ public class HomeActivity extends ActionBarActivity {
                         builder.setTitle("Choose a number");
                         builder.setItems(items, new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int item) {
-                                String selectedNumber = items[item].toString();
+                                 selectedNumber = items[item].toString();
                                 selectedNumber = selectedNumber.replace("-", "");
-                                Toast.makeText(getApplicationContext(),selectedNumber,Toast.LENGTH_LONG).show();
+                                selectedNumber = selectedNumber.replace(" ", "");
+                                PhoneNumberUtil phoneUtil = PhoneNumberUtil.getInstance();
+                                try {
+                                    Phonenumber.PhoneNumber phoneNumber1 = phoneUtil.parse(selectedNumber, "IN");
+                                    String selected = phoneUtil.format(phoneNumber1, PhoneNumberUtil.PhoneNumberFormat.INTERNATIONAL);
+
+                                    Toast.makeText(getApplicationContext(),"number "+selectedNumber,Toast.LENGTH_LONG).show();
+                                    Toast.makeText(getApplicationContext(),"new number "+selected.toString(),Toast.LENGTH_LONG).show();
+                                    popup(selectedNumber);
+                                } catch (NumberParseException e) {
+                                    e.printStackTrace();
+                                    Toast.makeText(getApplicationContext(),e.toString(),Toast.LENGTH_LONG).show();
+
+                                }
+
+
+
                             }
                         });
                         AlertDialog alert = builder.create();
                         if(allNumbers.size() > 1) {
                             alert.show();
                         } else {
-                            String selectedNumber = phoneNumber.toString();
+                             selectedNumber= phoneNumber.toString();
                             selectedNumber = selectedNumber.replace("-", "");
-                            Toast.makeText(getApplicationContext(),selectedNumber,Toast.LENGTH_LONG).show();
+                            selectedNumber = selectedNumber.replace(" ", "");
+                            PhoneNumberUtil phoneUtil = PhoneNumberUtil.getInstance();
+                            try {
+                                Phonenumber.PhoneNumber phoneNumber1 = phoneUtil.parse(selectedNumber, "IN");
+                                String selected = phoneUtil.format(phoneNumber1, PhoneNumberUtil.PhoneNumberFormat.INTERNATIONAL);
+
+                                Toast.makeText(getApplicationContext(),"number "+selectedNumber,Toast.LENGTH_LONG).show();
+                                Toast.makeText(getApplicationContext(),"new number "+selected.toString(),Toast.LENGTH_LONG).show();
+                                popup(selectedNumber);
+                            } catch (NumberParseException e) {
+                                e.printStackTrace();
+                                Toast.makeText(getApplicationContext(),e.toString(),Toast.LENGTH_LONG).show();
+
+                            }
+
 
                         }
 
@@ -127,6 +175,11 @@ public class HomeActivity extends ActionBarActivity {
                             //no numbers found actions
                         }
                     }
+
+                    //PhoneNumberUtil phoneUtil = PhoneNumberUtil.getInstance();
+                  //  PhoneNumber phNumberProto = null;
+
+
                     break;
             }
         } else {
@@ -177,5 +230,15 @@ public class HomeActivity extends ActionBarActivity {
             // Code to execute when clicked on This Item
         }
 return  true;
+    }
+
+    void popup(String number){
+        Toast.makeText(getApplicationContext(),"popup",Toast.LENGTH_LONG).show();
+        LayoutInflater layoutInflater = (LayoutInflater)getBaseContext().getSystemService(LAYOUT_INFLATER_SERVICE);
+        View popupView = layoutInflater.inflate(R.layout.addfriendpop, null);
+        final PopupWindow popupWindow = new PopupWindow(popupView,LayoutParams.WRAP_CONTENT,LayoutParams.WRAP_CONTENT);
+        TextView textView= (TextView) popupView.findViewById(R.id.pptv);
+        textView.setText(number);
+        popupWindow.showAtLocation(frameLayout, Gravity.CENTER,Gravity.CENTER,Gravity.CENTER);
     }
 }

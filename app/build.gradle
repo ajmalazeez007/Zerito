@@ -25,6 +25,7 @@ dependencies {
     compile 'com.android.support:support-v4:21.0.0'
     compile 'com.google.code.gson:gson:2.2.4'
     compile files('libs/volley.jar')
+    compile files('libs/libphonenumber-5.2v1.5.jar')
     compile 'com.android.support:appcompat-v7:21.0.3'
     compile 'com.google.android.gms:play-services:4.1.32'
 }
