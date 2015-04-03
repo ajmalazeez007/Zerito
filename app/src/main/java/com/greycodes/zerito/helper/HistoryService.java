@@ -8,7 +8,6 @@ import android.os.IBinder;
 import android.widget.Toast;
 
 import com.greycodes.zerito.HistoryActivity;
-import com.greycodes.zerito.HomeActivity;
 import com.greycodes.zerito.app.AppController;
 
 import org.apache.http.HttpEntity;
@@ -98,7 +97,6 @@ public class HistoryService extends Service {
         protected void onPostExecute(String result) {
 // TODO Auto-generated method stub
             super.onPostExecute(result);
-            Toast.makeText(getApplicationContext(),results, Toast.LENGTH_LONG).show();
 
             try {
                 JSONObject jsonObject = new JSONObject(results);
@@ -121,8 +119,8 @@ public class HistoryService extends Service {
                 stopSelf();
 
 
-            } catch (JSONException e) {
-                Toast.makeText(getApplicationContext(),"Error: "+ e.toString(), Toast.LENGTH_LONG).show();
+            } catch (Exception e) {
+                Toast.makeText(getApplicationContext(),"No Internet Connectivity/Server Down ", Toast.LENGTH_LONG).show();
                 e.printStackTrace();
                 stopSelf();
             }

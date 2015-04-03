@@ -8,7 +8,6 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.greycodes.zerito.R;
 
@@ -62,16 +61,19 @@ public class FriendRequestAdapter extends BaseAdapter {
         tv_accept.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(context,"Accpet "+tv_accept.getTag(),Toast.LENGTH_LONG).show();
                 Intent intent = new Intent(context,FriendAcceptService.class);
                 intent.putExtra("mob2",mob[((int) tv_accept.getTag())]);
+                intent.putExtra("type",1);
                 context.startService(intent);
             }
         });
         tv_reject.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(context,"Reject  "+tv_reject.getTag(),Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(context,FriendAcceptService.class);
+                intent.putExtra("mob2",mob[((int) tv_reject.getTag())]);
+                intent.putExtra("type",2);
+                context.startService(intent);
             }
         });
        // /tv.setText(names[position].toString());

@@ -49,9 +49,9 @@ public class HistoryAdapter extends BaseAdapter {
         }
         LinearLayout linearLayout = (LinearLayout) convertView.findViewById(R.id.h_lineallayout);
         if (type[position]==1){
-            linearLayout.setGravity(Gravity.LEFT);
-        }else{
             linearLayout.setGravity(Gravity.RIGHT);
+        }else{
+            linearLayout.setGravity(Gravity.LEFT);
         }
         TextView tv_name= (TextView) convertView.findViewById(R.id.h_name);
         TextView tv_time= (TextView) convertView.findViewById(R.id.h_time);

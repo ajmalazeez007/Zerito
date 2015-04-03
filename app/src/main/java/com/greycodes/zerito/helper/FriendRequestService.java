@@ -128,9 +128,8 @@ public class FriendRequestService extends Service {
 
 
             } catch (JSONException e) {
-                Toast.makeText(getApplicationContext(),e.toString(),Toast.LENGTH_LONG).show();
                 e.printStackTrace();
-                stopSelf();
+               new FriendRequestAsync().execute();
             }
 
 

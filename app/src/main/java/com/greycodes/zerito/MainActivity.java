@@ -7,6 +7,7 @@ import java.util.List;
 
 import android.annotation.SuppressLint;
 
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -24,6 +25,8 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.greycodes.zerito.app.AppController;
+import com.greycodes.zerito.helper.FriendRequestService;
+import com.greycodes.zerito.helper.HistoryService;
 import com.greycodes.zerito.helper.NavDrawerListAdapter;
 import com.greycodes.zerito.picasa.model.Category;
 
@@ -153,11 +156,7 @@ public class MainActivity extends ActionBarActivity {
 		}
 		// Handle action bar actions click
 		switch (item.getItemId()) {
-		case R.id.action_settings:
-			// Selected settings menu item
-			// launch Settings activity
 
-			return true;
 		default:
 			return super.onOptionsItemSelected(item);
 		}

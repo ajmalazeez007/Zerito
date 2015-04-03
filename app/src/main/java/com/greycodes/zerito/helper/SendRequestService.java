@@ -93,7 +93,6 @@ public class SendRequestService extends Service {
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
-            Toast.makeText(getApplicationContext(),results,Toast.LENGTH_LONG).show();
             try {
                 JSONObject jsonObject = new JSONObject(results);
                 if(jsonObject.getInt("success")==1){
@@ -107,8 +106,9 @@ public class SendRequestService extends Service {
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
+                new SendRequestAsync().execute();
             }
-
+            stopSelf();
         }
     }
     }

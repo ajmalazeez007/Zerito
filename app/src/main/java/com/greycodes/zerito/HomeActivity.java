@@ -1,8 +1,14 @@
 package com.greycodes.zerito;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
+import android.net.Uri;
+import android.provider.ContactsContract;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -12,13 +18,22 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.greycodes.zerito.app.AppController;
+import com.greycodes.zerito.helper.FriendAcceptService;
 import com.greycodes.zerito.helper.FriendRequestService;
 import com.greycodes.zerito.helper.HistoryService;
 
+import java.util.ArrayList;
+import java.util.List;
+
 
 public class HomeActivity extends ActionBarActivity {
-ListView listView;
+    ListView listView;
     ImageView add;
+    private static final int CONTACT_PICKER_RESULT = 1001;
+    private static final String DEBUG_TAG = "Contact List";
+    private final int RESULT_OK = -1;
+    private static final int PICK_CONTACT_REQUEST = 1;
+    private static final int PICK_CONTACT = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,21 +44,95 @@ ListView listView;
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(getApplicationContext(),AppController.name[position],Toast.LENGTH_LONG).show();
-                AppController.selectedmob=AppController.mobnum[position];
-                startActivity(new Intent(HomeActivity.this,MainActivity.class));
+                AppController.selectedmob = AppController.mobnum[position];
+                startActivity(new Intent(HomeActivity.this, MainActivity.class));
             }
         });
         add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                startActivity(new Intent(HomeActivity.this,NewFriendActivity.class));
+            //    startActivity(new Intent(HomeActivity.this, NewFriendActivity.class));
+                Intent intent = new Intent(Intent.ACTION_PICK);
+                intent.setType(ContactsContract.Contacts.CONTENT_TYPE);
+                if (intent.resolveActivity(getPackageManager()) != null) {
+                    startActivityForResult(intent, CONTACT_PICKER_RESULT);
+                }
             }
         });
+
+
+        registerForContextMenu(listView);
     }
 
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        menu.add(0, v.getId(), 0, "Delete");
+        super.onCreateContextMenu(menu, v, menuInfo);
+    }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == RESULT_OK) {
+            switch (requestCode) {
+                case CONTACT_PICKER_RESULT:
+                    Toast.makeText(getApplicationContext(),"Contact picker",Toast.LENGTH_LONG).show();
+
+                    Cursor cursor = null;
+                    String phoneNumber = "";
+                    List<String> allNumbers = new ArrayList<String>();
+                    int phoneIdx = 0;
+                    try {
+                        Uri result = data.getData();
+                        String id = result.getLastPathSegment();
+                        cursor = getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null, ContactsContract.CommonDataKinds.Phone.CONTACT_ID + "=?", new String[] { id }, null);
+                        phoneIdx = cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DATA);
+                        if (cursor.moveToFirst()) {
+                            while (cursor.isAfterLast() == false) {
+                                phoneNumber = cursor.getString(phoneIdx);
+                                allNumbers.add(phoneNumber);
+                                cursor.moveToNext();
+                            }
+                        } else {
+                            //no results actions
+                        }
+                    } catch (Exception e) {
+                        //error actions
+                    } finally {
+                        if (cursor != null) {
+                            cursor.close();
+                        }
+
+                        final CharSequence[] items = allNumbers.toArray(new String[allNumbers.size()]);
+                        AlertDialog.Builder builder = new AlertDialog.Builder(HomeActivity.this);
+                        builder.setTitle("Choose a number");
+                        builder.setItems(items, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int item) {
+                                String selectedNumber = items[item].toString();
+                                selectedNumber = selectedNumber.replace("-", "");
+                                Toast.makeText(getApplicationContext(),selectedNumber,Toast.LENGTH_LONG).show();
+                            }
+                        });
+                        AlertDialog alert = builder.create();
+                        if(allNumbers.size() > 1) {
+                            alert.show();
+                        } else {
+                            String selectedNumber = phoneNumber.toString();
+                            selectedNumber = selectedNumber.replace("-", "");
+                            Toast.makeText(getApplicationContext(),selectedNumber,Toast.LENGTH_LONG).show();
+
+                        }
+
+                        if (phoneNumber.length() == 0) {
+                            //no numbers found actions
+                        }
+                    }
+                    break;
+            }
+        } else {
+            //activity result error actions
+        }
+    }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -59,18 +148,34 @@ ListView listView;
 
 
         //noinspection SimplifiableIfStatement
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case R.id.menu_fr:
-                Toast.makeText(getApplicationContext(),"Friend request",Toast.LENGTH_LONG).show();
                 startService(new Intent(HomeActivity.this, FriendRequestService.class));
                 return true;
             case R.id.menu_history:
-                Toast.makeText(getApplicationContext(),"History",Toast.LENGTH_LONG).show();
                 startService(new Intent(HomeActivity.this, HistoryService.class));
                 return true;
         }
 
 
         return super.onOptionsItemSelected(item);
+    }
+
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+
+
+        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+
+        //  info.position will give the index of selected item
+        if (item.getTitle() == "Delete") {
+            Intent intent = new Intent(HomeActivity.this, FriendAcceptService.class);
+            intent.putExtra("mob2",AppController.mobnum[info.position]);
+            intent.putExtra("type",3);
+            startService(intent);
+            // Code to execute when clicked on This Item
+        }
+return  true;
     }
 }

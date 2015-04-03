@@ -51,7 +51,6 @@ public class MyFriendService extends Service {
             sharedPreferences= getSharedPreferences("zerito",MODE_PRIVATE);
             mob1=sharedPreferences.getString("mobnum","");
             url="http://ieeelinktest.x20.in/app2/find_friends.php";
-            Toast.makeText(getApplicationContext(),""+mob1,Toast.LENGTH_LONG).show();
             new FriendRequestAsync().execute();
         } catch (Exception e) {
             e.printStackTrace();
@@ -98,7 +97,6 @@ public class MyFriendService extends Service {
         protected void onPostExecute(String result) {
 // TODO Auto-generated method stub
             super.onPostExecute(result);
-            Toast.makeText(getApplicationContext(),results, Toast.LENGTH_LONG).show();
 
             try {
                 JSONObject jsonObject = new JSONObject(results);
@@ -117,13 +115,13 @@ public class MyFriendService extends Service {
                 MyFriendsAdapter myFriendService= new MyFriendsAdapter(getApplicationContext(),id,name,mobnum);
                 AppController.myFriendsAdapter=myFriendService;
                 Intent intent=new Intent(MyFriendService.this, HomeActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(intent);
                 stopSelf();
 
 
             } catch (JSONException e) {
-                Toast.makeText(getApplicationContext(),"Error: "+ e.toString(), Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(),"No Internet Connection/Server Down "+ e.toString(), Toast.LENGTH_LONG).show();
                 e.printStackTrace();
                 stopSelf();
             }

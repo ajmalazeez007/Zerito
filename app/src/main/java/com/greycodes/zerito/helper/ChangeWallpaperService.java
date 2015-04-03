@@ -34,7 +34,7 @@ public class ChangeWallpaperService extends Service {
    String url,imgurl,mob1,mob2,results,imgtext;
     HttpResponse response;
     SharedPreferences sharedPreferences;
-
+    String ts,tzone;
 
     @Override
     public IBinder onBind(Intent intent) {
@@ -51,14 +51,11 @@ public class ChangeWallpaperService extends Service {
             imgurl= intent.getStringExtra("url");
             imgtext= intent.getStringExtra("imgtext");
             mob2= AppController.selectedmob;
-            int time = (int) (System.currentTimeMillis());
-            Timestamp tsTemp = new Timestamp(time);
-            String ts =  tsTemp.toString();
-            Toast.makeText(getApplicationContext(),"Time stamp"+ts,Toast.LENGTH_LONG).show();
+            Long tsLong = System.currentTimeMillis()/1000;
+            ts = tsLong.toString();
             Log.d("timestamp", ts);
             TimeZone tz = TimeZone.getDefault();
-            Toast.makeText(getApplicationContext(),"TimeZone   "+tz.getDisplayName(false, TimeZone.SHORT)+" Timezon id :: " +tz.getID(),Toast.LENGTH_LONG).show();
-
+            tzone=tz.getID();
 
            new ChangeWallpaperAsync().execute();
         } catch (Exception e) {
@@ -91,6 +88,8 @@ public class ChangeWallpaperService extends Service {
                 nameValuePairs.add(new BasicNameValuePair("mob2", mob2));
                 nameValuePairs.add(new BasicNameValuePair("img_link",imgurl));
                 nameValuePairs.add(new BasicNameValuePair("img_text",imgtext));
+                nameValuePairs.add(new BasicNameValuePair("timestamp",ts));
+                nameValuePairs.add(new BasicNameValuePair("timezone",tzone));
                 httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
 
 // Execute HTTP Post Request

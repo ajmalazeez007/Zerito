@@ -104,7 +104,6 @@ SharedPreferences sharedPreferences;
                         }
                       ;
                         // closing spalsh activity
-                        finish();
 
                     } catch (JSONException e) {
                         e.printStackTrace();

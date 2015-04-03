@@ -73,7 +73,6 @@ public class FullScreenViewActivity extends ActionBarActivity implements OnClick
     /*    if(!AppController.custommsg){
             et_custom.setVisibility(View.GONE);
             tv_preview.setVisibility(View.GONE);
-            Toast.makeText(getApplicationContext(),"View Gone",Toast.LENGTH_LONG).show();
         }*/
 		getSupportActionBar().hide();
 
@@ -149,7 +148,6 @@ public class FullScreenViewActivity extends ActionBarActivity implements OnClick
 							Log.d(TAG, "Full resolution image. url: "
 									+ fullResolutionUrl + ", w: " + width
 									+ ", h: " + height);
-                            Toast.makeText(getApplicationContext(),fullResolutionUrl,Toast.LENGTH_LONG).show();
 							ImageLoader imageLoader = AppController
 									.getInstance().getImageLoader();
 
@@ -273,7 +271,6 @@ public class FullScreenViewActivity extends ActionBarActivity implements OnClick
 		// button Download Wallpaper tapped
 		case R.id.friendswallpaper:
 			//utils.saveImageToSDCard(bitmap);
-            //Toast.makeText(getApplicationContext(),fullResolutionUrl,Toast.LENGTH_LONG).show();
             AppController.imageBitmap=bitmap;
             String imgtext= et_custom.getText().toString();
             Intent intent = new Intent(FullScreenViewActivity.this, ChangeWallpaperService.class);

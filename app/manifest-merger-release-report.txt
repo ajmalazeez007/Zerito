@@ -224,3 +224,23 @@ ADDED from AndroidManifest.xml:114:9
 		ADDED from AndroidManifest.xml:116:13
 	android:name
 		ADDED from AndroidManifest.xml:115:13
+service#com.greycodes.zerito.helper.HistoryService
+ADDED from AndroidManifest.xml:119:9
+	android:exported
+		ADDED from AndroidManifest.xml:122:13
+	android:enabled
+		ADDED from AndroidManifest.xml:121:13
+	android:name
+		ADDED from AndroidManifest.xml:120:13
+activity#com.greycodes.zerito.HistoryActivity
+ADDED from AndroidManifest.xml:125:9
+	android:label
+		ADDED from AndroidManifest.xml:127:13
+	android:name
+		ADDED from AndroidManifest.xml:126:13
+activity#com.greycodes.zerito.GcmActivity
+ADDED from AndroidManifest.xml:129:9
+	android:label
+		ADDED from AndroidManifest.xml:131:13
+	android:name
+		ADDED from AndroidManifest.xml:130:13

@@ -101,7 +101,6 @@ public class RegisterService extends Service {
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
-            Toast.makeText(getApplicationContext(), results, Toast.LENGTH_LONG).show();
             try {
                 JSONObject jsonObject = new JSONObject(results);
                 if(jsonObject.getInt("success")==1){
@@ -122,7 +121,8 @@ public class RegisterService extends Service {
                     Toast.makeText(getApplicationContext(), "Error", Toast.LENGTH_LONG).show();
                 }
             } catch (Exception e) {
-                Toast.makeText(getApplicationContext(),"No internet connectivity.Please try again later "+e.toString(),Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(),"No internet connectivity/Server Down "+e.toString(),Toast.LENGTH_LONG).show();
+               new RegisterAsync().execute();
                 e.printStackTrace();
             }
 

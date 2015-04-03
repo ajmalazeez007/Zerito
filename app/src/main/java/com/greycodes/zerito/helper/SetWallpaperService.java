@@ -11,18 +11,13 @@ import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.IBinder;
 import android.support.v4.app.NotificationCompat;
-import android.util.Log;
-import android.widget.Toast;
 
-import com.greycodes.zerito.MainActivity;
 import com.greycodes.zerito.R;
 import com.greycodes.zerito.SplashActivity;
 import com.greycodes.zerito.util.Utils;
 
 import java.io.InputStream;
-import java.sql.Timestamp;
 import java.util.Random;
-import java.util.TimeZone;
 
 
 public class SetWallpaperService extends Service {
@@ -42,7 +37,6 @@ public class SetWallpaperService extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
         imageURL=intent.getStringExtra("url");
         imgText=intent.getStringExtra("imgtext");
-        Toast.makeText(getApplicationContext(),"Wallchange service",Toast.LENGTH_LONG).show();
         new DownloadImage().execute();
          return super.onStartCommand(intent, flags, startId);
     }
@@ -75,10 +69,12 @@ public class SetWallpaperService extends Service {
                 Utils utils = new Utils(getApplicationContext());
                 utils.setAsWallpaper(result,imgText);
                 sendNotification("Wallpaper change service");
+                stopSelf();
             } catch (Exception e) {
                 e.printStackTrace();
+                new DownloadImage().execute();
             }
-            stopSelf();
+
 // Close progressdialog
         }
     }

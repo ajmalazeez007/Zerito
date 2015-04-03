@@ -110,7 +110,6 @@ public class SignInService extends Service {
             super.onPostExecute(aVoid);
 
 
-            Toast.makeText(getApplicationContext(), results, Toast.LENGTH_LONG).show();
             try {
                 JSONObject jsonObject = new JSONObject(results);
                 if(jsonObject.getInt("success")==1){

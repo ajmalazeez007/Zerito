@@ -160,7 +160,6 @@ public class RegisterActivity extends ActionBarActivity {
                 Context.MODE_PRIVATE);
     }
     private void registerInBackground() {
-        Toast.makeText(getApplicationContext(),"Reg in bag",Toast.LENGTH_LONG).show();
 
         new AsyncTask<Void,Void,String>() {
             @Override

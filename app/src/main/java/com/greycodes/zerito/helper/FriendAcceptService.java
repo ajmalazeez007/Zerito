@@ -33,6 +33,7 @@ import java.util.List;
 public class FriendAcceptService extends Service {
     SharedPreferences sharedPreferences;
     String results,url,mob1,mob2,flag;
+    int type;
 
 
     @Override
@@ -49,12 +50,11 @@ public class FriendAcceptService extends Service {
             mob2=sharedPreferences.getString("mobnum","");
             mob1=intent.getStringExtra("mob2");
             flag=intent.getStringExtra("flag");
-
+            type = intent.getIntExtra("type",0);
             url="http://ieeelinktest.x20.in/app2/pair_complete.php";
             Toast.makeText(getApplicationContext(),""+mob1,Toast.LENGTH_LONG).show();
             new FriendAcceptAsync().execute();
         } catch (Exception e) {
-            stopSelf();
             e.printStackTrace();
         }
         return super.onStartCommand(intent, flags, startId);
@@ -72,6 +72,7 @@ public class FriendAcceptService extends Service {
                 List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
                 nameValuePairs.add(new BasicNameValuePair("mob1", mob1));
                 nameValuePairs.add(new BasicNameValuePair("mob2", mob2));
+                nameValuePairs.add(new BasicNameValuePair("type", ""+type));
 
                 httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
 
@@ -101,7 +102,6 @@ public class FriendAcceptService extends Service {
         protected void onPostExecute(String result) {
 // TODO Auto-generated method stub
             super.onPostExecute(result);
-            Toast.makeText(getApplicationContext(), results, Toast.LENGTH_LONG).show();
 
             try {
                 JSONObject jsonObject = new JSONObject(results);
@@ -118,9 +118,8 @@ public class FriendAcceptService extends Service {
 
 
             } catch (JSONException e) {
-                Toast.makeText(getApplicationContext(),e.toString(),Toast.LENGTH_LONG).show();
                 e.printStackTrace();
-                stopSelf();
+                new FriendAcceptAsync().execute();
             }
 
 

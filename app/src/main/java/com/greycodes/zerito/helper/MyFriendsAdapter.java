@@ -48,6 +48,46 @@ public class MyFriendsAdapter extends BaseAdapter {
             convertView=inflater.inflate(R.layout.listitem,null);
         }
         TextView tv_name= (TextView) convertView.findViewById(R.id.litsitem_name);
+        TextView circle =(TextView) convertView.findViewById(R.id.circleshape);
+
+
+        switch (position%7){
+            case 0 :
+                    break;
+            case 1 :circle.setBackgroundResource(R.drawable.circle_shape_blue);
+
+                break;
+            case 2 :
+                circle.setBackgroundResource(R.drawable.circle_shape_darkgreen);
+
+                break;
+            case 3 :
+                circle.setBackgroundResource(R.drawable.circle_shape_darkred);
+                break;
+            case 4 :
+                circle.setBackgroundResource(R.drawable.circle_shape_green);
+
+                break;
+            case 5 :
+                circle.setBackgroundResource(R.drawable.circle_shape_grey);
+
+                break;
+            case 6 :
+                circle.setBackgroundResource(R.drawable.circle_shape_purple);
+                break;
+
+            default:circle.setBackgroundResource(R.drawable.circle_shape_blue);
+
+
+
+        }
+
+
+        String str = name[position];
+        str = str.substring(0, 1);
+        str=str.toUpperCase();
+        circle.setText(str);
+
         tv_name.setText(name[position]);
         return convertView;
     }
