@@ -5,24 +5,17 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
-import android.support.v7.app.ActionBarActivity;
-import android.os.Bundle;
 import android.view.ContextMenu;
-import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.PopupWindow;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.i18n.phonenumbers.NumberParseException;
@@ -35,13 +28,6 @@ import com.greycodes.zerito.helper.HistoryService;
 
 import java.util.ArrayList;
 import java.util.List;
-import android.app.Activity;
-import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup.LayoutParams;
-import android.widget.Button;
-import android.widget.PopupWindow;
 
 
 public class HomeActivity extends FragmentActivity {
@@ -53,12 +39,14 @@ public class HomeActivity extends FragmentActivity {
     private static final int PICK_CONTACT_REQUEST = 1;
     private static final int PICK_CONTACT = 0;
     String selectedNumber;
+    boolean show=false;
     FragmentManager fragmentManager;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-        fragmentManager = getSupportFragmentManager();
+         fragmentManager = getSupportFragmentManager();
+
         listView = (ListView) findViewById(R.id.home_listview);
         add = (ImageView) findViewById(R.id.home_addfirend);
         listView.setAdapter(AppController.myFriendsAdapter);
@@ -93,11 +81,20 @@ public class HomeActivity extends FragmentActivity {
     }
 
     @Override
+    protected void onStart() {
+        super.onStart();
+
+        if (show){
+            popup("33");
+            show=false;
+        }
+    }
+
+    @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == RESULT_OK) {
             switch (requestCode) {
                 case CONTACT_PICKER_RESULT:
-
                     Cursor cursor = null;
                     String phoneNumber = "";
                     List<String> allNumbers = new ArrayList<String>();
@@ -138,7 +135,7 @@ public class HomeActivity extends FragmentActivity {
 
                                     Toast.makeText(getApplicationContext(),"number "+selectedNumber,Toast.LENGTH_LONG).show();
                                     Toast.makeText(getApplicationContext(),"new number "+selected.toString(),Toast.LENGTH_LONG).show();
-                                    popup(selectedNumber);
+                                    popup("123");
                                 } catch (NumberParseException e) {
                                     e.printStackTrace();
                                     Toast.makeText(getApplicationContext(),e.toString(),Toast.LENGTH_LONG).show();
@@ -153,7 +150,8 @@ public class HomeActivity extends FragmentActivity {
                         if(allNumbers.size() > 1) {
                             alert.show();
                         } else {
-                             selectedNumber= phoneNumber.toString();
+                            show=true;
+                            selectedNumber= phoneNumber.toString();
                             selectedNumber = selectedNumber.replace("-", "");
                             selectedNumber = selectedNumber.replace(" ", "");
                             PhoneNumberUtil phoneUtil = PhoneNumberUtil.getInstance();
@@ -163,7 +161,6 @@ public class HomeActivity extends FragmentActivity {
 
                                 Toast.makeText(getApplicationContext(),"number "+selectedNumber,Toast.LENGTH_LONG).show();
                                 Toast.makeText(getApplicationContext(),"new number "+selected.toString(),Toast.LENGTH_LONG).show();
-                                popup(selectedNumber);
                             } catch (NumberParseException e) {
                                 e.printStackTrace();
                                 Toast.makeText(getApplicationContext(),e.toString(),Toast.LENGTH_LONG).show();
@@ -235,7 +232,7 @@ return  true;
     }
 
     void popup(String number){
-      AddFriendPopUp addFriendPopUp = new AddFriendPopUp();
-        addFriendPopUp.show(fragmentManager,"add friend");
+        AddFriendPopUp addFriendPopUp = new AddFriendPopUp();
+        addFriendPopUp.show(getSupportFragmentManager().beginTransaction(),"addfriend");
     }
 }

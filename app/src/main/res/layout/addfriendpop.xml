@@ -1,23 +1,87 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent" android:layout_height="fill_parent"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content" android:layout_height="wrap_content"
     android:layout_marginRight="20dp"
     android:layout_marginLeft="20dp"
     android:layout_marginTop="150dp"
     android:layout_marginBottom="150dp"
-    android:background="#ffffff">
+    android:background="@drawable/popup_shape"
+    android:orientation="vertical">
+
 
 
     <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Send Request "
+        android:textColor="#000"
+        android:id="@+id/tvsend"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:textSize="30sp"
+        android:fontFamily="sans-serif"/>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/popll1"
+        android:layout_below="@id/tvsend"
+        android:layout_marginTop="10dp">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/circle_shape_purple"
+        android:layout_marginLeft="30dp"
+        android:fontFamily="sans-serif-light"
+        android:text="N"
+        android:gravity="center"
+        android:textSize="25sp"
+        android:textColor="#fff"
+        />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/pop_name"
+            android:fontFamily="sans-serif-light"
+            android:textColor="#000"
+            android:text="Name"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="10dp"
+            android:textSize="25sp"
+         />
+
+    </LinearLayout>
+    <TextView
     android:id="@+id/pptv"
     android:textColor="#000"
+        android:layout_below="@id/popll1"
     android:layout_width="wrap_content"
-    android:layout_gravity="center_horizontal"
+  android:layout_centerInParent="true"
     android:layout_height="wrap_content"
-    android:text="Text"/>
+        android:layout_marginTop="20dp"
+        android:textSize="30sp"
+        android:fontFamily="sans-serif-light"
+    android:text="+919946638821"/>
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="SEND REQUEST"
+        android:textColor="#128ff1"
+        android:textSize="17sp"
+        android:layout_below="@id/pptv"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="30dp"
+        android:paddingBottom="10dp"
+        android:layout_alignParentRight="true"
+
+
+        />
 
 
 
 
 
-</LinearLayout>
+</RelativeLayout>
