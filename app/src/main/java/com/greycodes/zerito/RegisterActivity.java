@@ -76,7 +76,6 @@ public class RegisterActivity extends ActionBarActivity {
 
         etname =(EditText)findViewById(R.id.name);
         etphone =(EditText)findViewById(R.id.phone);
-        etpin =(EditText)findViewById(R.id.pin);
         tvsignin = (TextView) findViewById(R.id.signin);
         submit = (ImageView) findViewById(R.id.submit);
 

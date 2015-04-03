@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.provider.ContactsContract;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.ContextMenu;
@@ -42,7 +44,7 @@ import android.widget.Button;
 import android.widget.PopupWindow;
 
 
-public class HomeActivity extends ActionBarActivity {
+public class HomeActivity extends FragmentActivity {
     ListView listView;
     ImageView add;
     private static final int CONTACT_PICKER_RESULT = 1001;
@@ -51,12 +53,12 @@ public class HomeActivity extends ActionBarActivity {
     private static final int PICK_CONTACT_REQUEST = 1;
     private static final int PICK_CONTACT = 0;
     String selectedNumber;
-    FrameLayout frameLayout;
+    FragmentManager fragmentManager;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-        frameLayout = (FrameLayout) findViewById(R.id.home_layout);
+        fragmentManager = getSupportFragmentManager();
         listView = (ListView) findViewById(R.id.home_listview);
         add = (ImageView) findViewById(R.id.home_addfirend);
         listView.setAdapter(AppController.myFriendsAdapter);
@@ -233,12 +235,7 @@ return  true;
     }
 
     void popup(String number){
-        Toast.makeText(getApplicationContext(),"popup",Toast.LENGTH_LONG).show();
-        LayoutInflater layoutInflater = (LayoutInflater)getBaseContext().getSystemService(LAYOUT_INFLATER_SERVICE);
-        View popupView = layoutInflater.inflate(R.layout.addfriendpop, null);
-        final PopupWindow popupWindow = new PopupWindow(popupView,LayoutParams.WRAP_CONTENT,LayoutParams.WRAP_CONTENT);
-        TextView textView= (TextView) popupView.findViewById(R.id.pptv);
-        textView.setText(number);
-        popupWindow.showAtLocation(frameLayout, Gravity.CENTER,Gravity.CENTER,Gravity.CENTER);
+      AddFriendPopUp addFriendPopUp = new AddFriendPopUp();
+        addFriendPopUp.show(fragmentManager,"add friend");
     }
 }

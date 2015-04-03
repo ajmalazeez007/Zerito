@@ -26,7 +26,7 @@ public class SignInActivity extends ActionBarActivity {
 
         try {
             etmob =(EditText)findViewById(R.id.phone);
-            etpin =(EditText)findViewById(R.id.pin);
+           // etpin =(EditText)findViewById(R.id.pin);
             submit = (ImageView) findViewById(R.id.submit);
 
             submit.setOnClickListener(new View.OnClickListener() {
