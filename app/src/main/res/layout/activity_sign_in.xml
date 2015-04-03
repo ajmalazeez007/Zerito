@@ -30,34 +30,44 @@
                 android:layout_below="@id/logo"
                 android:layout_marginTop="-20dp"/>
 
-            <EditText
-                android:id="@+id/phone"
-                android:layout_width="200dp"
-                android:inputType="phone"
-                android:layout_height="30dp"
-                android:layout_centerHorizontal="true"
-                android:background="@drawable/rounded_edittextwhite"
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
                 android:layout_below="@id/zeri"
-                android:layout_marginTop="10dp"
-                android:textColor="#000000"
-                android:hint="Phone number"
-                android:paddingLeft="5dp"
-                android:textColorHint="#c9c9c9"
-                />
-            <EditText
-                android:id="@+id/pin"
-                android:layout_width="100dp"
-                android:inputType="number"
-                android:layout_height="30dp"
+                android:id="@+id/phonecountry"
                 android:layout_centerHorizontal="true"
-                android:background="@drawable/rounded_edittextwhite"
-                android:textColor="#000000"
-                android:layout_below="@id/phone"
+                android:gravity="center"
                 android:layout_marginTop="10dp"
-                android:hint="Secret pin"
-                android:paddingLeft="5dp"
-                android:textColorHint="#c9c9c9"
-                />
+                >
+
+
+                <Spinner
+                    android:layout_width="60dp"
+                    android:layout_height="30dp"
+                    android:id="@+id/countrycodespinner"
+                    android:layout_marginRight="10dp"
+                    android:background="@drawable/rounded_edittextwhite"
+
+                    />
+
+                <EditText
+                    android:id="@+id/phone"
+                    android:layout_width="200dp"
+                    android:inputType="phone"
+                    android:layout_height="30dp"
+
+                    android:background="@drawable/rounded_edittextwhite"
+
+
+                    android:textColor="#000000"
+                    android:hint="Phone number"
+                    android:paddingLeft="5dp"
+                    android:textColorHint="#c9c9c9"
+                    />
+
+            </LinearLayout>
+
+
 
 
 
@@ -69,7 +79,7 @@
                 android:layout_centerHorizontal="true"
                 android:src="@drawable/signinsel"
                 android:layout_marginTop="17dp"
-                android:layout_below="@id/pin"/>
+                android:layout_below="@id/phonecountry"/>
 
         </RelativeLayout>
     </ScrollView>
