@@ -14,20 +14,12 @@
         android:orientation="horizontal"
         android:gravity="center_horizontal"
         android:layout_marginTop="30dp">
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/yourpin"
-            android:layout_marginRight="30dp"
-            android:layout_gravity="center_vertical"
-            />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="3128"
-            android:textSize="50sp"
-            android:textColor="#ffffff"/>
-
+       <TextView
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:text="Add your Friends"
+           android:textSize="25sp"
+           android:fontFamily="sans-serif-light"/>
 
     </LinearLayout>
 
