@@ -5,28 +5,29 @@ import android.accounts.AccountManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.gcm.GoogleCloudMessaging;
-import com.greycodes.zerito.helper.RegisterService;
+import com.google.i18n.phonenumbers.NumberParseException;
+import com.google.i18n.phonenumbers.PhoneNumberUtil;
+import com.google.i18n.phonenumbers.Phonenumber;
 
 import java.io.IOException;
-import java.io.OutputStream;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
+import java.lang.reflect.Array;
+import java.util.Arrays;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -40,7 +41,6 @@ public class RegisterActivity extends ActionBarActivity {
     Boolean stat=true;
     public static String accn = "";
     String SENDER_ID = "187588160331";
-
     static final String TAG = "GCMDemo";
     TextView mDisplay;
     GoogleCloudMessaging gcm;
@@ -48,14 +48,18 @@ public class RegisterActivity extends ActionBarActivity {
     SharedPreferences prefs;
     Context context;
 
-    String regid;
+    ArrayAdapter<String> adapter;
+    String[] rl,g;
+    String regid,cc;
     String phone="";
     String name="";
     String pin="";
     EditText etphone;
-    EditText etname,etpin;
+    EditText etname;
+    Spinner scountrycode;
     ImageView submit;
     TextView tvsignin;
+    int pos;
     SharedPreferences sharedPreferences;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,16 +77,32 @@ public class RegisterActivity extends ActionBarActivity {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        try {
+            rl= new String[getResources().getStringArray(R.array.CountryCodes).length];
+            g= new String[getResources().getStringArray(R.array.CountryCodes).length];
+            GetCountryZipCode();
+            adapter= new ArrayAdapter<String>(getApplicationContext(),R.layout.ccspinertext,R.id.ccspinertextview,rl);
+            TelephonyManager tm = (TelephonyManager)getSystemService(Context.TELEPHONY_SERVICE);
+            String countryCode = tm.getSimCountryIso();
+            pos= Arrays.asList(g).indexOf(countryCode.toUpperCase());
+        } catch (Resources.NotFoundException e) {
+            e.printStackTrace();
+            pos=0;
+        }
+
 
         etname =(EditText)findViewById(R.id.name);
         etphone =(EditText)findViewById(R.id.phone);
         tvsignin = (TextView) findViewById(R.id.signin);
         submit = (ImageView) findViewById(R.id.submit);
+        scountrycode= (Spinner) findViewById(R.id.countrycodespinner);
 
+        scountrycode.setAdapter(adapter);
         context = getApplicationContext();
         gcm = GoogleCloudMessaging.getInstance(this);
         regid = getRegistrationId(context);
 
+        scountrycode.setSelection(pos);
         tvsignin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -98,9 +118,18 @@ public class RegisterActivity extends ActionBarActivity {
 
                 name = etname.getText().toString();
 
-                pin=etpin.getText().toString();
                 phone = etphone.getText().toString();
+                cc=g[scountrycode.getSelectedItemPosition()];
 
+                try {
+                    PhoneNumberUtil phoneUtil = PhoneNumberUtil.getInstance();
+                    Phonenumber.PhoneNumber phoneNumber1 = phoneUtil.parse(phone, cc);
+                    phone  = phoneUtil.format(phoneNumber1, PhoneNumberUtil.PhoneNumberFormat.INTERNATIONAL);
+                    phone = phone.replace("-", "");
+                    phone = phone.replace(" ", "");
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
                 // Start func if NET
 
                 //setContentView(R.layout.activity_main);
@@ -108,17 +137,19 @@ public class RegisterActivity extends ActionBarActivity {
                 //context = getApplicationContext();
                 //gcm = GoogleCloudMessaging.getInstance(this);
                 //regid = getRegistrationId(context);
-                if(pin.length()!=4){
-                    Toast.makeText(getApplicationContext(),"You need to enter 4 digit pin",Toast.LENGTH_LONG).show();
+                if(scountrycode.getSelectedItemPosition()==0){
+                    Toast.makeText(getApplicationContext(),"Select your country code",Toast.LENGTH_LONG).show();
 
                 }else if (name.length()<3){
                     Toast.makeText(getApplicationContext(),"name must be atleast 3 letter",Toast.LENGTH_LONG).show();
 
+                    ;
                 }else if(phone.length()<5){
                     Toast.makeText(getApplicationContext(),"phone number must be atleast 5 digit",Toast.LENGTH_LONG).show();
 
                 }else if (!sharedPreferences.getBoolean("register",false))  {
                     registerInBackground();
+
                 } else {
                     Toast.makeText(getApplicationContext(),"You are already registered",Toast.LENGTH_LONG).show();
 
@@ -139,7 +170,6 @@ public class RegisterActivity extends ActionBarActivity {
     private String getRegistrationId(Context context) {
         final SharedPreferences prefs = getGCMPreferences(context);
         String registrationId = prefs.getString(PROPERTY_REG_ID, "");
-        Toast.makeText(getApplicationContext(),registrationId,Toast.LENGTH_LONG).show();
         if (registrationId.equals("")) {
             Log.i(TAG, "Registration not found.");
             return "";
@@ -161,6 +191,13 @@ public class RegisterActivity extends ActionBarActivity {
     private void registerInBackground() {
 
         new AsyncTask<Void,Void,String>() {
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
+                Toast.makeText(RegisterActivity.this,"Please Wait",Toast.LENGTH_LONG).show();
+
+            }
+
             @Override
             protected String doInBackground(Void... params) {
 
@@ -197,14 +234,29 @@ public class RegisterActivity extends ActionBarActivity {
                 final int BACKOFF_MILLI_SECONDS = 2000;
                 final Random random = new Random();
                 Log.i(TAG, "registering device (regId = " + regid + ")");
-
+/*
                 Intent intent = new Intent(RegisterActivity.this, RegisterService.class);
                 intent.putExtra("name",name);
-                intent.putExtra("pin",pin);
+                intent.putExtra("cc",g[scountrycode.getSelectedItemPosition()]);
                 intent.putExtra("id",regid);
                 intent.putExtra("mob",phone);
+*/
+                Random rand = new Random();
+                pin=Integer.toString(rand.nextInt((998573 - 158365) + 1) + 158365);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putString("mobnum",phone);
+                editor.putString("name",name);
+                editor.putString(PROPERTY_REG_ID, regid);
+                editor.putString("cc",cc);
+                editor.putString("pin",pin);
+                editor.putBoolean("register", true);
+                editor.putBoolean("smsverification", false);
+                editor.commit();
+                Intent intent= new Intent(RegisterActivity.this,VerifyActivity.class);
+                intent.putExtra("sms", true);
+                startActivity(intent);
 
-                startService(intent);
+              //  startService(intent);
           /*      long backoff = BACKOFF_MILLI_SECONDS + random.nextInt(1000);
                 // Once GCM returns a registration id, we need to register on our server
                 // As the server might be down, we will retry it a couple
@@ -346,6 +398,20 @@ public class RegisterActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    void GetCountryZipCode(){
 
+
+
+        //getNetworkCountryIso
+        rl=this.getResources().getStringArray(R.array.CountryCodes);
+        for(int i=0;i<rl.length;i++){
+            String[] parts = rl[i].split(",");
+            rl[i] = parts[0]; // 004
+            g[i] = parts[1];
+            rl[i].trim();
+            g[i].trim();
+
+              }
+        }
 
 }

@@ -92,15 +92,22 @@ SharedPreferences sharedPreferences;
 
                         Intent intent;
                         if (sharedPreferences.getBoolean("register",false)) {
-                            intent = new Intent(getApplicationContext(),
-                                    MyFriendService.class);
-                            startService(intent);
+                            if (sharedPreferences.getBoolean("smsverification",false)){
+                                intent = new Intent(SplashActivity.this,
+                                        MyFriendService.class);
+                                startService(intent);
+                            }else{
+                                intent = new Intent(SplashActivity.this,
+                                        VerifyActivity.class);
+                                startActivity(intent);
+                                finish();
+                            }
                         } else {
                           intent = new Intent(getApplicationContext(),
                                     RegisterActivity.class);
                             startActivity(intent);
 
-                            startService(intent);
+                            finish();
                         }
                       ;
                         // closing spalsh activity
@@ -132,15 +139,22 @@ SharedPreferences sharedPreferences;
                         // String the main activity
                         Intent intent;
                         if (sharedPreferences.getBoolean("register",false)) {
-                            intent = new Intent(getApplicationContext(),
-                                    MyFriendService.class);
-                            startService(intent);
+                            if (sharedPreferences.getBoolean("smsverification",false)){
+                                intent = new Intent(SplashActivity.this,
+                                        MyFriendService.class);
+                                startService(intent);
+                            }else{
+                                intent = new Intent(SplashActivity.this,
+                                        VerifyActivity.class);
+                                startActivity(intent);
+                                finish();
+                            }
+
                         } else {
-                            intent = new Intent(getApplicationContext(),
+                            intent = new Intent(SplashActivity.this,
                                     RegisterActivity.class);
                             startActivity(intent);
-
-                            startService(intent);
+                            finish();
                         }
 
                         // closing spalsh activity
@@ -166,6 +180,7 @@ SharedPreferences sharedPreferences;
             setContentView(R.layout.loading_layout);
             Intent intent = new Intent(SplashActivity.this, FriendRequestService.class);
             startActivity(intent);
+            finish();
         }
 
 

@@ -1,6 +1,7 @@
 package com.greycodes.zerito;
 
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
@@ -9,10 +10,13 @@ import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarActivity;
 import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -25,12 +29,13 @@ import com.greycodes.zerito.app.AppController;
 import com.greycodes.zerito.helper.FriendAcceptService;
 import com.greycodes.zerito.helper.FriendRequestService;
 import com.greycodes.zerito.helper.HistoryService;
+import com.greycodes.zerito.service.CheckUserService;
 
 import java.util.ArrayList;
 import java.util.List;
 
 
-public class HomeActivity extends FragmentActivity {
+public class HomeActivity extends ActionBarActivity {
     ListView listView;
     ImageView add;
     private static final int CONTACT_PICKER_RESULT = 1001;
@@ -39,17 +44,22 @@ public class HomeActivity extends FragmentActivity {
     private static final int PICK_CONTACT_REQUEST = 1;
     private static final int PICK_CONTACT = 0;
     String selectedNumber;
-    boolean show=false;
-    FragmentManager fragmentManager;
+    public static FragmentManager fragmentManager;
+    public static ProgressDialog progressDialog;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
          fragmentManager = getSupportFragmentManager();
-
         listView = (ListView) findViewById(R.id.home_listview);
         add = (ImageView) findViewById(R.id.home_addfirend);
+
+        progressDialog=new ProgressDialog(this);
+        progressDialog.setTitle("Fetching Data");
+        progressDialog.setMessage("Please wait...");
+
         listView.setAdapter(AppController.myFriendsAdapter);
+
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -84,10 +94,7 @@ public class HomeActivity extends FragmentActivity {
     protected void onStart() {
         super.onStart();
 
-        if (show){
-            popup("33");
-            show=false;
-        }
+
     }
 
     @Override
@@ -126,19 +133,19 @@ public class HomeActivity extends FragmentActivity {
                         builder.setItems(items, new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int item) {
                                  selectedNumber = items[item].toString();
-                                selectedNumber = selectedNumber.replace("-", "");
-                                selectedNumber = selectedNumber.replace(" ", "");
+
                                 PhoneNumberUtil phoneUtil = PhoneNumberUtil.getInstance();
                                 try {
                                     Phonenumber.PhoneNumber phoneNumber1 = phoneUtil.parse(selectedNumber, "IN");
                                     String selected = phoneUtil.format(phoneNumber1, PhoneNumberUtil.PhoneNumberFormat.INTERNATIONAL);
 
-                                    Toast.makeText(getApplicationContext(),"number "+selectedNumber,Toast.LENGTH_LONG).show();
-                                    Toast.makeText(getApplicationContext(),"new number "+selected.toString(),Toast.LENGTH_LONG).show();
-                                    popup("123");
+                                   Intent intent= new Intent(HomeActivity.this, CheckUserService.class);
+                                    intent.putExtra("mobile",selected);
+                                    startService(intent);
+                                    progressDialog.show();
                                 } catch (NumberParseException e) {
                                     e.printStackTrace();
-                                    Toast.makeText(getApplicationContext(),e.toString(),Toast.LENGTH_LONG).show();
+                                    Toast.makeText(getApplicationContext(),"Select a valid number",Toast.LENGTH_LONG).show();
 
                                 }
 
@@ -150,7 +157,7 @@ public class HomeActivity extends FragmentActivity {
                         if(allNumbers.size() > 1) {
                             alert.show();
                         } else {
-                            show=true;
+
                             selectedNumber= phoneNumber.toString();
                             selectedNumber = selectedNumber.replace("-", "");
                             selectedNumber = selectedNumber.replace(" ", "");
@@ -159,11 +166,13 @@ public class HomeActivity extends FragmentActivity {
                                 Phonenumber.PhoneNumber phoneNumber1 = phoneUtil.parse(selectedNumber, "IN");
                                 String selected = phoneUtil.format(phoneNumber1, PhoneNumberUtil.PhoneNumberFormat.INTERNATIONAL);
 
-                                Toast.makeText(getApplicationContext(),"number "+selectedNumber,Toast.LENGTH_LONG).show();
-                                Toast.makeText(getApplicationContext(),"new number "+selected.toString(),Toast.LENGTH_LONG).show();
-                            } catch (NumberParseException e) {
+                                progressDialog.show();
+                                Intent intent= new Intent(HomeActivity.this, CheckUserService.class);
+                                intent.putExtra("mobile",selected);
+                                startService(intent);
+                            } catch (Exception e) {
                                 e.printStackTrace();
-                                Toast.makeText(getApplicationContext(),e.toString(),Toast.LENGTH_LONG).show();
+                                Toast.makeText(getApplicationContext(),"Select a valid number",Toast.LENGTH_LONG).show();
 
                             }
 
@@ -231,8 +240,14 @@ public class HomeActivity extends FragmentActivity {
 return  true;
     }
 
-    void popup(String number){
+    /*void popup(String number){
         AddFriendPopUp addFriendPopUp = new AddFriendPopUp();
         addFriendPopUp.show(getSupportFragmentManager().beginTransaction(),"addfriend");
+    } */
+    public  static void setpopup(){
+        AddFriendPopUp addFriendPopUp = new AddFriendPopUp();
+        addFriendPopUp.show(fragmentManager,"addfriend");
+
+
     }
 }

@@ -6,7 +6,10 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.IBinder;
+import android.os.SystemClock;
 import android.widget.Toast;
+
+import com.greycodes.zerito.app.AppController;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -28,7 +31,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SendRequestService extends Service {
-    String mob1,mob2,pin,url,results;
+    String mob1,mob2,url,results;
     HttpResponse response;
     SharedPreferences sharedPreferences;
     @Override
@@ -42,10 +45,8 @@ public class SendRequestService extends Service {
         try {
             sharedPreferences= getSharedPreferences("zerito", Context.MODE_PRIVATE);
             url = "http://ieeelinktest.x20.in/app2/pair.php";
-            mob1=sharedPreferences.getString("mobnum","000000");
-            mob2=intent.getStringExtra("mob1");
-            pin=intent.getStringExtra("pin");
-            Toast.makeText(getApplicationContext(),"mob1 "+mob1+" mob1 "+mob2+" pin "+pin,Toast.LENGTH_LONG).show();
+            mob1=sharedPreferences.getString("mobnum", "000000");
+            mob2= AppController.afpNumber;
             new SendRequestAsync().execute();
         } catch (Exception e) {
             e.printStackTrace();
@@ -63,7 +64,6 @@ public class SendRequestService extends Service {
                 // Add your data
                 List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
                 nameValuePairs.add(new BasicNameValuePair("mob1", mob1));
-                nameValuePairs.add(new BasicNameValuePair("pin", pin));
                 nameValuePairs.add(new BasicNameValuePair("mob2", mob2));
                 httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
 
@@ -104,11 +104,19 @@ public class SendRequestService extends Service {
                     Toast.makeText(getApplicationContext(),"Error",Toast.LENGTH_LONG).show();
 
                 }
-            } catch (JSONException e) {
+                stopSelf();
+            } catch (Exception e) {
                 e.printStackTrace();
-                new SendRequestAsync().execute();
+
+                if (!mob2.equals("")){
+                    SystemClock.sleep(2000);
+                    new SendRequestAsync().execute();
+                }else{
+                    stopSelf();
+                }
+
             }
-            stopSelf();
+
         }
     }
     }

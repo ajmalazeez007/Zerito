@@ -8,6 +8,8 @@ import android.os.AsyncTask;
 import android.os.IBinder;
 import android.widget.Toast;
 
+import com.google.i18n.phonenumbers.PhoneNumberUtil;
+import com.google.i18n.phonenumbers.Phonenumber;
 import com.greycodes.zerito.MainActivity;
 
 import org.apache.http.HttpEntity;
@@ -27,9 +29,10 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class RegisterService extends Service {
-  String name,mob,id,pin,url,results;
+  String name,mob,id,url,results;
     HttpResponse response;
     SharedPreferences sharedPreferences;
     public static final String PROPERTY_REG_ID = "registration_id";
@@ -44,12 +47,12 @@ public class RegisterService extends Service {
         try {
             sharedPreferences= getSharedPreferences("zerito", Context.MODE_PRIVATE);
             url="http://ieeelinktest.x20.in/app2/register.php";
-            name= intent.getStringExtra("name");
-            mob= intent.getStringExtra("mob");
-            pin= intent.getStringExtra("pin");
-            id= intent.getStringExtra("id");
 
-            new RegisterAsync().execute();
+            mob=sharedPreferences.getString("mobnum","");
+            name=sharedPreferences.getString("name","");
+            id=sharedPreferences.getString(PROPERTY_REG_ID,"");
+
+           new RegisterAsync().execute();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -72,7 +75,6 @@ public class RegisterService extends Service {
                 nameValuePairs.add(new BasicNameValuePair("regId", id));
                 nameValuePairs.add(new BasicNameValuePair("name", name));
                 nameValuePairs.add(new BasicNameValuePair("mob_num", mob));
-                nameValuePairs.add(new BasicNameValuePair("pin", pin));
                 httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
 
                 // Execute HTTP Post Request
@@ -101,15 +103,14 @@ public class RegisterService extends Service {
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
+            Toast.makeText(getApplicationContext(),results,Toast.LENGTH_LONG).show();
+
+
             try {
                 JSONObject jsonObject = new JSONObject(results);
                 if(jsonObject.getInt("success")==1){
                     SharedPreferences.Editor editor = sharedPreferences.edit();
-                    editor.putString("mobnum",mob);
-                    editor.putString("name",name);
-                    editor.putString(PROPERTY_REG_ID, id);
-                    editor.putString("pin",pin);
-                    editor.putBoolean("register", true);
+                    editor.putBoolean("smsverification", true);
                     editor.commit();
 
                     Intent intent = new Intent(getBaseContext(), MainActivity.class);

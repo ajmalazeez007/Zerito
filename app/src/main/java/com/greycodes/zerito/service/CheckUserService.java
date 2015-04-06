@@ -1,8 +1,7 @@
-package com.greycodes.zerito.helper;
+package com.greycodes.zerito.service;
 
 import android.app.Service;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.IBinder;
 import android.widget.Toast;
@@ -19,8 +18,6 @@ import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
-import org.apache.http.params.BasicHttpParams;
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -31,33 +28,26 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
-
-public class MyFriendService extends Service {
-    SharedPreferences sharedPreferences;
-    String results,url,mob1;
-    String[] name,mobnum;
-    int[] id;
-    int count;
+public class CheckUserService extends Service {
+    String mobile,url,results;
 
     @Override
     public IBinder onBind(Intent intent) {
         // TODO: Return the communication channel to the service.
         throw new UnsupportedOperationException("Not yet implemented");
     }
+
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-
-        try {
-            sharedPreferences= getSharedPreferences("zerito",MODE_PRIVATE);
-            mob1=sharedPreferences.getString("mobnum","");
-            url="http://ieeelinktest.x20.in/app2/find_friends.php";
-            new FriendRequestAsync().execute();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        mobile=intent.getStringExtra("mobile");
+        mobile = mobile.replace("-", "");
+        mobile = mobile.replace(" ", "");
+        url="http://ieeelinktest.x20.in/app2/checkuser.php";
+        new CheckUserAsync().execute();
         return super.onStartCommand(intent, flags, startId);
     }
-    class FriendRequestAsync extends AsyncTask<String, String, String> {
+
+    class CheckUserAsync extends AsyncTask<String, String, String> {
         @Override
         protected String doInBackground(String... params) {
 // TODO Auto-generated method stub
@@ -67,7 +57,8 @@ public class MyFriendService extends Service {
             try {
                 // Add your data
                 List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
-                nameValuePairs.add(new BasicNameValuePair("mob1", mob1));
+                nameValuePairs.add(new BasicNameValuePair("mob_num", mobile));
+
 
                 httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
 
@@ -97,35 +88,30 @@ public class MyFriendService extends Service {
         protected void onPostExecute(String result) {
 // TODO Auto-generated method stub
             super.onPostExecute(result);
-
             try {
-                JSONObject jsonObject = new JSONObject(results);
-                JSONArray jsonArray = jsonObject.getJSONArray("friends");
-                count = jsonArray.length();
-                name = new String[count];
-                mobnum = new String[count];
-                id = new int[count];
-                for (int i=0;i<count;i++){
-                    name[i]= jsonArray.getJSONObject(i).getString("name");
-                    mobnum[i]= jsonArray.getJSONObject(i).getString("mob_no");
+                JSONObject jsonObject=new JSONObject(results);
+                if (jsonObject.getBoolean("success")){
+
+                    String name=jsonObject.getString("name");
+                    AppController.afpName=name;
+                    AppController.afpNumber=mobile;
+                    AppController.afptype=true;
+                    HomeActivity.setpopup();
+                    HomeActivity.progressDialog.dismiss();
+                }else{
+                    String name="User doesnt Exist";
+                    AppController.afpName=name;
+                    AppController.afpNumber=mobile;
+                    AppController.afptype=false;
+                    HomeActivity.setpopup();
+                    HomeActivity.progressDialog.dismiss();
                 }
-                AppController.name = name;
-                AppController.mobnum = mobnum;
-                AppController.id = id;
-                MyFriendsAdapter myFriendService= new MyFriendsAdapter(getApplicationContext(),id,name,mobnum);
-                AppController.myFriendsAdapter=myFriendService;
-                Intent intent=new Intent(MyFriendService.this, HomeActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                startActivity(intent);
-                stopSelf();
-
-
             } catch (Exception e) {
-                Toast.makeText(getApplicationContext(),"No Internet Connection/Server Down " , Toast.LENGTH_LONG).show();
                 e.printStackTrace();
-                stopSelf();
+                HomeActivity.progressDialog.dismiss();
+                Toast.makeText(getApplicationContext(),"Server Down/No internet",Toast.LENGTH_LONG).show();
             }
-
+            stopSelf();
 
         }
     }

@@ -34,6 +34,8 @@ public class AppController extends Application {
     public static boolean custommsg;
     public static Bitmap imageBitmap;
     public static HistoryAdapter historyAdapter;
+    public static String afpName,afpNumber;
+    public static boolean afptype;
 	@Override
 	public void onCreate() {
 		super.onCreate();
