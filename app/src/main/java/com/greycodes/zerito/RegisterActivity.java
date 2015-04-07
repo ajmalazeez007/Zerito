@@ -24,7 +24,6 @@ import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.google.i18n.phonenumbers.NumberParseException;
 import com.google.i18n.phonenumbers.PhoneNumberUtil;
 import com.google.i18n.phonenumbers.Phonenumber;
-import com.greycodes.zerito.service.CheckUserService;
 
 import java.io.IOException;
 import java.lang.reflect.Array;
@@ -53,13 +52,10 @@ public class RegisterActivity extends ActionBarActivity {
     String[] rl,g;
     String regid,cc;
     String phone="";
-    String name="";
     String pin="";
     EditText etphone;
-    EditText etname;
     Spinner scountrycode;
     ImageView submit;
-    TextView tvsignin;
     int pos;
     SharedPreferences sharedPreferences;
     @Override
@@ -69,15 +65,7 @@ public class RegisterActivity extends ActionBarActivity {
         setContentView(R.layout.register_activity);
         sharedPreferences= getSharedPreferences("zerito", Context.MODE_PRIVATE);
 
-        try {
-            Account[] accounts = AccountManager.get(this).getAccounts();
 
-            acc= accounts[0].name;
-            Log.d("Account", "Name " + etname);
-            accn=acc.substring(0, acc.indexOf('@'));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
         try {
             rl= new String[getResources().getStringArray(R.array.ccwithname).length];
             g= new String[getResources().getStringArray(R.array.ccwithname).length];
@@ -92,9 +80,7 @@ public class RegisterActivity extends ActionBarActivity {
         }
 
 
-        etname =(EditText)findViewById(R.id.name);
         etphone =(EditText)findViewById(R.id.phone);
-        tvsignin = (TextView) findViewById(R.id.signin);
         submit = (ImageView) findViewById(R.id.submit);
         scountrycode= (Spinner) findViewById(R.id.countrycodespinner);
 
@@ -104,12 +90,6 @@ public class RegisterActivity extends ActionBarActivity {
         regid = getRegistrationId(context);
 
         scountrycode.setSelection(pos);
-        tvsignin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(RegisterActivity.this,SignInActivity.class));
-            }
-        });
 
 
         submit.setOnClickListener(new View.OnClickListener() {
@@ -117,7 +97,6 @@ public class RegisterActivity extends ActionBarActivity {
             public void onClick(View v) {
 
 
-                name = etname.getText().toString();
 
                 phone = etphone.getText().toString();
                 cc=g[scountrycode.getSelectedItemPosition()];
@@ -141,10 +120,6 @@ public class RegisterActivity extends ActionBarActivity {
                 if(scountrycode.getSelectedItemPosition()==0){
                     Toast.makeText(getApplicationContext(),"Select your country code",Toast.LENGTH_LONG).show();
 
-                }else if (name.length()<3){
-                    Toast.makeText(getApplicationContext(),"name must be atleast 3 letter",Toast.LENGTH_LONG).show();
-
-                    ;
                 }else if(phone.length()<5){
                     Toast.makeText(getApplicationContext(),"phone number must be atleast 5 digit",Toast.LENGTH_LONG).show();
 
@@ -246,7 +221,6 @@ public class RegisterActivity extends ActionBarActivity {
                 pin=Integer.toString(rand.nextInt((998573 - 158365) + 1) + 158365);
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.putString("mobnum",phone);
-                editor.putString("name",name);
                 editor.putString(PROPERTY_REG_ID, regid);
                 editor.putString("cc",cc);
                 editor.putString("pin",pin);
@@ -254,10 +228,9 @@ public class RegisterActivity extends ActionBarActivity {
                 editor.putBoolean("smsverification", false);
                 editor.commit();
 
-                Intent intent= new Intent(RegisterActivity.this, CheckUserService.class);
-                intent.putExtra("mobile",phone);
-                intent.putExtra("flag",2);
-                startService(intent);
+                Intent intent= new Intent(RegisterActivity.this, VerifyActivity.class);
+                intent.putExtra("sms",true);
+                startActivity(intent);
 
 
               //  startService(intent);

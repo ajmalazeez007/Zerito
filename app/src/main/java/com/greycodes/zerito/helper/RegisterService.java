@@ -12,6 +12,8 @@ import android.widget.Toast;
 import com.google.i18n.phonenumbers.PhoneNumberUtil;
 import com.google.i18n.phonenumbers.Phonenumber;
 import com.greycodes.zerito.MainActivity;
+import com.greycodes.zerito.UserNameActivity;
+import com.greycodes.zerito.VerifyActivity;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -37,6 +39,7 @@ public class RegisterService extends Service {
     HttpResponse response;
     SharedPreferences sharedPreferences;
     public static final String PROPERTY_REG_ID = "registration_id";
+    int tc=0;
     @Override
     public IBinder onBind(Intent intent) {
         // TODO: Return the communication channel to the service.
@@ -50,7 +53,6 @@ public class RegisterService extends Service {
             url="http://ieeelinktest.x20.in/app2/register.php";
 
             mob=sharedPreferences.getString("mobnum","");
-            name=sharedPreferences.getString("name","");
             id=sharedPreferences.getString(PROPERTY_REG_ID,"");
 
            new RegisterAsync().execute();
@@ -74,7 +76,6 @@ public class RegisterService extends Service {
                 // Add your data
                 List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
                 nameValuePairs.add(new BasicNameValuePair("regId", id));
-                nameValuePairs.add(new BasicNameValuePair("name", name));
                 nameValuePairs.add(new BasicNameValuePair("mob_num", mob));
                 httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
 
@@ -104,19 +105,24 @@ public class RegisterService extends Service {
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
+            Toast.makeText(getApplicationContext(), results, Toast.LENGTH_LONG).show();
 
 
             try {
                 JSONObject jsonObject = new JSONObject(results);
-                if(jsonObject.getInt("success")==1){
+                if(jsonObject.getBoolean("success")){
                     SharedPreferences.Editor editor = sharedPreferences.edit();
                     editor.putBoolean("smsverification", true);
                     editor.commit();
-
-                    Intent intent = new Intent(getBaseContext(), MainActivity.class);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                    getApplication().startActivity(intent);
-                }else if (jsonObject.getInt("success")==2){
+                    Intent intent = new Intent(getApplicationContext(),UserNameActivity.class);
+                    intent.putExtra("name",jsonObject.getString("name"));
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
+                    //UserNameActivity.UpdateUsername(jsonObject.getString("name"));
+                    //Intent intent = new Intent(getBaseContext(), MainActivity.class);
+                    //intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    //getApplication().startActivity(intent);
+                }else if(!jsonObject.getBoolean("success")){
                     Toast.makeText(getApplicationContext(), "Already registered", Toast.LENGTH_LONG).show();
                 }else {
                     Toast.makeText(getApplicationContext(), "Error", Toast.LENGTH_LONG).show();
@@ -125,8 +131,12 @@ public class RegisterService extends Service {
                 stopSelf();
             } catch (Exception e) {
                 Toast.makeText(getApplicationContext(),"No internet connectivity/Server Down "+e.toString(),Toast.LENGTH_LONG).show();
-                SystemClock.sleep(1000);
-                new RegisterAsync().execute();
+                tc++;
+                if(tc<5){
+                    SystemClock.sleep(1000);
+                    new RegisterAsync().execute();
+                }
+
                 e.printStackTrace();
             }
 

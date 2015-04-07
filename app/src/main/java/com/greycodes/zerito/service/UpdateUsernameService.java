@@ -1,4 +1,4 @@
-package com.greycodes.zerito.helper;
+package com.greycodes.zerito.service;
 
 import android.app.Service;
 import android.content.Context;
@@ -6,10 +6,11 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.IBinder;
+import android.os.SystemClock;
 import android.widget.Toast;
 
-import com.google.android.gms.gcm.GoogleCloudMessaging;
-import com.greycodes.zerito.MainActivity;
+import com.greycodes.zerito.VerifyActivity;
+import com.greycodes.zerito.helper.MyFriendService;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -29,14 +30,12 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SignInService extends Service {
-    String name,mob,pin,url,results;
+public class UpdateUsernameService extends Service {
+    String name,mob,url,results;
     HttpResponse response;
     SharedPreferences sharedPreferences;
-    public static final String PROPERTY_REG_ID = "registration_id";
-    String regid;
-    GoogleCloudMessaging gcm;
-    String SENDER_ID = "187588160331";
+    SharedPreferences.Editor  editor;
+    int tc=0;
     @Override
     public IBinder onBind(Intent intent) {
         // TODO: Return the communication channel to the service.
@@ -47,13 +46,12 @@ public class SignInService extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
         try {
             sharedPreferences= getSharedPreferences("zerito", Context.MODE_PRIVATE);
-            url="http://ieeelinktest.x20.in/app2/login.php";
+            url="http://ieeelinktest.x20.in/app2/updateusername.php";
 
-            mob= intent.getStringExtra("mob");
-            pin= intent.getStringExtra("pin");
-            gcm = GoogleCloudMessaging.getInstance(this);
+            mob=sharedPreferences.getString("mobnum","");
+            name=intent.getStringExtra("name");
 
-            new SignInAsync().execute();
+            new UpdateAsync().execute();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -61,7 +59,7 @@ public class SignInService extends Service {
     }
 
 
-    class SignInAsync extends AsyncTask<Void,Void,Void> {
+    class UpdateAsync extends AsyncTask<Void,Void,Void> {
 
         @Override
         protected Void doInBackground(Void... params) {
@@ -70,16 +68,11 @@ public class SignInService extends Service {
 
             try {
 
-                    if (gcm == null) {
-                        gcm = GoogleCloudMessaging.getInstance(getApplicationContext());
-                    }
-                    regid = gcm.register(SENDER_ID);
 
                 // Add your data
                 List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
-                nameValuePairs.add(new BasicNameValuePair("regId", regid));
+                nameValuePairs.add(new BasicNameValuePair("name", name));
                 nameValuePairs.add(new BasicNameValuePair("mob_num", mob));
-                nameValuePairs.add(new BasicNameValuePair("pin", pin));
                 httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
 
                 // Execute HTTP Post Request
@@ -112,32 +105,37 @@ public class SignInService extends Service {
 
             try {
                 JSONObject jsonObject = new JSONObject(results);
-                if(jsonObject.getInt("success")==1){
-                    name = jsonObject.getString("name");
+                if(jsonObject.getBoolean("success")){
                     SharedPreferences.Editor editor = sharedPreferences.edit();
-                    editor.putString("mobnum",mob);
-                    editor.putString("name",name);
-                    editor.putString(PROPERTY_REG_ID, regid);
-                    editor.putString("pin",pin);
-                    editor.putBoolean("register", true);
+                    editor.putString("name", name);
                     editor.commit();
-
-                    Intent intent = new Intent(getBaseContext(), MainActivity.class);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                    getApplication().startActivity(intent);
-                }else if (jsonObject.getInt("success")==2){
-                    Toast.makeText(getApplicationContext(), "Incorrect Mobile Number/PIN", Toast.LENGTH_LONG).show();
+                    startService(new Intent(getApplicationContext(), MyFriendService.class));
+                    //Intent intent = new Intent(getBaseContext(), MainActivity.class);
+                    //intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    //getApplication().startActivity(intent);
+                }else if(!jsonObject.getBoolean("success")){
+                    Toast.makeText(getApplicationContext(), "Error", Toast.LENGTH_LONG).show();
                 }else {
                     Toast.makeText(getApplicationContext(), "Error", Toast.LENGTH_LONG).show();
                 }
+
+                stopSelf();
             } catch (Exception e) {
-                Toast.makeText(getApplicationContext(),"No internet connectivity.Please try again later "+e.toString(),Toast.LENGTH_LONG).show();
+               tc++;
+                if (tc<5){
+                    SystemClock.sleep(1000);
+                    new UpdateAsync().execute();
+                    Toast.makeText(getApplicationContext(),"Trying again..please wait ",Toast.LENGTH_LONG).show();
+
+                }else{
+                    Toast.makeText(getApplicationContext(),"No internet connectivity/Server Down ",Toast.LENGTH_LONG).show();
+                        stopSelf();
+                }
+
                 e.printStackTrace();
             }
 
-            stopSelf();
 
         }
-
     }
 }

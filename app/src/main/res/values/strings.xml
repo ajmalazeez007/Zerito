@@ -30,8 +30,6 @@
     <string name="title_activity_history">HistoryActivity</string>
     <string name="title_activity_gcm">GcmActivity</string>
 
-
-
     <string-array name="ccwithname">
         <item>Afghanistan,AF</item>
         <item>Åland Islands,AX</item>
@@ -283,10 +281,9 @@
         <item>Yemen,YE</item>
         <item>Zambia,ZM</item>
         <item>Zimbabwe,ZW</item>
-
-
     </string-array>
 
     <string name="title_activity_verify">VerifyActivity</string>
+    <string name="title_activity_user_name">UserNameActivity</string>
 
 </resources>

@@ -92,11 +92,18 @@ SharedPreferences sharedPreferences;
 
                         Intent intent;
                         if (sharedPreferences.getBoolean("register",false)) {
+                            if (sharedPreferences.getString("name","").equals("")){
+                                intent = new Intent(SplashActivity.this,UserNameActivity.class);
+                                startActivity(intent);
+                                finish();
+
+
+                            }else
                             if (sharedPreferences.getBoolean("smsverification",false)){
                                 intent = new Intent(SplashActivity.this,
                                         MyFriendService.class);
                                 startService(intent);
-                            }else{
+                            }else {
                                 intent = new Intent(SplashActivity.this,
                                         VerifyActivity.class);
                                 startActivity(intent);
@@ -139,11 +146,17 @@ SharedPreferences sharedPreferences;
                         // String the main activity
                         Intent intent;
                         if (sharedPreferences.getBoolean("register",false)) {
+                            if (sharedPreferences.getString("name","").equals("")){
+                                intent = new Intent(SplashActivity.this,UserNameActivity.class);
+                                startActivity(intent);
+                                finish();
+
+                            }else
                             if (sharedPreferences.getBoolean("smsverification",false)){
                                 intent = new Intent(SplashActivity.this,
                                         MyFriendService.class);
                                 startService(intent);
-                            }else{
+                            }else {
                                 intent = new Intent(SplashActivity.this,
                                         VerifyActivity.class);
                                 startActivity(intent);

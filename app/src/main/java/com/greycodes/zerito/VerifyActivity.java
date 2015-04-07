@@ -15,8 +15,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.greycodes.zerito.helper.RegisterService;
+import com.greycodes.zerito.service.UpdateUsernameService;
 
 
 public class VerifyActivity extends ActionBarActivity {
@@ -26,9 +28,12 @@ public class VerifyActivity extends ActionBarActivity {
     IntentFilter filter;
     private BroadcastReceiver receiver;
     static final String ACTION ="android.provider.Telephony.SMS_RECEIVED";
-    TextView textView;
+     TextView textView;
     EditText etpin;
     Button btverify;
+    static EditText username;
+    static Button submit;
+    static Context context;
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -38,8 +43,40 @@ public class VerifyActivity extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_verify);
+        setContentView(R.layout.usernamelayout);
+
         sharedPreferences= getSharedPreferences("zerito", Context.MODE_PRIVATE);
+
+            accountVerification();
+
+
+
+    }
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_verify, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_settings) {
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+    void accountVerification(){
+        setContentView(R.layout.activity_verify);
         textView= (TextView) findViewById(R.id.verify_tv);
         etpin= (EditText) findViewById(R.id.verify_pin);
         btverify= (Button) findViewById(R.id.verify_bt);
@@ -102,7 +139,7 @@ public class VerifyActivity extends ActionBarActivity {
         if (intent.getBooleanExtra("sms",false)){
             SmsManager sms = SmsManager.getDefault();
             sms.sendTextMessage(mob, null, message, null, null);
-          //  sms.sendTextMessage();
+            //  sms.sendTextMessage();
         }
 
         btverify.setOnClickListener(new View.OnClickListener() {
@@ -118,26 +155,4 @@ public class VerifyActivity extends ActionBarActivity {
         });
     }
 
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_verify, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
 }
