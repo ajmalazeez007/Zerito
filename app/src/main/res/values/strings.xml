@@ -30,214 +30,261 @@
     <string name="title_activity_history">HistoryActivity</string>
     <string name="title_activity_gcm">GcmActivity</string>
 
-    <string-array name="CountryCodes">
-        <item>00,Select</item>
-        <item>93,AF</item>
-        <item>355,AL</item>
-        <item>213,DZ</item>
-        <item>376,AD</item>
-        <item>244,AO</item>
-        <item>672,AQ</item>
-        <item>54,AR</item>
-        <item>374,AM</item>
-        <item>297,AW</item>
-        <item>61,AU</item>
-        <item>43,AT</item>
-        <item>994,AZ</item>
-        <item>973,BH</item>
-        <item>880,BD</item>
-        <item>375,BY</item>
-        <item>32,BE</item>
-        <item>501,BZ</item>
-        <item>229,BJ</item>
-        <item>975,BT</item>
-        <item>591,BO</item>
-        <item>387,BA</item>
-        <item>267,BW</item>
-        <item>55,BR</item>
-        <item>673,BN</item>
-        <item>359,BG</item>
-        <item>226,BF</item>
-        <item>95,MM</item>
-        <item>257,BI</item>
-        <item>855,KH</item>
-        <item>237,CM</item>
-        <item>1,CA</item>
-        <item>238,CV</item>
-        <item>236,CF</item>
-        <item>235,TD</item>
-        <item>56,CL</item>
-        <item>86,CN</item>
-        <item>61,CX</item>
-        <item>61,CC</item>
-        <item>57,CO</item>
-        <item>269,KM</item>
-        <item>242,CG</item>
-        <item>243,CD</item>
-        <item>682,CK</item>
-        <item>506,CR</item>
-        <item>385,HR</item>
-        <item>53,CU</item>
-        <item>357,CY</item>
-        <item>420,CZ</item>
-        <item>45,DK</item>
-        <item>253,DJ</item>
-        <item>670,TL</item>
-        <item>593,EC</item>
-        <item>20,EG</item>
-        <item>503,SV</item>
-        <item>240,GQ</item>
-        <item>291,ER</item>
-        <item>372,EE</item>
-        <item>251,ET</item>
-        <item>500,FK</item>
-        <item>298,FO</item>
-        <item>679,FJ</item>
-        <item>358,FI</item>
-        <item>33,FR</item>
-        <item>689,PF</item>
-        <item>241,GA</item>
-        <item>220,GM</item>
-        <item>995,GE</item>
-        <item>49,DE</item>
-        <item>233,GH</item>
-        <item>350,GI</item>
-        <item>30,GR</item>
-        <item>299,GL</item>
-        <item>502,GT</item>
-        <item>224,GN</item>
-        <item>245,GW</item>
-        <item>592,GY</item>
-        <item>509,HT</item>
-        <item>504,HN</item>
-        <item>852,HK</item>
-        <item>36,HU</item>
-        <item>91,IN</item>
-        <item>62,ID</item>
-        <item>98,IR</item>
-        <item>964,IQ</item>
-        <item>353,IE</item>
-        <item>44,IM</item>
-        <item>972,IL</item>
-        <item>39,IT</item>
-        <item>225,CI</item>
-        <item>81,JP</item>
-        <item>962,JO</item>
-        <item>7,KZ</item>
-        <item>254,KE</item>
-        <item>686,KI</item>
-        <item>965,KW</item>
-        <item>996,KG</item>
-        <item>856,LA</item>
-        <item>371,LV</item>
-        <item>961,LB</item>
-        <item>266,LS</item>
-        <item>231,LR</item>
-        <item>218,LY</item>
-        <item>423,LI</item>
-        <item>370,LT</item>
-        <item>352,LU</item>
-        <item>853,MO</item>
-        <item>389,MK</item>
-        <item>261,MG</item>
-        <item>265,MW</item>
-        <item>60,MY</item>
-        <item>960,MV</item>
-        <item>223,ML</item>
-        <item>356,MT</item>
-        <item>692,MH</item>
-        <item>222,MR</item>
-        <item>230,MU</item>
-        <item>262,YT</item>
-        <item>52,MX</item>
-        <item>691,FM</item>
-        <item>373,MD</item>
-        <item>377,MC</item>
-        <item>976,MN</item>
-        <item>382,ME</item>
-        <item>212,MA</item>
-        <item>258,MZ</item>
-        <item>264,NA</item>
-        <item>674,NR</item>
-        <item>977,NP</item>
-        <item>31,NL</item>
-        <item>599,AN</item>
-        <item>687,NC</item>
-        <item>64,NZ</item>
-        <item>505,NI</item>
-        <item>227,NE</item>
-        <item>234,NG</item>
-        <item>683,NU</item>
-        <item>850,KP</item>
-        <item>47,NO</item>
-        <item>968,OM</item>
-        <item>92,PK</item>
-        <item>680,PW</item>
-        <item>507,PA</item>
-        <item>675,PG</item>
-        <item>595,PY</item>
-        <item>51,PE</item>
-        <item>63,PH</item>
-        <item>870,PN</item>
-        <item>48,PL</item>
-        <item>351,PT</item>
-        <item>1,PR</item>
-        <item>974,QA</item>
-        <item>40,RO</item>
-        <item>7,RU</item>
-        <item>250,RW</item>
-        <item>590,BL</item>
-        <item>685,WS</item>
-        <item>378,SM</item>
-        <item>239,ST</item>
-        <item>966,SA</item>
-        <item>221,SN</item>
-        <item>381,RS</item>
-        <item>248,SC</item>
-        <item>232,SL</item>
-        <item>65,SG</item>
-        <item>421,SK</item>
-        <item>386,SI</item>
-        <item>677,SB</item>
-        <item>252,SO</item>
-        <item>27,ZA</item>
-        <item>82,KR</item>
-        <item>34,ES</item>
-        <item>94,LK</item>
-        <item>290,SH</item>
-        <item>508,PM</item>
-        <item>249,SD</item>
-        <item>597,SR</item>
-        <item>268,SZ</item>
-        <item>46,SE</item>
-        <item>41,CH</item>
-        <item>963,SY</item>
-        <item>886,TW</item>
-        <item>992,TJ</item>
-        <item>255,TZ</item>
-        <item>66,TH</item>
-        <item>228,TG</item>
-        <item>690,TK</item>
-        <item>676,TO</item>
-        <item>216,TN</item>
-        <item>90,TR</item>
-        <item>993,TM</item>
-        <item>688,TV</item>
-        <item>971,AE</item>
-        <item>256,UG</item>
-        <item>44,GB</item>
-        <item>380,UA</item>
-        <item>598,UY</item>
-        <item>1,US</item>
-        <item>998,UZ</item>
-        <item>678,VU</item>
-        <item>39,VA</item>
-        <item>58,VE</item>
-        <item>84,VN</item>
-        <item>681,WF</item>
-        <item>967,YE</item>
-        <item>260,ZM</item>
-        <item>263,ZW</item>
+
+
+    <string-array name="ccwithname">
+        <item>Afghanistan,AF</item>
+        <item>Åland Islands,AX</item>
+        <item>Albania,AL</item>
+        <item>Algeria,DZ</item>
+        <item>American Samoa,AS</item>
+        <item>Andorra,AD</item>
+        <item>Angola,AO</item>
+        <item>Anguilla,AI</item>
+        <item>Antarctica,AQ</item>
+        <item>Antigua and Barbuda,AG</item>
+        <item>Argentina,AR</item>
+        <item>Armenia,AM</item>
+        <item>Aruba,AW</item>
+        <item>Australia,AU</item>
+        <item>Austria,AT</item>
+        <item>Azerbaijan,AZ</item>
+        <item>Bahamas,BS</item>
+        <item>Bahrain,BH</item>
+        <item>Bangladesh,BD</item>
+        <item>Barbados,BB</item>
+        <item>Belarus,BY</item>
+        <item>Belgium,BE</item>
+        <item>Belize,BZ</item>
+        <item>Benin,BJ</item>
+        <item>Bermuda,BM</item>
+        <item>Bhutan,BT</item>
+        <item>Bolivia,BO</item>
+        <item>Bonaire, Sint Eustatius and Saba,BQ</item>
+        <item>Bosnia and Herzegovina,BA</item>
+        <item>Botswana,BW</item>
+        <item>Bouvet Island,BV</item>
+        <item>Brazil,BR</item>
+        <item>British Indian Ocean Territory,IO</item>
+        <item>British Virgin Islands,VG</item>
+        <item>Brunei,BN</item>
+        <item>Bulgaria,BG</item>
+        <item>Burkina Faso,BF</item>
+        <item>Burundi,BI</item>
+        <item>Cambodia,KH</item>
+        <item>Cameroon,CM</item>
+        <item>Canada,CA</item>
+        <item>Cape Verde,CV</item>
+        <item>Cayman Islands,KY</item>
+        <item>Central African Republic,CF</item>
+        <item>Chad,TD</item>
+        <item>Chile,CL</item>
+        <item>China,CN</item>
+        <item>Christmas Island,CX</item>
+        <item>Cocos Islands,CC</item>
+        <item>Colombia,CO</item>
+        <item>Comoros,KM</item>
+        <item>Congo,CG</item>
+        <item>Cook Islands,CK</item>
+        <item>Costa Rica,CR</item>
+        <item>Croatia,HR</item>
+        <item>Cuba,CU</item>
+        <item>Curaçao,CW</item>
+        <item>Cyprus,CY</item>
+        <item>Czech Republic,CZ</item>
+        <item>Côte dIvoire,CI</item>
+        <item>Denmark,DK</item>
+        <item>Djibouti,DJ</item>
+        <item>Dominica,DM</item>
+        <item>Dominican Republic,DO</item>
+        <item>Ecuador,EC</item>
+        <item>Egypt,EG</item>
+        <item>El Salvador,SV</item>
+        <item>Equatorial Guinea,GQ</item>
+        <item>Eritrea,ER</item>
+        <item>Estonia,EE</item>
+        <item>Ethiopia,ET</item>
+        <item>Falkland Islands,FK</item>
+        <item>Faroe Islands,FO</item>
+        <item>Fiji,FJ</item>
+        <item>Finland,FI</item>
+        <item>France,FR</item>
+        <item>French Guiana,GF</item>
+        <item>French Polynesia,PF</item>
+        <item>French Southern Territories,TF</item>
+        <item>Gabon,GA</item>
+        <item>Gambia,GM</item>
+        <item>Georgia,GE</item>
+        <item>Germany,DE</item>
+        <item>Ghana,GH</item>
+        <item>Gibraltar,GI</item>
+        <item>Greece,GR</item>
+        <item>Greenland,GL</item>
+        <item>Grenada,GD</item>
+        <item>Guadeloupe,GP</item>
+        <item>Guam,GU</item>
+        <item>Guatemala,GT</item>
+        <item>Guernsey,GG</item>
+        <item>Guinea,GN</item>
+        <item>Guinea-Bissau,GW</item>
+        <item>Guyana,GY</item>
+        <item>Haiti,HT</item>
+        <item>Heard Island And McDonald Islands,HM</item>
+        <item>Honduras,HN</item>
+        <item>Hong Kong,HK</item>
+        <item>Hungary,HU</item>
+        <item>Iceland,IS</item>
+        <item>India,IN</item>
+        <item>Indonesia,ID</item>
+        <item>Iran,IR</item>
+        <item>Iraq,IQ</item>
+        <item>Ireland,IE</item>
+        <item>Isle Of Man,IM</item>
+        <item>Israel,IL</item>
+        <item>Italy,IT</item>
+        <item>Jamaica,JM</item>
+        <item>Japan,JP</item>
+        <item>Jersey,JE</item>
+        <item>Jordan,JO</item>
+        <item>Kazakhstan,KZ</item>
+        <item>Kenya,KE</item>
+        <item>Kiribati,KI</item>
+        <item>Kuwait,KW</item>
+        <item>Kyrgyzstan,KG</item>
+        <item>Laos,LA</item>
+        <item>Latvia,LV</item>
+        <item>Lebanon,LB</item>
+        <item>Lesotho,LS</item>
+        <item>Liberia,LR</item>
+        <item>Libya,LY</item>
+        <item>Liechtenstein,LI</item>
+        <item>Lithuania,LT</item>
+        <item>Luxembourg,LU</item>
+        <item>Macao,MO</item>
+        <item>Macedonia,MK</item>
+        <item>Madagascar,MG</item>
+        <item>Malawi,MW</item>
+        <item>Malaysia,MY</item>
+        <item>Maldives,MV</item>
+        <item>Mali,ML</item>
+        <item>Malta,MT</item>
+        <item>Marshall Islands,MH</item>
+        <item>Martinique,MQ</item>
+        <item>Mauritania,MR</item>
+        <item>Mauritius,MU</item>
+        <item>Mayotte,YT</item>
+        <item>Mexico,MX</item>
+        <item>Micronesia,FM</item>
+        <item>Moldova,MD</item>
+        <item>Monaco,MC</item>
+        <item>Mongolia,MN</item>
+        <item>Montenegro,ME</item>
+        <item>Montserrat,MS</item>
+        <item>Morocco,MA</item>
+        <item>Mozambique,MZ</item>
+        <item>Myanmar,MM</item>
+        <item>Namibia,NA</item>
+        <item>Nauru,NR</item>
+        <item>Nepal,NP</item>
+        <item>Netherlands Antilles,AN</item>
+        <item>Netherlands,NL</item>
+        <item>New Caledonia,NC</item>
+        <item>New Zealand,NZ</item>
+        <item>Nicaragua,NI</item>
+        <item>Niger,NE</item>
+        <item>Nigeria,NG</item>
+        <item>Niue,NU</item>
+        <item>Norfolk Island,NF</item>
+        <item>North Korea,KP</item>
+        <item>Northern Mariana Islands,MP</item>
+        <item>Norway,NO</item>
+        <item>Oman,OM</item>
+        <item>Pakistan,PK</item>
+        <item>Palau,PW</item>
+        <item>Palestine,PS</item>
+        <item>Panama,PA</item>
+        <item>Papua New Guinea,PG</item>
+        <item>Paraguay,PY</item>
+        <item>Peru,PE</item>
+        <item>Philippines,PH</item>
+        <item>Pitcairn,PN</item>
+        <item>Poland,PL</item>
+        <item>Portugal,PT</item>
+        <item>Puerto Rico,PR</item>
+        <item>Qatar,QA</item>
+        <item>Reunion,RE</item>
+        <item>Romania,RO</item>
+        <item>Russia,RU</item>
+        <item>Rwanda,RW</item>
+        <item>Saint Barthélemy,BL</item>
+        <item>Saint Helena,SH</item>
+        <item>Saint Kitts And Nevis,KN</item>
+        <item>Saint Lucia,LC</item>
+        <item>Saint Martin,MF</item>
+        <item>Saint Pierre And Miquelon,PM</item>
+        <item>Saint Vincent And The Grenadines,VC</item>
+        <item>Samoa,WS</item>
+        <item>San Marino,SM</item>
+        <item>Sao Tome And Principe,ST</item>
+        <item>Saudi Arabia,SA</item>
+        <item>Senegal,SN</item>
+        <item>Serbia,RS</item>
+        <item>Seychelles,SC</item>
+        <item>Sierra Leone,SL</item>
+        <item>Singapore,SG</item>
+        <item>Sint Maarten (Dutch part),SX</item>
+        <item>Slovakia,SK</item>
+        <item>Slovenia,SI</item>
+        <item>Solomon Islands,SB</item>
+        <item>Somalia,SO</item>
+        <item>South Africa,ZA</item>
+        <item>South Georgia And The South Sandwich Islands,GS</item>
+        <item>South Korea,KR</item>
+        <item>South Sudan,SS</item>
+        <item>Spain,ES</item>
+        <item>Sri Lanka,LK</item>
+        <item>Sudan,SD</item>
+        <item>Suriname,SR</item>
+        <item>Svalbard And Jan Mayen,SJ</item>
+        <item>Swaziland,SZ</item>
+        <item>Sweden,SE</item>
+        <item>Switzerland,CH</item>
+        <item>Syria,SY</item>
+        <item>Taiwan,TW</item>
+        <item>Tajikistan,TJ</item>
+        <item>Tanzania,TZ</item>
+        <item>Thailand,TH</item>
+        <item>The Democratic Republic Of Congo,CD</item>
+        <item>Timor-Leste,TL</item>
+        <item>Togo,TG</item>
+        <item>Tokelau,TK</item>
+        <item>Tonga,TO</item>
+        <item>Trinidad and Tobago,TT</item>
+        <item>Tunisia,TN</item>
+        <item>Turkey,TR</item>
+        <item>Turkmenistan,TM</item>
+        <item>Turks And Caicos Islands,TC</item>
+        <item>Tuvalu,TV</item>
+        <item>U.S. Virgin Islands,VI</item>
+        <item>Uganda,UG</item>
+        <item>Ukraine,UA</item>
+        <item>United Arab Emirates,AE</item>
+        <item>United Kingdom,GB</item>
+        <item>United States Minor Outlying Islands,UM</item>
+        <item>United States,US</item>
+        <item>Uruguay,UY</item>
+        <item>Uzbekistan,UZ</item>
+        <item>Vanuatu,VU</item>
+        <item>Vatican,VA</item>
+        <item>Venezuela,VE</item>
+        <item>Vietnam,VN</item>
+        <item>Wallis And Futuna,WF</item>
+        <item>Western Sahara,EH</item>
+        <item>Yemen,YE</item>
+        <item>Zambia,ZM</item>
+        <item>Zimbabwe,ZW</item>
+
+
     </string-array>
 
     <string name="title_activity_verify">VerifyActivity</string>

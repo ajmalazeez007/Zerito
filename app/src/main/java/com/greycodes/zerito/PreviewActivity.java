@@ -24,7 +24,7 @@ ImageView imageView;
         setContentView(R.layout.activity_preview);
         imageView = (ImageView) findViewById(R.id.preview_image);
         Resources res = getApplicationContext().getResources();
-        String text="Test Message and it works :)";//max of 52 characters
+        String text=getIntent().getStringExtra("msg");//max of 52 characters
         Bitmap background;
        // background = BitmapFactory.decodeResource(res, R.drawable.back)
         background= AppController.imageBitmap.copy(Bitmap.Config.ARGB_8888, true);

@@ -285,7 +285,10 @@ public class FullScreenViewActivity extends ActionBarActivity implements OnClick
 			break;
             case R.id.fi_preview:
                 AppController.imageBitmap=bitmap;
-            startActivity(new Intent(FullScreenViewActivity.this,PreviewActivity.class));
+                String msg=et_custom.getText().toString();
+                intent=new Intent(FullScreenViewActivity.this,PreviewActivity.class);
+                intent.putExtra("msg",msg);
+            startActivity(intent);
                 break;
 		default:
 			break;

@@ -52,6 +52,7 @@ public class ChangeWallpaperService extends Service {
             imgtext= intent.getStringExtra("imgtext");
             mob2= AppController.selectedmob;
             Long tsLong = System.currentTimeMillis()/1000;
+
             ts = tsLong.toString();
             Log.d("timestamp", ts);
             TimeZone tz = TimeZone.getDefault();

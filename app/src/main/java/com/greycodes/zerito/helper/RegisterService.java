@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.IBinder;
+import android.os.SystemClock;
 import android.widget.Toast;
 
 import com.google.i18n.phonenumbers.PhoneNumberUtil;
@@ -103,7 +104,6 @@ public class RegisterService extends Service {
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
-            Toast.makeText(getApplicationContext(),results,Toast.LENGTH_LONG).show();
 
 
             try {
@@ -121,13 +121,16 @@ public class RegisterService extends Service {
                 }else {
                     Toast.makeText(getApplicationContext(), "Error", Toast.LENGTH_LONG).show();
                 }
+
+                stopSelf();
             } catch (Exception e) {
                 Toast.makeText(getApplicationContext(),"No internet connectivity/Server Down "+e.toString(),Toast.LENGTH_LONG).show();
-               new RegisterAsync().execute();
+                SystemClock.sleep(1000);
+                new RegisterAsync().execute();
                 e.printStackTrace();
             }
 
-            stopSelf();
+
         }
     }
 }

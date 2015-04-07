@@ -24,6 +24,7 @@ import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.google.i18n.phonenumbers.NumberParseException;
 import com.google.i18n.phonenumbers.PhoneNumberUtil;
 import com.google.i18n.phonenumbers.Phonenumber;
+import com.greycodes.zerito.service.CheckUserService;
 
 import java.io.IOException;
 import java.lang.reflect.Array;
@@ -78,8 +79,8 @@ public class RegisterActivity extends ActionBarActivity {
             e.printStackTrace();
         }
         try {
-            rl= new String[getResources().getStringArray(R.array.CountryCodes).length];
-            g= new String[getResources().getStringArray(R.array.CountryCodes).length];
+            rl= new String[getResources().getStringArray(R.array.ccwithname).length];
+            g= new String[getResources().getStringArray(R.array.ccwithname).length];
             GetCountryZipCode();
             adapter= new ArrayAdapter<String>(getApplicationContext(),R.layout.ccspinertext,R.id.ccspinertextview,rl);
             TelephonyManager tm = (TelephonyManager)getSystemService(Context.TELEPHONY_SERVICE);
@@ -252,9 +253,12 @@ public class RegisterActivity extends ActionBarActivity {
                 editor.putBoolean("register", true);
                 editor.putBoolean("smsverification", false);
                 editor.commit();
-                Intent intent= new Intent(RegisterActivity.this,VerifyActivity.class);
-                intent.putExtra("sms", true);
-                startActivity(intent);
+
+                Intent intent= new Intent(RegisterActivity.this, CheckUserService.class);
+                intent.putExtra("mobile",phone);
+                intent.putExtra("flag",2);
+                startService(intent);
+
 
               //  startService(intent);
           /*      long backoff = BACKOFF_MILLI_SECONDS + random.nextInt(1000);
@@ -403,7 +407,7 @@ public class RegisterActivity extends ActionBarActivity {
 
 
         //getNetworkCountryIso
-        rl=this.getResources().getStringArray(R.array.CountryCodes);
+        rl=this.getResources().getStringArray(R.array.ccwithname);
         for(int i=0;i<rl.length;i++){
             String[] parts = rl[i].split(",");
             rl[i] = parts[0]; // 004

@@ -1,12 +1,15 @@
 package com.greycodes.zerito.service;
 
 import android.app.Service;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.IBinder;
 import android.widget.Toast;
 
 import com.greycodes.zerito.HomeActivity;
+import com.greycodes.zerito.VerifyActivity;
 import com.greycodes.zerito.app.AppController;
 
 import org.apache.http.HttpEntity;
@@ -30,6 +33,7 @@ import java.util.List;
 
 public class CheckUserService extends Service {
     String mobile,url,results;
+    int flag;
 
     @Override
     public IBinder onBind(Intent intent) {
@@ -40,6 +44,7 @@ public class CheckUserService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         mobile=intent.getStringExtra("mobile");
+        flag=intent.getIntExtra("flag", 0);
         mobile = mobile.replace("-", "");
         mobile = mobile.replace(" ", "");
         url="http://ieeelinktest.x20.in/app2/checkuser.php";
@@ -91,24 +96,51 @@ public class CheckUserService extends Service {
             try {
                 JSONObject jsonObject=new JSONObject(results);
                 if (jsonObject.getBoolean("success")){
+                    if (flag==1){
+                        String name=jsonObject.getString("name");
+                        AppController.afpName=name;
+                        AppController.afpNumber=mobile;
+                        AppController.afptype=true;
+                        HomeActivity.setpopup();
+                        HomeActivity.progressDialog.dismiss();
+                    }else if (flag==2){
+                      SharedPreferences  sharedPreferences= getSharedPreferences("zerito", Context.MODE_PRIVATE);
+                        SharedPreferences.Editor editor=sharedPreferences.edit();
+                        editor.putBoolean("register", false);
+                        editor.commit();
+                        Toast.makeText(getApplicationContext(),"User Already Exist.Please LoginIn",Toast.LENGTH_LONG).show();
 
-                    String name=jsonObject.getString("name");
-                    AppController.afpName=name;
-                    AppController.afpNumber=mobile;
-                    AppController.afptype=true;
-                    HomeActivity.setpopup();
-                    HomeActivity.progressDialog.dismiss();
+                    }
+
                 }else{
-                    String name="User doesnt Exist";
-                    AppController.afpName=name;
-                    AppController.afpNumber=mobile;
-                    AppController.afptype=false;
-                    HomeActivity.setpopup();
-                    HomeActivity.progressDialog.dismiss();
+                    if (flag==1){
+                        String name="User doesnt Exist";
+                        AppController.afpName=name;
+                        AppController.afpNumber=mobile;
+                        AppController.afptype=false;
+                        HomeActivity.setpopup();
+                        HomeActivity.progressDialog.dismiss();
+                    }else if (flag==2){
+
+                        Intent intent= new Intent(getApplicationContext(),VerifyActivity.class);
+                        intent.putExtra("sms", true);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(intent);
+                    }
+
                 }
             } catch (Exception e) {
                 e.printStackTrace();
-                HomeActivity.progressDialog.dismiss();
+                if (flag==1){
+                    try {
+                        HomeActivity.progressDialog.dismiss();
+                    } catch (Exception e1) {
+                        e1.printStackTrace();
+                    }
+                }else if (flag==2){
+
+                }
+
                 Toast.makeText(getApplicationContext(),"Server Down/No internet",Toast.LENGTH_LONG).show();
             }
             stopSelf();

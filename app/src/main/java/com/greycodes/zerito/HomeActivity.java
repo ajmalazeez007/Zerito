@@ -141,6 +141,7 @@ public class HomeActivity extends ActionBarActivity {
 
                                    Intent intent= new Intent(HomeActivity.this, CheckUserService.class);
                                     intent.putExtra("mobile",selected);
+                                    intent.putExtra("flag",1);
                                     startService(intent);
                                     progressDialog.show();
                                 } catch (NumberParseException e) {
@@ -169,6 +170,7 @@ public class HomeActivity extends ActionBarActivity {
                                 progressDialog.show();
                                 Intent intent= new Intent(HomeActivity.this, CheckUserService.class);
                                 intent.putExtra("mobile",selected);
+                                intent.putExtra("flag",1);
                                 startService(intent);
                             } catch (Exception e) {
                                 e.printStackTrace();
