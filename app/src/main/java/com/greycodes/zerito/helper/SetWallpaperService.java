@@ -68,7 +68,7 @@ public class SetWallpaperService extends Service {
             try {
                 Utils utils = new Utils(getApplicationContext());
                 utils.setAsWallpaper(result,imgText);
-                sendNotification("Wallpaper change service");
+               // sendNotification("Wallpaper change service");
                 stopSelf();
             } catch (Exception e) {
                 e.printStackTrace();

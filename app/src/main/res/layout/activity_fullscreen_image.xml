@@ -56,7 +56,7 @@
         <ImageView
             android:layout_width="25dp"
             android:layout_height="25dp"
-            android:src="@drawable/ico_apply" />
+            android:src="@drawable/mywall" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -84,7 +84,7 @@
         <ImageView
             android:layout_width="25dp"
             android:layout_height="25dp"
-            android:src="@drawable/ico_download" />
+            android:src="@drawable/frndwall" />
 
         <TextView
             android:layout_width="wrap_content"

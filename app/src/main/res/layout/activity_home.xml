@@ -12,9 +12,23 @@
         android:layout_height="fill_parent"
         android:dividerHeight="0dp"
         android:divider="@null"
+
         >
 
     </ListView>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tv_nofrnds"
+        android:text="To add your friends here \nTap + icon below"
+        android:layout_gravity="center"
+        android:gravity="center"
+       android:textSize="22sp"
+        android:fontFamily="sans-serif-light"
+
+        />
+
 
     <ImageView
         android:id="@+id/home_addfirend"
