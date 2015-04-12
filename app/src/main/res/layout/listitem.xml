@@ -11,8 +11,6 @@
     mrl_rippleDuration="350"
     mrl_rippleFadeDuration="75"
     mrl_rippleDelayClick="true"
-
-
     >
 
 
@@ -23,10 +21,11 @@
 <RelativeLayout
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
-    android:paddingLeft="12dp"
-    android:paddingRight="12dp"
-    android:paddingTop="12dp"
-    android:paddingBottom="12dp"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp"
+    android:paddingTop="8dp"
+    android:paddingBottom="8dp"
+
     >
 
 
@@ -38,20 +37,21 @@
        android:text="A"
        android:textColor="#fff"
        android:fontFamily="sans-serif-light"
-
-       android:gravity="center"
-       android:textSize="30sp"/>
+        android:gravity="center"
+       android:layout_marginLeft="5dp"
+      android:layout_centerVertical="true"
+       android:textSize="16sp"/>
 
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Name 1"
-        android:textSize="24sp"
+        android:textSize="22sp"
         android:id="@+id/litsitem_name"
         android:textColor="@color/textsub"
         android:fontFamily="sans-serif-light"
-        android:layout_marginLeft="10dp"
+        android:layout_marginLeft="18dp"
         android:layout_toRightOf="@id/circleshape"
         android:layout_centerVertical="true"/>
 

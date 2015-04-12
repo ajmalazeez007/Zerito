@@ -54,11 +54,11 @@
         </activity>
         <activity
             android:name=".HomeActivity"
-            android:label="@string/title_activity_home" >
+            android:label="My Friends" >
         </activity>
         <activity
             android:name=".RegisterActivity"
-            android:label="@string/title_activity_register" >
+            android:label="Register" >
         </activity>
 
         <service
