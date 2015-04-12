@@ -22,6 +22,8 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.github.clans.fab.FloatingActionButton;
+import com.github.clans.fab.FloatingActionMenu;
 import com.google.i18n.phonenumbers.NumberParseException;
 import com.google.i18n.phonenumbers.PhoneNumberUtil;
 import com.google.i18n.phonenumbers.Phonenumber;
@@ -37,7 +39,7 @@ import java.util.List;
 
 public class HomeActivity extends ActionBarActivity {
     ListView listView;
-    ImageView add;
+
     private static final int CONTACT_PICKER_RESULT = 1001;
     private static final String DEBUG_TAG = "Contact List";
     private final int RESULT_OK = -1;
@@ -46,13 +48,56 @@ public class HomeActivity extends ActionBarActivity {
     String selectedNumber;
     public static FragmentManager fragmentManager;
     public static ProgressDialog progressDialog;
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
          fragmentManager = getSupportFragmentManager();
         listView = (ListView) findViewById(R.id.home_listview);
-        add = (ImageView) findViewById(R.id.home_addfirend);
+
+
+        FloatingActionMenu menu1 = (FloatingActionMenu) findViewById(R.id.menu1);
+        menu1.setClosedOnTouchOutside(true);
+
+        FloatingActionButton addfab = (FloatingActionButton) findViewById(R.id.menu_item1);
+        FloatingActionButton pending_fab = (FloatingActionButton) findViewById(R.id.menu_item2);
+        FloatingActionButton history_fab = (FloatingActionButton) findViewById(R.id.menu_item3);
+
+        addfab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //    startActivity(new Intent(HomeActivity.this, NewFriendActivity.class));
+                Intent intent = new Intent(Intent.ACTION_PICK);
+                intent.setType(ContactsContract.Contacts.CONTENT_TYPE);
+                if (intent.resolveActivity(getPackageManager()) != null) {
+                    startActivityForResult(intent, CONTACT_PICKER_RESULT);
+                }
+            }
+        });
+
+         pending_fab.setOnClickListener(new View.OnClickListener() {
+             @Override
+             public void onClick(View v) {
+
+                 startService(new Intent(HomeActivity.this, FriendRequestService.class));
+
+
+
+
+             }
+         });
+        history_fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                startService(new Intent(HomeActivity.this, HistoryService.class));
+
+            }
+        });
+
 
         progressDialog=new ProgressDialog(this);
         progressDialog.setTitle("Fetching Data");
@@ -67,19 +112,19 @@ public class HomeActivity extends ActionBarActivity {
                 startActivity(new Intent(HomeActivity.this, MainActivity.class));
             }
         });
-        add.setOnClickListener(new View.OnClickListener() {
+        /* add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
             //    startActivity(new Intent(HomeActivity.this, NewFriendActivity.class));
-                Intent intent = new Intent(Intent.ACTION_PICK);
+               Intent intent = new Intent(Intent.ACTION_PICK);
                 intent.setType(ContactsContract.Contacts.CONTENT_TYPE);
                 if (intent.resolveActivity(getPackageManager()) != null) {
                     startActivityForResult(intent, CONTACT_PICKER_RESULT);
                 }
             }
         });
-
+*/
 
         registerForContextMenu(listView);
     }
