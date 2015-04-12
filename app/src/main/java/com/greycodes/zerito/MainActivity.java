@@ -62,16 +62,17 @@ public class MainActivity extends ActionBarActivity {
 		albumsList = AppController.getInstance().getPrefManger().getCategories();
 
 		// Insert "Recently Added" in navigation drawer first position
-		Category recentAlbum = new Category(null,
-				getString(R.string.nav_drawer_recently_added));
+		Category recentAlbum = new Category("0",
+				"Upload image");
 
-		albumsList.add(0, recentAlbum);
 
 		// Loop through albums in add them to navigation drawer adapter
 		for (Category a : albumsList) {
 			navDrawerItems.add(new NavDrawerItem(a.getId(), a.getTitle()));
 		}
-       // navDrawerItems.add();
+        navDrawerItems.add(new NavDrawerItem("0","Custom"));
+
+        // navDrawerItems.add();
 		mDrawerList.setOnItemClickListener(new SlideMenuClickListener());
 
 		// Setting the nav drawer list adapter
@@ -120,11 +121,11 @@ public class MainActivity extends ActionBarActivity {
 			// display view for selected nav drawer item
 			//displayView(position);
 
-            if (navDrawerItems.get(position).getAlbumId().equals("6116420603732983313")){
+            if (navDrawerItems.get(position).getAlbumId().equals("0")){
                 Toast.makeText(getApplicationContext(),"Cusom",Toast.LENGTH_LONG).show();
 
                 AppController.custommsg=true;
-                displayView(position);
+              //  displayView(position);
             }else{
                 AppController.custommsg=false;
 
