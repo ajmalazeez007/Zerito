@@ -123,15 +123,10 @@ public class RegisterActivity extends ActionBarActivity {
                 }else if(phone.length()<5){
                     Toast.makeText(getApplicationContext(),"phone number must be atleast 5 digit",Toast.LENGTH_LONG).show();
 
-                }else if (!sharedPreferences.getBoolean("register",false))  {
+                }else  {
                     registerInBackground();
 
-                } else {
-                    Toast.makeText(getApplicationContext(),"You are already registered",Toast.LENGTH_LONG).show();
-
-       /* PackageManager p = getPackageManager();
-        p.setComponentEnabledSetting(getComponentName(), PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP);*/
-              }
+                }
 
 
             }

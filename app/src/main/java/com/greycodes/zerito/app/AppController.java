@@ -30,7 +30,7 @@ public class AppController extends Application {
     public static String[] name,mobnum;
     public static int[] id;
     public static MyFriendsAdapter myFriendsAdapter;
-    public static String selectedmob;
+    public static String selectedmob,selectedname;
     public static boolean custommsg;
     public static Bitmap imageBitmap;
     public static HistoryAdapter historyAdapter;

@@ -54,6 +54,7 @@ public class RegisterService extends Service {
 
             mob=sharedPreferences.getString("mobnum","");
             id=sharedPreferences.getString(PROPERTY_REG_ID,"");
+            Toast.makeText(getApplicationContext(), "Registered", Toast.LENGTH_LONG).show();
 
            new RegisterAsync().execute();
         } catch (Exception e) {

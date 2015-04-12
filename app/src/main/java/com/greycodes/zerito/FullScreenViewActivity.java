@@ -60,7 +60,7 @@ public class FullScreenViewActivity extends ActionBarActivity implements OnClick
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_fullscreen_image);
-
+        getSupportActionBar().setTitle(AppController.selectedname);
         tv_preview = (TextView) findViewById(R.id.fi_preview);
         et_custom= (EditText) findViewById(R.id.fi_customtext);
 		fullImageView = (ImageView) findViewById(R.id.imgFullscreen);
@@ -74,7 +74,6 @@ public class FullScreenViewActivity extends ActionBarActivity implements OnClick
             et_custom.setVisibility(View.GONE);
             tv_preview.setVisibility(View.GONE);
         }*/
-		getSupportActionBar().hide();
 
 		utils = new Utils(getApplicationContext());
 

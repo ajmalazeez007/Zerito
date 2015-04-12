@@ -1,4 +1,4 @@
-package com.greycodes.zerito.helper;
+package com.greycodes.zerito.service;
 
 import android.app.Service;
 import android.content.Intent;
@@ -7,8 +7,9 @@ import android.os.AsyncTask;
 import android.os.IBinder;
 import android.widget.Toast;
 
-import com.greycodes.zerito.service.UpdateFriendListService;
-import com.greycodes.zerito.service.UpdateFriendRequestService;
+import com.greycodes.zerito.HomeActivity;
+import com.greycodes.zerito.app.AppController;
+import com.greycodes.zerito.helper.MyFriendsAdapter;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -19,7 +20,7 @@ import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
-import org.json.JSONException;
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
@@ -29,37 +30,32 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FriendAcceptService extends Service {
+public class UpdateFriendListService extends Service {
     SharedPreferences sharedPreferences;
-    String results,url,mob1,mob2,flag;
-    int type;
-
+    String results,url,mob1;
+    String[] name,mobnum;
+    int[] id;
+    int count;
 
     @Override
     public IBinder onBind(Intent intent) {
         // TODO: Return the communication channel to the service.
         throw new UnsupportedOperationException("Not yet implemented");
     }
-
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+
         try {
             sharedPreferences= getSharedPreferences("zerito",MODE_PRIVATE);
-
-            mob2=sharedPreferences.getString("mobnum","");
-            mob1=intent.getStringExtra("mob2");
-            flag=intent.getStringExtra("flag");
-            type = intent.getIntExtra("type",0);
-            url="http://ieeelinktest.x20.in/app2/pair_complete.php";
-            Toast.makeText(getApplicationContext(),""+mob1,Toast.LENGTH_LONG).show();
-            new FriendAcceptAsync().execute();
+            mob1=sharedPreferences.getString("mobnum","");
+            url="http://ieeelinktest.x20.in/app2/find_friends.php";
+            new FriendRequestAsync().execute();
         } catch (Exception e) {
             e.printStackTrace();
         }
         return super.onStartCommand(intent, flags, startId);
     }
-
-    class FriendAcceptAsync extends AsyncTask<String, String, String> {
+    class FriendRequestAsync extends AsyncTask<String, String, String> {
         @Override
         protected String doInBackground(String... params) {
 // TODO Auto-generated method stub
@@ -70,8 +66,6 @@ public class FriendAcceptService extends Service {
                 // Add your data
                 List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
                 nameValuePairs.add(new BasicNameValuePair("mob1", mob1));
-                nameValuePairs.add(new BasicNameValuePair("mob2", mob2));
-                nameValuePairs.add(new BasicNameValuePair("type", ""+type));
 
                 httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
 
@@ -104,21 +98,29 @@ public class FriendAcceptService extends Service {
 
             try {
                 JSONObject jsonObject = new JSONObject(results);
-              if(jsonObject.getBoolean("success")){
-                  Toast.makeText(getApplicationContext(),jsonObject.getString("msg"),Toast.LENGTH_LONG).show();
-                  startService(new Intent(getApplicationContext(),UpdateFriendListService.class));
+                JSONArray jsonArray = jsonObject.getJSONArray("friends");
+                count = jsonArray.length();
+                name = new String[count];
+                mobnum = new String[count];
+                id = new int[count];
+                for (int i=0;i<count;i++){
+                    name[i]= jsonArray.getJSONObject(i).getString("name");
+                    mobnum[i]= jsonArray.getJSONObject(i).getString("mob_no");
+                }
+                AppController.name = name;
+                AppController.mobnum = mobnum;
+                AppController.id = id;
+                MyFriendsAdapter myFriendService= new MyFriendsAdapter(getApplicationContext(),id,name,mobnum);
+                AppController.myFriendsAdapter=myFriendService;
 
-              }else if (!jsonObject.getBoolean("success")){
-                  Toast.makeText(getApplicationContext(),jsonObject.getString("msg"),Toast.LENGTH_LONG).show();
-
-              }
-                startService(new Intent(getApplicationContext(), UpdateFriendRequestService.class));
+                HomeActivity.updateListView();
                 stopSelf();
 
 
-            } catch (JSONException e) {
+            } catch (Exception e) {
+                Toast.makeText(getApplicationContext(), "No Internet Connection/Server Down ", Toast.LENGTH_LONG).show();
                 e.printStackTrace();
-                new FriendAcceptAsync().execute();
+                stopSelf();
             }
 
 

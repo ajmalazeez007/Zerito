@@ -11,10 +11,10 @@ public class AppConst {
 	public static final int GRID_PADDING = 4; // in dp
 
 	// Gallery directory name to save wallpapers
-	public static final String SDCARD_DIR_NAME = "Awesome Wallpapers";
+	public static final String SDCARD_DIR_NAME = "Zerito";
 
 	// Picasa/Google web album username
-	public static final String PICASA_USER = "itheark";
+	public static final String PICASA_USER = "gcd.zerito";
 
 	// Public albums list url
 	public static final String URL_PICASA_ALBUMS = "https://picasaweb.google.com/data/feed/api/user/_PICASA_USER_?kind=album&alt=json";

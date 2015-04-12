@@ -2,8 +2,10 @@ package com.greycodes.zerito;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -36,9 +38,17 @@ import java.util.List;
 
 
 public class HomeActivity extends ActionBarActivity {
-    ListView listView;
+   public static ListView listView;
     ImageView add;
     private static final int CONTACT_PICKER_RESULT = 1001;
+    static AddFriendPopUp addFriendPopUp;
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        listView.setAdapter(AppController.myFriendsAdapter);
+    }
+
     private static final String DEBUG_TAG = "Contact List";
     private final int RESULT_OK = -1;
     private static final int PICK_CONTACT_REQUEST = 1;
@@ -46,42 +56,49 @@ public class HomeActivity extends ActionBarActivity {
     String selectedNumber;
     public static FragmentManager fragmentManager;
     public static ProgressDialog progressDialog;
+    SharedPreferences sharedPreferences;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-         fragmentManager = getSupportFragmentManager();
-        listView = (ListView) findViewById(R.id.home_listview);
-        add = (ImageView) findViewById(R.id.home_addfirend);
+        try {
+            fragmentManager = getSupportFragmentManager();
+            listView = (ListView) findViewById(R.id.home_listview);
+            add = (ImageView) findViewById(R.id.home_addfirend);
+            sharedPreferences= getSharedPreferences("zerito", Context.MODE_PRIVATE);
 
-        progressDialog=new ProgressDialog(this);
-        progressDialog.setTitle("Fetching Data");
-        progressDialog.setMessage("Please wait...");
+            progressDialog=new ProgressDialog(this);
+            progressDialog.setTitle("Fetching Data");
+            progressDialog.setMessage("Please wait...");
 
-        listView.setAdapter(AppController.myFriendsAdapter);
+            listView.setAdapter(AppController.myFriendsAdapter);
 
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                AppController.selectedmob = AppController.mobnum[position];
-                startActivity(new Intent(HomeActivity.this, MainActivity.class));
-            }
-        });
-        add.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            //    startActivity(new Intent(HomeActivity.this, NewFriendActivity.class));
-                Intent intent = new Intent(Intent.ACTION_PICK);
-                intent.setType(ContactsContract.Contacts.CONTENT_TYPE);
-                if (intent.resolveActivity(getPackageManager()) != null) {
-                    startActivityForResult(intent, CONTACT_PICKER_RESULT);
+            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    AppController.selectedmob = AppController.mobnum[position];
+                    AppController.selectedname=AppController.name[position];
+                    startActivity(new Intent(HomeActivity.this, MainActivity.class));
                 }
-            }
-        });
+            });
+            add.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                //    startActivity(new Intent(HomeActivity.this, NewFriendActivity.class));
+                    Intent intent = new Intent(Intent.ACTION_PICK);
+                    intent.setType(ContactsContract.Contacts.CONTENT_TYPE);
+                    if (intent.resolveActivity(getPackageManager()) != null) {
+                        startActivityForResult(intent, CONTACT_PICKER_RESULT);
+                    }
+                }
+            });
 
 
-        registerForContextMenu(listView);
+            registerForContextMenu(listView);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -136,7 +153,7 @@ public class HomeActivity extends ActionBarActivity {
 
                                 PhoneNumberUtil phoneUtil = PhoneNumberUtil.getInstance();
                                 try {
-                                    Phonenumber.PhoneNumber phoneNumber1 = phoneUtil.parse(selectedNumber, "IN");
+                                    Phonenumber.PhoneNumber phoneNumber1 = phoneUtil.parse(selectedNumber, sharedPreferences.getString("cc",""));
                                     String selected = phoneUtil.format(phoneNumber1, PhoneNumberUtil.PhoneNumberFormat.INTERNATIONAL);
 
                                    Intent intent= new Intent(HomeActivity.this, CheckUserService.class);
@@ -163,7 +180,7 @@ public class HomeActivity extends ActionBarActivity {
                             selectedNumber = selectedNumber.replace(" ", "");
                             PhoneNumberUtil phoneUtil = PhoneNumberUtil.getInstance();
                             try {
-                                Phonenumber.PhoneNumber phoneNumber1 = phoneUtil.parse(selectedNumber, "IN");
+                                Phonenumber.PhoneNumber phoneNumber1 = phoneUtil.parse(selectedNumber,sharedPreferences.getString("cc",""));
                                 String selected = phoneUtil.format(phoneNumber1, PhoneNumberUtil.PhoneNumberFormat.INTERNATIONAL);
 
                                 progressDialog.show();
@@ -245,9 +262,29 @@ return  true;
         addFriendPopUp.show(getSupportFragmentManager().beginTransaction(),"addfriend");
     } */
     public  static void setpopup(){
-        AddFriendPopUp addFriendPopUp = new AddFriendPopUp();
-        addFriendPopUp.show(fragmentManager,"addfriend");
+        try {
+            addFriendPopUp = new AddFriendPopUp();
+            addFriendPopUp.show(fragmentManager,"addfriend");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
 
+    }
+    public  static void removepopup(){
+        try {
+            addFriendPopUp.dismiss();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
+    }
+    public static void updateListView(){
+        try {
+            listView.setAdapter(AppController.myFriendsAdapter);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

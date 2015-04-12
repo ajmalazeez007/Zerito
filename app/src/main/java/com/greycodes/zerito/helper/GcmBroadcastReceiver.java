@@ -73,7 +73,6 @@ public class GcmBroadcastReceiver extends WakefulBroadcastReceiver {
                     service.putExtra("imgtext",imgtext);
                     ctx.startService(service);
                     type=3;
-                    sendNotification(intent.getExtras().getString("Message"));
                 }else if (intent.getExtras().getString("Type").equals("4")){
                     //geneeral notification
                       type=4;

@@ -1,5 +1,7 @@
 package com.greycodes.zerito;
 
+import android.app.Activity;
+import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -34,6 +36,8 @@ public class VerifyActivity extends ActionBarActivity {
     static EditText username;
     static Button submit;
     static Context context;
+    PendingIntent sentPI;
+    String SENT = "SMS_SENT";
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -84,11 +88,38 @@ public class VerifyActivity extends ActionBarActivity {
         mob=sharedPreferences.getString("mobnum", "");
         pin=sharedPreferences.getString("pin", "");
 
+        sentPI= PendingIntent.getBroadcast(this, 0, new Intent(SENT), 0);
         filter  = new IntentFilter();
         filter.addAction(ACTION);
         filter.setPriority(999);
         message="Welcome to Zeito.Your confirmation number is  "+pin;
 
+        registerReceiver(new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context arg0, Intent arg1) {
+                switch (getResultCode()) {
+                    case Activity.RESULT_OK:
+                        Toast.makeText(getBaseContext(), "SMS sent",Toast.LENGTH_SHORT).show();
+                        break;
+                    case SmsManager.RESULT_ERROR_GENERIC_FAILURE:
+                        Toast.makeText(getBaseContext(), "Generic failure.Message not sent",
+                                Toast.LENGTH_SHORT).show();
+                        break;
+                    case SmsManager.RESULT_ERROR_NO_SERVICE:
+                        Toast.makeText(getBaseContext(), "No service .Message not sent",
+                                Toast.LENGTH_SHORT).show();
+                        break;
+                    case SmsManager.RESULT_ERROR_NULL_PDU:
+                        Toast.makeText(getBaseContext(), "Null PDU .Message not sent",
+                                Toast.LENGTH_SHORT).show();
+                        break;
+                    case SmsManager.RESULT_ERROR_RADIO_OFF:
+                        Toast.makeText(getBaseContext(), "Radio off .Message not sent",
+                                Toast.LENGTH_SHORT).show();
+                        break;
+                }
+            }
+        }, new IntentFilter(SENT));
         receiver = new BroadcastReceiver() {
 
             @Override
@@ -115,7 +146,7 @@ public class VerifyActivity extends ActionBarActivity {
 
                                 if (strMsgBody.equals(message)){
                                     textView.setText("Equal");
-                                    startService(new Intent(VerifyActivity.this, RegisterService.class));
+                                   startService(new Intent(VerifyActivity.this, RegisterService.class));
 
                                 }
                                 abortBroadcast();
@@ -137,8 +168,14 @@ public class VerifyActivity extends ActionBarActivity {
 
         intent=getIntent();
         if (intent.getBooleanExtra("sms",false)){
-            SmsManager sms = SmsManager.getDefault();
-            sms.sendTextMessage(mob, null, message, null, null);
+            Toast.makeText(getApplicationContext(),mob,Toast.LENGTH_LONG).show();
+            try {
+                SmsManager sms = SmsManager.getDefault();
+                sms.sendTextMessage(mob, null, message, sentPI, null);
+            } catch (Exception e) {
+                Toast.makeText(getApplicationContext(),"Couldnt send sms.Unknown error occured!",Toast.LENGTH_LONG).show();
+                e.printStackTrace();
+            }
             //  sms.sendTextMessage();
         }
 

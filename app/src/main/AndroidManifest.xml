@@ -107,7 +107,6 @@
             android:enabled="true"
             android:exported="true" >
         </service>
-
         <service
             android:name=".helper.HistoryService"
             android:enabled="true"
@@ -144,6 +143,17 @@
             android:name=".UserNameActivity"
             android:label="@string/title_activity_user_name" >
         </activity>
+
+        <service
+            android:name=".service.UpdateFriendListService"
+            android:enabled="true"
+            android:exported="true" >
+        </service>
+        <service
+            android:name=".service.UpdateFriendRequestService"
+            android:enabled="true"
+            android:exported="true" >
+        </service>
     </application>
 
 </manifest>

@@ -12,7 +12,7 @@ import com.greycodes.zerito.app.AppController;
  * Created by ajmal on 24/2/15.
  */
 public class FriendRequestActivity extends ActionBarActivity{
-    ListView listView;
+   static ListView listView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -20,5 +20,13 @@ public class FriendRequestActivity extends ActionBarActivity{
         listView= (ListView) findViewById(R.id.fr_listview);
         listView.setAdapter(AppController.friendRequestAdapter);
 
+    }
+
+    public static void updateListView(){
+        try {
+            listView.setAdapter(AppController.friendRequestAdapter);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
