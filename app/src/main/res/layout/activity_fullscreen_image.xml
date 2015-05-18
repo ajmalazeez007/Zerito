@@ -40,6 +40,7 @@
     android:id="@+id/wrapper"
     android:layout_centerHorizontal="true"
     android:weightSum="2"
+
     >
 
     <LinearLayout
@@ -47,9 +48,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
 
-
+        android:background="@drawable/setwpaperelector"
         android:layout_weight="1"
-        android:background="@drawable/btn_rounded_corner"
+
         android:gravity="center_vertical"
         android:orientation="horizontal" >
 
@@ -62,6 +63,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingLeft="10dp"
+
             android:text="My Wallpaper"
             android:textColor="@color/white"
             android:textSize="18dp" />
@@ -77,7 +79,7 @@
 
 
                 android:layout_weight="1"
-        android:background="@drawable/btn_rounded_corner"
+        android:background="@drawable/setwpaperelector"
         android:gravity="center_vertical"
         android:orientation="horizontal" >
 
@@ -104,14 +106,14 @@
         android:textColor="#fff"
         android:textSize="18sp"
         android:layout_alignParentRight="true"
-        android:background="@drawable/btn_rounded_corner"
+        android:background="@drawable/setwpaperelector"
         android:layout_marginRight="5dp"
         android:layout_width="100dp"
-        android:paddingTop="4dp"
 
+        android:gravity="center"
         android:layout_marginBottom="10dp"
         android:layout_above="@id/wrapper"
-        android:layout_height="wrap_content" />
+        android:layout_height="40dp" />
     <EditText
         android:id="@+id/fi_customtext"
         android:hint="Custom Message"
@@ -127,6 +129,6 @@
         android:layout_marginLeft="10dp"
         android:layout_toLeftOf="@id/fi_preview"
         android:layout_marginRight="10dp"
-         android:layout_height="30dp" />
+         android:layout_height="40dp" />
 
     </RelativeLayout>
