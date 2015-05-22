@@ -24,6 +24,8 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.github.clans.fab.FloatingActionButton;
+import com.github.clans.fab.FloatingActionMenu;
 import com.google.i18n.phonenumbers.NumberParseException;
 import com.google.i18n.phonenumbers.PhoneNumberUtil;
 import com.google.i18n.phonenumbers.Phonenumber;
@@ -39,7 +41,7 @@ import java.util.List;
 
 public class HomeActivity extends ActionBarActivity {
    public static ListView listView;
-    ImageView add;
+
     private static final int CONTACT_PICKER_RESULT = 1001;
     static AddFriendPopUp addFriendPopUp;
 
@@ -57,6 +59,9 @@ public class HomeActivity extends ActionBarActivity {
     public static FragmentManager fragmentManager;
     public static ProgressDialog progressDialog;
     SharedPreferences sharedPreferences;
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,7 +69,6 @@ public class HomeActivity extends ActionBarActivity {
         try {
             fragmentManager = getSupportFragmentManager();
             listView = (ListView) findViewById(R.id.home_listview);
-            add = (ImageView) findViewById(R.id.home_addfirend);
             sharedPreferences= getSharedPreferences("zerito", Context.MODE_PRIVATE);
 
             progressDialog=new ProgressDialog(this);
@@ -81,19 +85,78 @@ public class HomeActivity extends ActionBarActivity {
                     startActivity(new Intent(HomeActivity.this, MainActivity.class));
                 }
             });
-            add.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
 
+
+         fragmentManager = getSupportFragmentManager();
+        listView = (ListView) findViewById(R.id.home_listview);
+
+
+        FloatingActionMenu menu1 = (FloatingActionMenu) findViewById(R.id.menu1);
+        menu1.setClosedOnTouchOutside(true);
+
+        FloatingActionButton addfab = (FloatingActionButton) findViewById(R.id.menu_item1);
+        FloatingActionButton pending_fab = (FloatingActionButton) findViewById(R.id.menu_item2);
+        FloatingActionButton history_fab = (FloatingActionButton) findViewById(R.id.menu_item3);
+
+        addfab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
                 //    startActivity(new Intent(HomeActivity.this, NewFriendActivity.class));
-                    Intent intent = new Intent(Intent.ACTION_PICK);
-                    intent.setType(ContactsContract.Contacts.CONTENT_TYPE);
-                    if (intent.resolveActivity(getPackageManager()) != null) {
-                        startActivityForResult(intent, CONTACT_PICKER_RESULT);
-                    }
+                Intent intent = new Intent(Intent.ACTION_PICK);
+                intent.setType(ContactsContract.Contacts.CONTENT_TYPE);
+                if (intent.resolveActivity(getPackageManager()) != null) {
+                    startActivityForResult(intent, CONTACT_PICKER_RESULT);
                 }
-            });
+            }
+        });
 
+         pending_fab.setOnClickListener(new View.OnClickListener() {
+             @Override
+             public void onClick(View v) {
+
+                 startService(new Intent(HomeActivity.this, FriendRequestService.class));
+
+
+
+
+             }
+         });
+        history_fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                startService(new Intent(HomeActivity.this, HistoryService.class));
+
+            }
+        });
+
+
+        progressDialog=new ProgressDialog(this);
+        progressDialog.setTitle("Fetching Data");
+        progressDialog.setMessage("Please wait...");
+
+        listView.setAdapter(AppController.myFriendsAdapter);
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                AppController.selectedmob = AppController.mobnum[position];
+                startActivity(new Intent(HomeActivity.this, MainActivity.class));
+            }
+        });
+        /* add.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            //    startActivity(new Intent(HomeActivity.this, NewFriendActivity.class));
+               Intent intent = new Intent(Intent.ACTION_PICK);
+                intent.setType(ContactsContract.Contacts.CONTENT_TYPE);
+                if (intent.resolveActivity(getPackageManager()) != null) {
+                    startActivityForResult(intent, CONTACT_PICKER_RESULT);
+                }
+            }
+        });
+*/
 
             registerForContextMenu(listView);
         } catch (Exception e) {
@@ -211,12 +274,7 @@ public class HomeActivity extends ActionBarActivity {
             //activity result error actions
         }
     }
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_home, menu);
-        return true;
-    }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

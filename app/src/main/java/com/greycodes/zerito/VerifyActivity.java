@@ -16,11 +16,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.greycodes.zerito.helper.RegisterService;
-import com.greycodes.zerito.service.UpdateUsernameService;
 
 
 public class VerifyActivity extends ActionBarActivity {
@@ -32,7 +32,7 @@ public class VerifyActivity extends ActionBarActivity {
     static final String ACTION ="android.provider.Telephony.SMS_RECEIVED";
      TextView textView;
     EditText etpin;
-    Button btverify;
+    ImageView btverify;
     static EditText username;
     static Button submit;
     static Context context;
@@ -82,8 +82,8 @@ public class VerifyActivity extends ActionBarActivity {
     void accountVerification(){
         setContentView(R.layout.activity_verify);
         textView= (TextView) findViewById(R.id.verify_tv);
-        etpin= (EditText) findViewById(R.id.verify_pin);
-        btverify= (Button) findViewById(R.id.verify_bt);
+        etpin= (EditText) findViewById(R.id.ul_username);
+        btverify= (ImageView) findViewById(R.id.ul_submit);
 
         mob=sharedPreferences.getString("mobnum", "");
         pin=sharedPreferences.getString("pin", "");
@@ -99,7 +99,7 @@ public class VerifyActivity extends ActionBarActivity {
             public void onReceive(Context arg0, Intent arg1) {
                 switch (getResultCode()) {
                     case Activity.RESULT_OK:
-                        Toast.makeText(getBaseContext(), "SMS sent",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getBaseContext(), "SMS sent", Toast.LENGTH_SHORT).show();
                         break;
                     case SmsManager.RESULT_ERROR_GENERIC_FAILURE:
                         Toast.makeText(getBaseContext(), "Generic failure.Message not sent",

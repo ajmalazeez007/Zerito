@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/black" >
+
+    <ProgressBar
+        android:id="@+id/pbLoader"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true" >
+    </ProgressBar>
+
+    <!-- Scroll view for fullscreen preview -->
+
+    <HorizontalScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="none" >
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent" >
+
+            <ImageView
+                android:id="@+id/imgFullscreen"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:scaleType="fitXY" />
+        </LinearLayout>
+    </HorizontalScrollView>
+
+    <!-- Set as wallpaper button -->
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal"
+        android:id="@+id/wrapper"
+        android:layout_centerHorizontal="true"
+        android:weightSum="2"
+        >
+
+        <LinearLayout
+            android:id="@+id/fi_mywallpaper"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+
+            android:layout_weight="1"
+            android:background="@drawable/btn_rounded_corner"
+            android:gravity="center_vertical"
+            android:orientation="horizontal" >
+
+            <ImageView
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:src="@drawable/mywall" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="10dp"
+                android:text="My Wallpaper"
+                android:textColor="@color/white"
+                android:textSize="18dp" />
+
+        </LinearLayout>
+
+        <!-- Download wallpaper button -->
+
+        <LinearLayout
+            android:id="@+id/friendswallpaper"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+
+            android:layout_weight="1"
+            android:background="@drawable/btn_rounded_corner"
+            android:gravity="center_vertical"
+            android:orientation="horizontal" >
+
+            <ImageView
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:src="@drawable/frndwall" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="10dp"
+                android:text="Friend's wallpaper"
+                android:textColor="@color/white"
+                android:textSize="18dp"
+                />
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/fi_preview"
+        android:text="Preview"
+        android:textColor="#fff"
+        android:textSize="18sp"
+        android:layout_alignParentRight="true"
+        android:background="@drawable/btn_rounded_corner"
+        android:layout_marginRight="5dp"
+        android:layout_width="100dp"
+        android:paddingTop="4dp"
+
+        android:layout_marginBottom="10dp"
+        android:layout_above="@id/wrapper"
+        android:layout_height="wrap_content" />
+    <EditText
+        android:id="@+id/fi_customtext"
+        android:hint="Custom Message"
+        android:paddingLeft="5dp"
+        android:textColorHint="#c9c9c9"
+        android:layout_marginTop="100dp"
+        android:background="@drawable/rounded_edittextwhite"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="10dp"
+        android:layout_above="@id/wrapper"
+        android:layout_width="fill_parent"
+        android:textColor="#000"
+        android:layout_marginLeft="10dp"
+        android:layout_toLeftOf="@id/fi_preview"
+        android:layout_marginRight="10dp"
+        android:layout_height="30dp" />
+
+</RelativeLayout>

@@ -7,9 +7,11 @@ import java.util.List;
 
 import android.annotation.SuppressLint;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.Fragment;
@@ -44,8 +46,11 @@ public class MainActivity extends ActionBarActivity {
 	private List<Category> albumsList;
 	private ArrayList<NavDrawerItem> navDrawerItems;
 	private NavDrawerListAdapter adapter;
+    final static int PICK_IMAGE =100;
 
-	@SuppressLint("NewApi")
+
+
+    @SuppressLint("NewApi")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -126,6 +131,11 @@ public class MainActivity extends ActionBarActivity {
 
                 AppController.custommsg=true;
               //  displayView(position);
+                Intent intent = new Intent();
+                intent.setType("image/*");
+                intent.setAction(Intent.ACTION_GET_CONTENT);
+                startActivityForResult(Intent.createChooser(intent, ""), PICK_IMAGE);
+
             }else{
                 AppController.custommsg=false;
 
@@ -235,4 +245,18 @@ public class MainActivity extends ActionBarActivity {
 		// Pass any configuration change to the drawer toggls
 		mDrawerToggle.onConfigurationChanged(newConfig);
 	}
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode != Activity.RESULT_CANCELED) {
+            if (requestCode == PICK_IMAGE) {
+                Uri selectedImageUri = data.getData();
+                AppController.customImage=selectedImageUri;
+                Intent intent= new Intent(MainActivity.this,CustomImageActivity.class);
+                mDrawerLayout.closeDrawer(mDrawerList);
+               startActivity(intent);
+            }
+        }
+
+    }
 }

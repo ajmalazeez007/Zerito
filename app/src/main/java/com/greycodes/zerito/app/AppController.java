@@ -4,6 +4,7 @@ package com.greycodes.zerito.app;
 
 import android.app.Application;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.text.TextUtils;
 
 import com.android.volley.Request;
@@ -36,6 +37,7 @@ public class AppController extends Application {
     public static HistoryAdapter historyAdapter;
     public static String afpName,afpNumber;
     public static boolean afptype;
+    public static Uri customImage;
 	@Override
 	public void onCreate() {
 		super.onCreate();

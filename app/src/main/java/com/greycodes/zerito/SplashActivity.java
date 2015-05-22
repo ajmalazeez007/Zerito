@@ -6,6 +6,10 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.animation.AccelerateDecelerateInterpolator;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.android.volley.Request.Method;
@@ -34,11 +38,29 @@ public class SplashActivity extends Activity {
 			TAG_ALBUM_TITLE = "title";
 SharedPreferences sharedPreferences;
 
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_splash);
 		//getWindow().requestFeature(Window.FEATURE_ACTION_BAR);
 		// Preparing volley's json object request
+
+
+
+
+       // final Animation animationFadeInskip = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.zoomin);
+
+
+
+
+
+
+
+
+
+
+
         int type=getIntent().getIntExtra("type",0);
         if(type==0){
             setContentView(R.layout.activity_splash);
@@ -110,6 +132,8 @@ SharedPreferences sharedPreferences;
                                 finish();
                             }
                         } else {
+
+
                           intent = new Intent(getApplicationContext(),
                                     RegisterActivity.class);
                             startActivity(intent);

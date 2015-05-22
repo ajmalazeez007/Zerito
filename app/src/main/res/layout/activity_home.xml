@@ -1,10 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fab="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/home_layout"
-    >
+    android:background="#fff">
 
+    <ImageView android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:src="@drawable/listbackground"
+        android:scaleType="centerCrop"
+        android:id="@+id/logo"
+        />
 
     <ListView
         android:id="@+id/home_listview"
@@ -12,20 +20,57 @@
         android:layout_height="fill_parent"
         android:dividerHeight="0dp"
         android:divider="@null"
+        android:scrollbars="none"
+
         >
 
     </ListView>
 
-    <ImageView
-        android:id="@+id/home_addfirend"
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/plus"
+        android:id="@+id/tv_nofrnds"
+        android:text="To add your friends here \nTap + icon below"
+        android:layout_gravity="center"
+        android:gravity="center"
+       android:textSize="22sp"
+        android:visibility="gone"
+        android:textColor="@color/textmain"
+        android:fontFamily="sans-serif-light"
 
-        android:layout_gravity="bottom|right"
-        android:layout_marginBottom="16dp"
-        android:layout_marginRight="16dp"
         />
+
+    <com.github.clans.fab.FloatingActionMenu
+        android:id="@+id/menu1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|right"
+        fab:menu_labels_style="@style/menu_labels_style"
+
+    >
+
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/menu_item1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            fab:fab_size="normal"
+            fab:fab_label="Add New Friend"
+             />
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/menu_item2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            fab:fab_size="normal"
+            fab:fab_label="Pending Request"
+            /><com.github.clans.fab.FloatingActionButton
+        android:id="@+id/menu_item3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        fab:fab_size="normal"
+        fab:fab_label="History"
+        />
+
+    </com.github.clans.fab.FloatingActionMenu>
 
 
 

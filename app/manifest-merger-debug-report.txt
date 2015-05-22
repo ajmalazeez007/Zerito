@@ -19,8 +19,8 @@ uses-sdk
 ADDED from AndroidManifest.xml:7:5
 MERGED from com.android.support:appcompat-v7:21.0.3:15:5
 MERGED from com.android.support:support-v4:21.0.3:15:5
-MERGED from com.android.support:support-v4:21.0.3:15:5
 MERGED from com.google.android.gms:play-services:4.1.32:7:5
+MERGED from com.android.support:support-v4:21.0.3:15:5
 MERGED from com.android.support:support-v4:21.0.3:15:5
 	android:targetSdkVersion
 		ADDED from AndroidManifest.xml:9:9
@@ -30,197 +30,243 @@ MERGED from com.android.support:support-v4:21.0.3:15:5
 		ADDED from AndroidManifest.xml:8:9
 		INJECTED from AndroidManifest.xml:0:0
 		INJECTED from AndroidManifest.xml:0:0
-uses-permission#android.permission.INTERNET
+uses-permission#android.permission.SEND_SMS
+ADDED from AndroidManifest.xml:10:5
+	android:name
+		ADDED from AndroidManifest.xml:10:22
+uses-permission#android.permission.RECEIVE_SMS
 ADDED from AndroidManifest.xml:11:5
 	android:name
 		ADDED from AndroidManifest.xml:11:22
-uses-permission#android.permission.WRITE_EXTERNAL_STORAGE
+uses-permission#android.permission.INTERNET
 ADDED from AndroidManifest.xml:12:5
 	android:name
 		ADDED from AndroidManifest.xml:12:22
-uses-permission#android.permission.SET_WALLPAPER
+uses-permission#android.permission.WRITE_EXTERNAL_STORAGE
 ADDED from AndroidManifest.xml:13:5
 	android:name
 		ADDED from AndroidManifest.xml:13:22
-uses-permission#android.permission.READ_PHONE_STATE
+uses-permission#android.permission.SET_WALLPAPER
 ADDED from AndroidManifest.xml:14:5
 	android:name
 		ADDED from AndroidManifest.xml:14:22
-uses-permission#com.google.android.c2dm.permission.RECEIVE
+uses-permission#android.permission.READ_PHONE_STATE
 ADDED from AndroidManifest.xml:15:5
 	android:name
 		ADDED from AndroidManifest.xml:15:22
-uses-permission#android.permission.GET_ACCOUNTS
+uses-permission#com.google.android.c2dm.permission.RECEIVE
 ADDED from AndroidManifest.xml:16:5
 	android:name
 		ADDED from AndroidManifest.xml:16:22
-uses-permission#android.permission.WAKE_LOCK
+uses-permission#android.permission.GET_ACCOUNTS
 ADDED from AndroidManifest.xml:17:5
 	android:name
 		ADDED from AndroidManifest.xml:17:22
-uses-permission#android.permission.VIBRATE
+uses-permission#android.permission.WAKE_LOCK
 ADDED from AndroidManifest.xml:18:5
 	android:name
 		ADDED from AndroidManifest.xml:18:22
-uses-permission#info.androidhive.awesomewallpapers.permission.C2D_MESSAGE
+uses-permission#android.permission.VIBRATE
 ADDED from AndroidManifest.xml:19:5
 	android:name
 		ADDED from AndroidManifest.xml:19:22
-application
+uses-permission#android.permission.READ_CONTACTS
+ADDED from AndroidManifest.xml:20:5
+	android:name
+		ADDED from AndroidManifest.xml:20:22
+uses-permission#info.androidhive.awesomewallpapers.permission.C2D_MESSAGE
 ADDED from AndroidManifest.xml:21:5
+	android:name
+		ADDED from AndroidManifest.xml:21:22
+application
+ADDED from AndroidManifest.xml:23:5
 MERGED from com.android.support:appcompat-v7:21.0.3:16:5
 MERGED from com.android.support:support-v4:21.0.3:16:5
 MERGED from com.android.support:support-v4:21.0.3:16:5
 MERGED from com.android.support:support-v4:21.0.3:16:5
 	android:label
-		ADDED from AndroidManifest.xml:25:9
+		ADDED from AndroidManifest.xml:27:9
 	android:allowBackup
-		ADDED from AndroidManifest.xml:23:9
+		ADDED from AndroidManifest.xml:25:9
 	android:icon
-		ADDED from AndroidManifest.xml:24:9
-	android:theme
 		ADDED from AndroidManifest.xml:26:9
+	android:theme
+		ADDED from AndroidManifest.xml:28:9
 	android:name
-		ADDED from AndroidManifest.xml:22:9
+		ADDED from AndroidManifest.xml:24:9
 receiver#com.greycodes.zerito.helper.GcmBroadcastReceiver
-ADDED from AndroidManifest.xml:27:9
+ADDED from AndroidManifest.xml:29:9
 	android:permission
-		ADDED from AndroidManifest.xml:29:13
+		ADDED from AndroidManifest.xml:31:13
 	android:name
-		ADDED from AndroidManifest.xml:28:13
+		ADDED from AndroidManifest.xml:30:13
 intent-filter#com.example.test+com.google.android.c2dm.intent.RECEIVE
-ADDED from AndroidManifest.xml:30:13
+ADDED from AndroidManifest.xml:32:13
 action#com.google.android.c2dm.intent.RECEIVE
-ADDED from AndroidManifest.xml:31:17
-	android:name
-		ADDED from AndroidManifest.xml:31:25
-category#com.example.test
 ADDED from AndroidManifest.xml:33:17
 	android:name
-		ADDED from AndroidManifest.xml:33:27
+		ADDED from AndroidManifest.xml:33:25
+category#com.example.test
+ADDED from AndroidManifest.xml:35:17
+	android:name
+		ADDED from AndroidManifest.xml:35:27
 activity#com.greycodes.zerito.SplashActivity
-ADDED from AndroidManifest.xml:37:9
+ADDED from AndroidManifest.xml:39:9
 	android:screenOrientation
-		ADDED from AndroidManifest.xml:40:13
+		ADDED from AndroidManifest.xml:42:13
 	android:label
-		ADDED from AndroidManifest.xml:39:13
+		ADDED from AndroidManifest.xml:41:13
 	android:name
-		ADDED from AndroidManifest.xml:38:13
+		ADDED from AndroidManifest.xml:40:13
 intent-filter#android.intent.action.MAIN+android.intent.category.LAUNCHER
-ADDED from AndroidManifest.xml:41:13
+ADDED from AndroidManifest.xml:43:13
 action#android.intent.action.MAIN
-ADDED from AndroidManifest.xml:42:17
-	android:name
-		ADDED from AndroidManifest.xml:42:25
-category#android.intent.category.LAUNCHER
 ADDED from AndroidManifest.xml:44:17
 	android:name
-		ADDED from AndroidManifest.xml:44:27
+		ADDED from AndroidManifest.xml:44:25
+category#android.intent.category.LAUNCHER
+ADDED from AndroidManifest.xml:46:17
+	android:name
+		ADDED from AndroidManifest.xml:46:27
 activity#com.greycodes.zerito.MainActivity
-ADDED from AndroidManifest.xml:47:9
-	android:name
-		ADDED from AndroidManifest.xml:47:19
-activity#com.greycodes.zerito.FullScreenViewActivity
 ADDED from AndroidManifest.xml:49:9
+	android:name
+		ADDED from AndroidManifest.xml:49:19
+activity#com.greycodes.zerito.FullScreenViewActivity
+ADDED from AndroidManifest.xml:51:9
 	android:screenOrientation
-		ADDED from AndroidManifest.xml:51:13
+		ADDED from AndroidManifest.xml:53:13
 	android:name
-		ADDED from AndroidManifest.xml:50:13
+		ADDED from AndroidManifest.xml:52:13
 activity#com.greycodes.zerito.HomeActivity
-ADDED from AndroidManifest.xml:53:9
+ADDED from AndroidManifest.xml:55:9
 	android:label
-		ADDED from AndroidManifest.xml:55:13
+		ADDED from AndroidManifest.xml:57:13
 	android:name
-		ADDED from AndroidManifest.xml:54:13
+		ADDED from AndroidManifest.xml:56:13
 activity#com.greycodes.zerito.RegisterActivity
-ADDED from AndroidManifest.xml:57:9
+ADDED from AndroidManifest.xml:59:9
 	android:label
-		ADDED from AndroidManifest.xml:59:13
+		ADDED from AndroidManifest.xml:61:13
 	android:name
-		ADDED from AndroidManifest.xml:58:13
+		ADDED from AndroidManifest.xml:60:13
 service#com.greycodes.zerito.helper.ChangeWallpaperService
-ADDED from AndroidManifest.xml:62:9
+ADDED from AndroidManifest.xml:64:9
 	android:exported
+		ADDED from AndroidManifest.xml:67:13
+	android:enabled
+		ADDED from AndroidManifest.xml:66:13
+	android:name
 		ADDED from AndroidManifest.xml:65:13
-	android:enabled
-		ADDED from AndroidManifest.xml:64:13
-	android:name
-		ADDED from AndroidManifest.xml:63:13
 service#com.greycodes.zerito.helper.FriendRequestService
-ADDED from AndroidManifest.xml:67:9
+ADDED from AndroidManifest.xml:69:9
 	android:exported
+		ADDED from AndroidManifest.xml:72:13
+	android:enabled
+		ADDED from AndroidManifest.xml:71:13
+	android:name
 		ADDED from AndroidManifest.xml:70:13
-	android:enabled
-		ADDED from AndroidManifest.xml:69:13
-	android:name
-		ADDED from AndroidManifest.xml:68:13
 service#com.greycodes.zerito.helper.MyFriendService
-ADDED from AndroidManifest.xml:72:9
+ADDED from AndroidManifest.xml:74:9
 	android:exported
+		ADDED from AndroidManifest.xml:77:13
+	android:enabled
+		ADDED from AndroidManifest.xml:76:13
+	android:name
 		ADDED from AndroidManifest.xml:75:13
-	android:enabled
-		ADDED from AndroidManifest.xml:74:13
-	android:name
-		ADDED from AndroidManifest.xml:73:13
 activity#com.greycodes.zerito.NewFriendActivity
-ADDED from AndroidManifest.xml:78:9
+ADDED from AndroidManifest.xml:80:9
 	android:label
-		ADDED from AndroidManifest.xml:80:13
+		ADDED from AndroidManifest.xml:82:13
 	android:name
-		ADDED from AndroidManifest.xml:79:13
+		ADDED from AndroidManifest.xml:81:13
 activity#com.greycodes.zerito.FriendRequestActivity
-ADDED from AndroidManifest.xml:82:9
+ADDED from AndroidManifest.xml:84:9
 	android:label
-		ADDED from AndroidManifest.xml:84:13
-	android:name
-		ADDED from AndroidManifest.xml:83:13
-activity#com.greycodes.zerito.PreviewActivity
-ADDED from AndroidManifest.xml:85:9
-	android:label
-		ADDED from AndroidManifest.xml:87:13
-	android:name
 		ADDED from AndroidManifest.xml:86:13
-service#com.greycodes.zerito.helper.SendRequestService
-ADDED from AndroidManifest.xml:90:9
-	android:exported
-		ADDED from AndroidManifest.xml:93:13
-	android:enabled
-		ADDED from AndroidManifest.xml:92:13
 	android:name
-		ADDED from AndroidManifest.xml:91:13
-service#com.greycodes.zerito.helper.SetWallpaperService
-ADDED from AndroidManifest.xml:95:9
-	android:enabled
-		ADDED from AndroidManifest.xml:97:13
-	android:name
-		ADDED from AndroidManifest.xml:96:13
-service#com.greycodes.zerito.helper.RegisterService
-ADDED from AndroidManifest.xml:98:9
-	android:exported
-		ADDED from AndroidManifest.xml:101:13
-	android:enabled
-		ADDED from AndroidManifest.xml:100:13
-	android:name
-		ADDED from AndroidManifest.xml:99:13
-service#com.greycodes.zerito.helper.FriendAcceptService
-ADDED from AndroidManifest.xml:103:9
-	android:exported
-		ADDED from AndroidManifest.xml:106:13
-	android:enabled
-		ADDED from AndroidManifest.xml:105:13
-	android:name
-		ADDED from AndroidManifest.xml:104:13
-activity#com.greycodes.zerito.SignInActivity
-ADDED from AndroidManifest.xml:109:9
+		ADDED from AndroidManifest.xml:85:13
+activity#com.greycodes.zerito.PreviewActivity
+ADDED from AndroidManifest.xml:87:9
 	android:label
-		ADDED from AndroidManifest.xml:111:13
+		ADDED from AndroidManifest.xml:89:13
 	android:name
-		ADDED from AndroidManifest.xml:110:13
-service#com.greycodes.zerito.helper.SignInService
-ADDED from AndroidManifest.xml:114:9
+		ADDED from AndroidManifest.xml:88:13
+service#com.greycodes.zerito.helper.SendRequestService
+ADDED from AndroidManifest.xml:92:9
 	android:exported
-		ADDED from AndroidManifest.xml:117:13
+		ADDED from AndroidManifest.xml:95:13
 	android:enabled
-		ADDED from AndroidManifest.xml:116:13
+		ADDED from AndroidManifest.xml:94:13
 	android:name
-		ADDED from AndroidManifest.xml:115:13
+		ADDED from AndroidManifest.xml:93:13
+service#com.greycodes.zerito.helper.SetWallpaperService
+ADDED from AndroidManifest.xml:97:9
+	android:enabled
+		ADDED from AndroidManifest.xml:99:13
+	android:name
+		ADDED from AndroidManifest.xml:98:13
+service#com.greycodes.zerito.helper.RegisterService
+ADDED from AndroidManifest.xml:100:9
+	android:exported
+		ADDED from AndroidManifest.xml:103:13
+	android:enabled
+		ADDED from AndroidManifest.xml:102:13
+	android:name
+		ADDED from AndroidManifest.xml:101:13
+service#com.greycodes.zerito.helper.FriendAcceptService
+ADDED from AndroidManifest.xml:105:9
+	android:exported
+		ADDED from AndroidManifest.xml:108:13
+	android:enabled
+		ADDED from AndroidManifest.xml:107:13
+	android:name
+		ADDED from AndroidManifest.xml:106:13
+activity#com.greycodes.zerito.SignInActivity
+ADDED from AndroidManifest.xml:111:9
+	android:label
+		ADDED from AndroidManifest.xml:113:13
+	android:name
+		ADDED from AndroidManifest.xml:112:13
+service#com.greycodes.zerito.helper.SignInService
+ADDED from AndroidManifest.xml:116:9
+	android:exported
+		ADDED from AndroidManifest.xml:119:13
+	android:enabled
+		ADDED from AndroidManifest.xml:118:13
+	android:name
+		ADDED from AndroidManifest.xml:117:13
+service#com.greycodes.zerito.helper.HistoryService
+ADDED from AndroidManifest.xml:121:9
+	android:exported
+		ADDED from AndroidManifest.xml:124:13
+	android:enabled
+		ADDED from AndroidManifest.xml:123:13
+	android:name
+		ADDED from AndroidManifest.xml:122:13
+activity#com.greycodes.zerito.HistoryActivity
+ADDED from AndroidManifest.xml:127:9
+	android:label
+		ADDED from AndroidManifest.xml:129:13
+	android:name
+		ADDED from AndroidManifest.xml:128:13
+activity#com.greycodes.zerito.GcmActivity
+ADDED from AndroidManifest.xml:131:9
+	android:label
+		ADDED from AndroidManifest.xml:133:13
+	android:name
+		ADDED from AndroidManifest.xml:132:13
+service#com.greycodes.zerito.service.CheckUserService
+ADDED from AndroidManifest.xml:136:9
+	android:exported
+		ADDED from AndroidManifest.xml:139:13
+	android:enabled
+		ADDED from AndroidManifest.xml:138:13
+	android:name
+		ADDED from AndroidManifest.xml:137:13
+activity#com.greycodes.zerito.VerifyActivity
+ADDED from AndroidManifest.xml:142:9
+	android:label
+		ADDED from AndroidManifest.xml:144:13
+	android:name
+		ADDED from AndroidManifest.xml:143:13

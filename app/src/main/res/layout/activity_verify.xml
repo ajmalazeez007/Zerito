@@ -6,6 +6,7 @@
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:orientation="vertical"
    android:gravity="center_horizontal"
+
     tools:context="com.greycodes.zerito.VerifyActivity">
 
 
@@ -39,7 +40,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 <EditText
-    android:id="@+id/verify_pin"
+    android:id="@+id/ul_username"
     android:layout_width="match_parent"
     android:background="@drawable/rounded_edittextwhite"
     android:textColor="#000"
@@ -52,12 +53,12 @@
     android:inputType="number"
 
     android:layout_height="50dp" />
-<Button
-    android:id="@+id/verify_bt"
-    android:text="Verify"
+<ImageView
+    android:id="@+id/ul_submit"
+    android:background="@drawable/verifyselecter"
     android:layout_centerHorizontal="true"
-    android:layout_marginTop="10dp"
-    android:layout_below="@id/verify_pin"
+    android:layout_marginTop="30dp"
+    android:layout_below="@id/ul_username"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content" />
 
@@ -69,7 +70,7 @@
         android:id="@+id/tvwrongno"
         android:layout_centerHorizontal="true"
         android:text="Entered a wrong number ?\nTap here !"
-        android:layout_below="@id/verify_bt"
+        android:layout_below="@id/ul_submit"
         android:gravity="center"
         android:textColor="#fff"
         android:layout_marginTop="20dp"

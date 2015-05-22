@@ -9,6 +9,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.greycodes.zerito.service.UpdateUsernameService;
@@ -16,7 +17,7 @@ import com.greycodes.zerito.service.UpdateUsernameService;
 
 public class UserNameActivity extends ActionBarActivity {
     EditText etusername;
-    Button btsubmit;
+    ImageView btsubmit;
      Context context;
     String name;
 
@@ -25,7 +26,7 @@ public class UserNameActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.usernamelayout);
         etusername= (EditText) findViewById(R.id.ul_username);
-        btsubmit= (Button) findViewById(R.id.ul_submit);
+        btsubmit= (ImageView) findViewById(R.id.ul_submit);
         try {
             name=getIntent().getStringExtra("name");
         } catch (Exception e) {

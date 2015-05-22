@@ -285,5 +285,6 @@
 
     <string name="title_activity_verify">VerifyActivity</string>
     <string name="title_activity_user_name">UserNameActivity</string>
+    <string name="title_activity_custom_image">CustomImageActivity</string>
 
 </resources>
