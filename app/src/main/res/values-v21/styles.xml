@@ -11,4 +11,10 @@
         <item name="android:textColor">@color/white</item>
     </style>
 
+    <style name="fabbutton">
+        <item name="fab_colorNormal">#FF4081</item>
+        <item name="fab_colorPressed">#F50057</item>
+        <item name="fab_colorRipple">#C51162</item>
+    </style>
+
 </resources>

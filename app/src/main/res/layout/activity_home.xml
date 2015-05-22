@@ -9,7 +9,7 @@
 
     <ImageView android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:src="@drawable/listbackground"
+        android:background="#fff"
         android:scaleType="centerCrop"
         android:id="@+id/logo"
         />
@@ -46,6 +46,10 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|right"
         fab:menu_labels_style="@style/menu_labels_style"
+        fab:menu_colorNormal="#FF4081"
+        fab:menu_colorPressed="#F50057"
+
+
 
     >
 
@@ -55,19 +59,26 @@
             android:layout_height="wrap_content"
             fab:fab_size="normal"
             fab:fab_label="Add New Friend"
+            android:src="@drawable/addnewfriend"
+            style="@style/fabbutton"
              />
         <com.github.clans.fab.FloatingActionButton
             android:id="@+id/menu_item2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             fab:fab_size="normal"
+            style="@style/fabbutton"
+
             fab:fab_label="Pending Request"
             /><com.github.clans.fab.FloatingActionButton
         android:id="@+id/menu_item3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         fab:fab_size="normal"
+        style="@style/fabbutton"
         fab:fab_label="History"
+        android:src="@drawable/history"
+        fab:menu_colorNormal="#FF4081"
         />
 
     </com.github.clans.fab.FloatingActionMenu>

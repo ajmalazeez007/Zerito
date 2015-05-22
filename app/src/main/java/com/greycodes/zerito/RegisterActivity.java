@@ -13,6 +13,9 @@ import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.view.animation.ScaleAnimation;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -55,7 +58,7 @@ public class RegisterActivity extends ActionBarActivity {
     String pin="";
     EditText etphone;
     Spinner scountrycode;
-    ImageView submit;
+    ImageView submit,zeritologo;
     int pos;
     SharedPreferences sharedPreferences;
     @Override
@@ -83,7 +86,7 @@ public class RegisterActivity extends ActionBarActivity {
         etphone =(EditText)findViewById(R.id.phone);
         submit = (ImageView) findViewById(R.id.submit);
         scountrycode= (Spinner) findViewById(R.id.countrycodespinner);
-
+        zeritologo=(ImageView)findViewById(R.id.logo);
         scountrycode.setAdapter(adapter);
         context = getApplicationContext();
         gcm = GoogleCloudMessaging.getInstance(this);
@@ -136,6 +139,51 @@ public class RegisterActivity extends ActionBarActivity {
         //startActivity(intent);
 
         //g.onReceive(this,);
+
+
+        final ScaleAnimation growAnim = new ScaleAnimation(1.0f, 1.05f, 1.0f, 1.05f,Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+        final ScaleAnimation shrinkAnim = new ScaleAnimation(1.05f, 1.0f , 1.05f, 1.0f,Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+
+        growAnim.setDuration(2000);
+        shrinkAnim.setDuration(2000);
+
+        zeritologo.setAnimation(growAnim);
+        growAnim.start();
+
+        growAnim.setAnimationListener(new Animation.AnimationListener()
+        {
+            @Override
+            public void onAnimationStart(Animation animation){}
+
+            @Override
+            public void onAnimationRepeat(Animation animation){}
+
+            @Override
+            public void onAnimationEnd(Animation animation)
+            {
+                zeritologo.setAnimation(shrinkAnim);
+                shrinkAnim.start();
+            }
+        });
+        shrinkAnim.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                zeritologo.setAnimation(growAnim);
+                growAnim.start();
+            }
+        });
+
+
+
+
 
     }
     private String getRegistrationId(Context context) {

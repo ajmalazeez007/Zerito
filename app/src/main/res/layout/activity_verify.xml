@@ -1,86 +1,86 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#3a3a3a"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:orientation="vertical"
-   android:gravity="center_horizontal"
-
     tools:context="com.greycodes.zerito.VerifyActivity">
 
 
-
     <LinearLayout
+        android:id="@+id/llheads"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:id="@+id/llheads"
 
->
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Thanks!\nDid you get an SMS PIN ?\nEnter it here:"
-        android:gravity="center"
-        android:fontFamily="sans-serif-light"
-        android:layout_gravity="center_horizontal"
-        android:textColor="#fff"
-       android:layout_marginTop="50dp"
+        >
 
-        android:id="@+id/tv_subhead"
-        android:textSize="20sp"/>
+        <TextView
+            android:id="@+id/tv_subhead"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="50dp"
+            android:fontFamily="sans-serif-light"
+            android:gravity="center"
+            android:text="Thanks!\nPlease make sure you have a working SMS plan\nEnter PIN here:"
+
+            android:textColor="#fff"
+            android:textSize="20sp" />
 
     </LinearLayout>
 
     <TextView
         android:id="@+id/verify_tv"
-        android:text="TO REMOVE"
-
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-<EditText
-    android:id="@+id/ul_username"
-    android:layout_width="match_parent"
-    android:background="@drawable/rounded_edittextwhite"
-    android:textColor="#000"
-    android:hint="PIN"
-    android:paddingLeft="10dp"
-    android:fontFamily="sans-serif-light"
-    android:textColorHint="#282626"
-    android:layout_marginTop="20dp"
-    android:layout_below="@id/llheads"
-    android:inputType="number"
 
-    android:layout_height="50dp" />
-<ImageView
-    android:id="@+id/ul_submit"
-    android:background="@drawable/verifyselecter"
-    android:layout_centerHorizontal="true"
-    android:layout_marginTop="30dp"
-    android:layout_below="@id/ul_username"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:text="TO REMOVE" />
+
+    <EditText
+        android:id="@+id/ul_username"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_below="@id/llheads"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/rounded_edittextwhite"
+        android:fontFamily="sans-serif-light"
+        android:hint="PIN"
+        android:inputType="number"
+        android:paddingLeft="10dp"
+        android:textColor="#000"
+
+        android:textColorHint="#282626" />
+
+    <ImageView
+        android:id="@+id/ul_submit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/ul_username"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/verifyselecter" />
 
 
     <TextView
+        android:id="@+id/tvwrongno"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:fontFamily="sans-serif-light"
-        android:id="@+id/tvwrongno"
-        android:layout_centerHorizontal="true"
-        android:text="Entered a wrong number ?\nTap here !"
         android:layout_below="@id/ul_submit"
-        android:gravity="center"
-        android:textColor="#fff"
+        android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
+        android:fontFamily="sans-serif-light"
+        android:gravity="center"
+        android:text="Entered a wrong number ?\nTap here !"
+        android:textColor="#fff"
 
 
-        android:textSize="20sp"/>
-
-
-
-
+        android:textSize="20sp" />
 
 
 </RelativeLayout>

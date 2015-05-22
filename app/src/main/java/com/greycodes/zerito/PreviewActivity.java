@@ -22,6 +22,9 @@ ImageView imageView;
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_preview);
+
+        getSupportActionBar().hide();
+
         imageView = (ImageView) findViewById(R.id.preview_image);
         Resources res = getApplicationContext().getResources();
         String text=getIntent().getStringExtra("msg");//max of 52 characters
