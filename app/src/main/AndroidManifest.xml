@@ -131,7 +131,7 @@
 
         <activity
             android:name=".VerifyActivity"
-            android:label="@string/title_activity_verify" >
+            android:label="Verification" >
         </activity>
 
         <service

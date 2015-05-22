@@ -68,6 +68,7 @@
             android:layout_height="wrap_content"
             fab:fab_size="normal"
             style="@style/fabbutton"
+
             fab:fab_label="Pending Request"
             /><com.github.clans.fab.FloatingActionButton
         android:id="@+id/menu_item3"
