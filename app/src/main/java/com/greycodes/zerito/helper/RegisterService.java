@@ -106,7 +106,7 @@ public class RegisterService extends Service {
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
-            Toast.makeText(getApplicationContext(), results, Toast.LENGTH_LONG).show();
+         //   Toast.makeText(getApplicationContext(), results, Toast.LENGTH_LONG).show();
 
 
             try {
@@ -131,7 +131,7 @@ public class RegisterService extends Service {
 
                 stopSelf();
             } catch (Exception e) {
-                Toast.makeText(getApplicationContext(),"No internet connectivity/Server Down "+e.toString(),Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(),"Coudn't connect to the Internet"+e.toString(),Toast.LENGTH_LONG).show();
                 tc++;
                 if(tc<5){
                     SystemClock.sleep(1000);

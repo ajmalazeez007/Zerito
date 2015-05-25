@@ -121,7 +121,7 @@ public class MyFriendService extends Service {
 
 
             } catch (Exception e) {
-                Toast.makeText(getApplicationContext(),"No Internet Connection/Server Down " , Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(),"Coudn't connect to the Internet" , Toast.LENGTH_LONG).show();
                 e.printStackTrace();
                 stopSelf();
             }

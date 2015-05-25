@@ -122,7 +122,7 @@ public class CheckUserService extends Service {
 
 
 
-                Toast.makeText(getApplicationContext(),"Server Down/No internet",Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(),"Coudn't connect to the Internet",Toast.LENGTH_LONG).show();
             }
             stopSelf();
 

@@ -128,7 +128,7 @@ public class UpdateUsernameService extends Service {
                     Toast.makeText(getApplicationContext(),"Trying again..please wait ",Toast.LENGTH_LONG).show();
 
                 }else{
-                    Toast.makeText(getApplicationContext(),"No internet connectivity/Server Down ",Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(),"Coudn't connect to the Internet",Toast.LENGTH_LONG).show();
                         stopSelf();
                 }
 

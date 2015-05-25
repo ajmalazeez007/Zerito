@@ -188,7 +188,7 @@ public class GridFragment extends Fragment {
 						// either google username is wrong or
 						// devices doesn't have internet connection
 						Toast.makeText(getActivity(),
-								getString(R.string.msg_wall_fetch_error),
+								"Sorry,Unable to fetch wallpapers.Please check your internet connection",
 								Toast.LENGTH_LONG).show();
 
 					}

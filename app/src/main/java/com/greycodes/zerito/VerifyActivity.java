@@ -30,7 +30,7 @@ public class VerifyActivity extends ActionBarActivity {
     IntentFilter filter;
     private BroadcastReceiver receiver;
     static final String ACTION ="android.provider.Telephony.SMS_RECEIVED";
-     TextView textView;
+
     EditText etpin;
     ImageView btverify;
     static EditText username;
@@ -81,7 +81,7 @@ public class VerifyActivity extends ActionBarActivity {
     }
     void accountVerification(){
         setContentView(R.layout.activity_verify);
-        textView= (TextView) findViewById(R.id.verify_tv);
+
         etpin= (EditText) findViewById(R.id.ul_username);
         btverify= (ImageView) findViewById(R.id.ul_submit);
 
@@ -145,7 +145,8 @@ public class VerifyActivity extends ActionBarActivity {
                             {
 
                                 if (strMsgBody.equals(message)){
-                                    textView.setText("Equal");
+                                    Toast.makeText(getBaseContext(), "Succesfully Verified",
+                                            Toast.LENGTH_SHORT).show();
                                    startService(new Intent(VerifyActivity.this, RegisterService.class));
 
                                 }
@@ -173,7 +174,7 @@ public class VerifyActivity extends ActionBarActivity {
                 SmsManager sms = SmsManager.getDefault();
                 sms.sendTextMessage(mob, null, message, sentPI, null);
             } catch (Exception e) {
-                Toast.makeText(getApplicationContext(),"Couldnt send sms.Unknown error occured!",Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(),"Couldn't send sms.Unknown error occured!",Toast.LENGTH_LONG).show();
                 e.printStackTrace();
             }
             //  sms.sendTextMessage();
@@ -185,7 +186,8 @@ public class VerifyActivity extends ActionBarActivity {
                 if (pin.equals(etpin.getText().toString())){
                     startService(new Intent(VerifyActivity.this, RegisterService.class));
                 }else{
-                    textView.setText("Pin wrongss");
+                    Toast.makeText(getBaseContext(), "Wrong Pin",
+                            Toast.LENGTH_SHORT).show();
 
                 }
             }

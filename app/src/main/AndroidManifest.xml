@@ -58,7 +58,9 @@
         </activity>
         <activity
             android:name=".RegisterActivity"
-            android:label="Register" >
+            android:label="Register"
+
+            >
         </activity>
 
         <service
@@ -86,7 +88,7 @@
             android:label="Friend Request" />
         <activity
             android:name=".PreviewActivity"
-            android:label="@string/title_activity_preview" >
+            android:label="Preview" >
         </activity>
 
         <service
@@ -115,7 +117,7 @@
 
         <activity
             android:name=".HistoryActivity"
-            android:label="@string/title_activity_history" >
+            android:label="History" >
         </activity>
         <activity
             android:name=".GcmActivity"
@@ -141,7 +143,7 @@
 
         <activity
             android:name=".UserNameActivity"
-            android:label="@string/title_activity_user_name" >
+            android:label="Verification" >
         </activity>
 
         <service

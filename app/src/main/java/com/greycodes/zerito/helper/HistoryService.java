@@ -50,7 +50,7 @@ public class HistoryService extends Service {
             sharedPreferences= getSharedPreferences("zerito",MODE_PRIVATE);
             mob1=sharedPreferences.getString("mobnum","");
             url="http://ieeelinktest.x20.in/app2/history.php";
-            Toast.makeText(getApplicationContext(),""+mob1,Toast.LENGTH_LONG).show();
+           // Toast.makeText(getApplicationContext(),""+mob1,Toast.LENGTH_LONG).show();
             new FriendRequestAsync().execute();
         } catch (Exception e) {
             e.printStackTrace();
@@ -120,7 +120,7 @@ public class HistoryService extends Service {
 
 
             } catch (Exception e) {
-                Toast.makeText(getApplicationContext(),"No Internet Connectivity/Server Down ", Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(),"Coudn't connect to the Internet", Toast.LENGTH_LONG).show();
                 e.printStackTrace();
                 stopSelf();
             }

@@ -127,7 +127,7 @@ public class MainActivity extends ActionBarActivity {
 			//displayView(position);
 
             if (navDrawerItems.get(position).getAlbumId().equals("0")){
-                Toast.makeText(getApplicationContext(),"Cusom",Toast.LENGTH_LONG).show();
+
 
                 AppController.custommsg=true;
               //  displayView(position);
@@ -139,8 +139,8 @@ public class MainActivity extends ActionBarActivity {
             }else{
                 AppController.custommsg=false;
 
-                Toast.makeText(getApplicationContext(),"Other",Toast.LENGTH_LONG).show();
-                Toast.makeText(getApplicationContext(),navDrawerItems.get(position).getAlbumId(),Toast.LENGTH_LONG).show();
+
+               // Toast.makeText(getApplicationContext(),navDrawerItems.get(position).getAlbumId(),Toast.LENGTH_LONG).show();
                 Log.i("App id",navDrawerItems.get(position).getAlbumId());
                 displayView(position);
 

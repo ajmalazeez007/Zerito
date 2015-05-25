@@ -105,7 +105,7 @@ public class FriendRequestService extends Service {
 
                 count = jsonArray.length();
                 if (count==0){
-                    Toast.makeText(getApplicationContext(),"No frnds",Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(),"No friends",Toast.LENGTH_LONG).show();
 
                 }
                 name = new String[count];

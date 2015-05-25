@@ -34,9 +34,9 @@ TextView tv_mob,tv_pin;
                 pin= tv_pin.getText().toString();
 
                 if(mob.length()<5){
-                    Toast.makeText(getApplicationContext(),"Mobile number must have atleast 5 digits",Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(),"Please enter a proper mobile number",Toast.LENGTH_LONG).show();
                 }else if (pin.length()!=4){
-                    Toast.makeText(getApplicationContext(),"Mobile number must have 4 digits",Toast.LENGTH_LONG).show();
+                    //Toast.makeText(getApplicationContext(),"Mobile number must have 4 digits",Toast.LENGTH_LONG).show();
 
                 }else {
                     Intent service= new Intent(NewFriendActivity.this, SendRequestService.class);

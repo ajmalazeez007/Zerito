@@ -96,7 +96,7 @@ public class SendRequestService extends Service {
             try {
                 JSONObject jsonObject = new JSONObject(results);
                 if(jsonObject.getInt("success")==1){
-                    Toast.makeText(getApplicationContext(),jsonObject.getString("msg"),Toast.LENGTH_LONG).show();
+                   Toast.makeText(getApplicationContext(),"Success",Toast.LENGTH_LONG).show();
                 }else if (jsonObject.getInt("success")==2){
                     Toast.makeText(getApplicationContext(),jsonObject.getString("msg"),Toast.LENGTH_LONG).show();
 

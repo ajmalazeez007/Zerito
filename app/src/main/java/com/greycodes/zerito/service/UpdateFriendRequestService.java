@@ -50,7 +50,7 @@ public class UpdateFriendRequestService extends Service {
             sharedPreferences= getSharedPreferences("zerito",MODE_PRIVATE);
             mob1=sharedPreferences.getString("mobnum","");
             url="http://ieeelinktest.x20.in/app2/pendingrequests.php";
-            Toast.makeText(getApplicationContext(), "" + mob1, Toast.LENGTH_LONG).show();
+           // Toast.makeText(getApplicationContext(), "" + mob1, Toast.LENGTH_LONG).show();
             new FriendRequestAsync().execute();
         } catch (Exception e) {
             e.printStackTrace();
@@ -97,7 +97,7 @@ public class UpdateFriendRequestService extends Service {
         protected void onPostExecute(String result) {
 // TODO Auto-generated method stub
             super.onPostExecute(result);
-            Toast.makeText(getApplicationContext(),results,Toast.LENGTH_LONG).show();
+          //  Toast.makeText(getApplicationContext(),results,Toast.LENGTH_LONG).show();
 
             try {
                 JSONObject jsonObject = new JSONObject(results);
@@ -105,7 +105,7 @@ public class UpdateFriendRequestService extends Service {
 
                 count = jsonArray.length();
                 if (count==0){
-                    Toast.makeText(getApplicationContext(),"No frnds",Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(),"No friends",Toast.LENGTH_LONG).show();
 
                 }
                 name = new String[count];
