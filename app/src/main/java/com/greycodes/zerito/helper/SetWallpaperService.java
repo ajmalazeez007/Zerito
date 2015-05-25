@@ -18,7 +18,6 @@ import android.os.Environment;
 import android.os.IBinder;
 import android.provider.MediaStore;
 import android.support.v4.app.NotificationCompat;
-import android.widget.Toast;
 
 import com.greycodes.zerito.R;
 import com.greycodes.zerito.SplashActivity;
@@ -44,59 +43,34 @@ public class SetWallpaperService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        imageURL = intent.getStringExtra("url");
-        imgText = intent.getStringExtra("imgtext");
-        downloadManager = (DownloadManager) getSystemService(DOWNLOAD_SERVICE);
-        Uri Download_Uri = Uri.parse(imageURL);
-        DownloadManager.Request request = new DownloadManager.Request(Download_Uri);
-        request.setAllowedNetworkTypes(DownloadManager.Request.NETWORK_WIFI | DownloadManager.Request.NETWORK_MOBILE);
-        request.setAllowedOverRoaming(true);
-        request.setDestinationInExternalFilesDir(getApplicationContext(), Environment.DIRECTORY_DOWNLOADS, "wallpaper");
-        downloadReference = downloadManager.enqueue(request);
+        try {
+            imageURL = intent.getStringExtra("url");
+            imgText = intent.getStringExtra("imgtext");
+            downloadManager = (DownloadManager) getSystemService(DOWNLOAD_SERVICE);
+            Uri Download_Uri = Uri.parse(imageURL);
+            DownloadManager.Request request = new DownloadManager.Request(Download_Uri);
+            request.setAllowedNetworkTypes(DownloadManager.Request.NETWORK_WIFI | DownloadManager.Request.NETWORK_MOBILE);
+            request.setAllowedOverRoaming(true);
+            request.setDestinationInExternalFilesDir(getApplicationContext(), Environment.DIRECTORY_DOWNLOADS, "wallpaper");
+            downloadReference = downloadManager.enqueue(request);
+        } catch (Exception e) {
+            stopSelf();
+            e.printStackTrace();
+        }
         // new DownloadImage().execute();
-        DownLoadComplte mDownload = new DownLoadComplte();
-        registerReceiver(mDownload, new IntentFilter(
-                DownloadManager.ACTION_DOWNLOAD_COMPLETE));
+        try {
+            DownLoadComplte mDownload = new DownLoadComplte();
+            registerReceiver(mDownload, new IntentFilter(
+                    DownloadManager.ACTION_DOWNLOAD_COMPLETE));
+        } catch (Exception e) {
+            e.printStackTrace();
+            stopSelf();
+        }
+        stopSelf();
         return super.onStartCommand(intent, flags, startId);
     }
 
-    // DownloadImage AsyncTask
-    private class DownloadImage extends AsyncTask<String, Void, Bitmap> {
 
-
-        @Override
-        protected Bitmap doInBackground(String... URL) {
-
-
-            Bitmap bitmap = null;
-            try {
-// Download Image from URL
-                InputStream input = new java.net.URL(imageURL).openStream();
-// Decode Bitmap
-                bitmap = BitmapFactory.decodeStream(input);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            return bitmap;
-        }
-
-        @Override
-        protected void onPostExecute(Bitmap result) {
-// Set the bitmap into ImageView
-            //  image.setImageBitmap(result);
-            try {
-                Utils utils = new Utils(getApplicationContext());
-                utils.setAsWallpaper(result, imgText);
-                // sendNotification("Wallpaper change service");
-                stopSelf();
-            } catch (Exception e) {
-                e.printStackTrace();
-                new DownloadImage().execute();
-            }
-
-// Close progressdialog
-        }
-    }
 
     void sendNotification(String msg) {
         mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
@@ -129,47 +103,48 @@ public class SetWallpaperService extends Service {
 
         @Override
         public void onReceive(Context context, Intent intent) {
-            if (intent.getAction().equalsIgnoreCase(
-                    DownloadManager.ACTION_DOWNLOAD_COMPLETE)) {
-                Toast.makeText(context, "Download Complte", Toast.LENGTH_LONG)
-                        .show();
-                sendNotification("Dowbload complete");
+            try {
+                if (intent.getAction().equalsIgnoreCase(
+                        DownloadManager.ACTION_DOWNLOAD_COMPLETE)) {
 
-                String action = intent.getAction();
-                if (DownloadManager.ACTION_DOWNLOAD_COMPLETE.equals(action)) {
-                    long downloadId = intent.getLongExtra(
-                            DownloadManager.EXTRA_DOWNLOAD_ID, 0);
-                    DownloadManager.Query query = new DownloadManager.Query();
-                    query.setFilterById(downloadReference);
-                    Cursor c = downloadManager.query(query);
-                    if (c.moveToFirst()) {
-                        int columnIndex = c
-                                .getColumnIndex(DownloadManager.COLUMN_STATUS);
-                        if (DownloadManager.STATUS_SUCCESSFUL == c
-                                .getInt(columnIndex)) {
+                    String action = intent.getAction();
+                    if (DownloadManager.ACTION_DOWNLOAD_COMPLETE.equals(action)) {
+                        long downloadId = intent.getLongExtra(
+                                DownloadManager.EXTRA_DOWNLOAD_ID, 0);
+                        DownloadManager.Query query = new DownloadManager.Query();
+                        query.setFilterById(downloadReference);
+                        Cursor c = downloadManager.query(query);
+                        if (c.moveToFirst()) {
+                            int columnIndex = c
+                                    .getColumnIndex(DownloadManager.COLUMN_STATUS);
+                            if (DownloadManager.STATUS_SUCCESSFUL == c
+                                    .getInt(columnIndex)) {
 
-                            String uriString = c
-                                    .getString(c
-                                            .getColumnIndex(DownloadManager.COLUMN_LOCAL_URI));
-                            Uri uri = Uri.parse(uriString);
-                            try {
-                                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getApplicationContext().getContentResolver(), uri);
-                                Utils utils = new Utils(getApplicationContext());
-                                utils.setAsWallpaper(bitmap, imgText);
-                            } catch (IOException e) {
-                                e.printStackTrace();
+                                String uriString = c
+                                        .getString(c
+                                                .getColumnIndex(DownloadManager.COLUMN_LOCAL_URI));
+                                Uri uri = Uri.parse(uriString);
+                                try {
+                                    Bitmap bitmap = MediaStore.Images.Media.getBitmap(getApplicationContext().getContentResolver(), uri);
+                                    Utils utils = new Utils(getApplicationContext());
+                                    utils.setAsWallpaper(bitmap, imgText);
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+
+
+
+
+
                             }
-                            Toast.makeText(context, "file path "+uriString, Toast.LENGTH_LONG)
-                                    .show();
-
-
-
-
                         }
                     }
                 }
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-            }
+        }
+
         }
     }
 

@@ -75,7 +75,7 @@ public class MainActivity extends ActionBarActivity {
 		for (Category a : albumsList) {
 			navDrawerItems.add(new NavDrawerItem(a.getId(), a.getTitle()));
 		}
-        navDrawerItems.add(new NavDrawerItem("0","Custom"));
+       // navDrawerItems.add(new NavDrawerItem("0","Custom"));
 
         // navDrawerItems.add();
 		mDrawerList.setOnItemClickListener(new SlideMenuClickListener());
