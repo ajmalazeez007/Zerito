@@ -123,8 +123,7 @@ public class Utils {
             WallpaperManager wm = WallpaperManager.getInstance(_context);
 
 			wm.setBitmap(background);
-			Toast.makeText(_context,
-					_context.getString(R.string.toast_wallpaper_set),
+			Toast.makeText(_context,_context.getString(R.string.toast_wallpaper_set),
 					Toast.LENGTH_SHORT).show();
 		} catch (Exception e) {
 			e.printStackTrace();

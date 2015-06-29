@@ -18,6 +18,7 @@ import android.os.Environment;
 import android.os.IBinder;
 import android.provider.MediaStore;
 import android.support.v4.app.NotificationCompat;
+import android.widget.Toast;
 
 import com.greycodes.zerito.R;
 import com.greycodes.zerito.SplashActivity;
@@ -59,10 +60,14 @@ public class SetWallpaperService extends Service {
         }
         // new DownloadImage().execute();
         try {
+            Toast.makeText(getApplicationContext(),"reg",Toast.LENGTH_LONG).show();
+
             DownLoadComplte mDownload = new DownLoadComplte();
             registerReceiver(mDownload, new IntentFilter(
                     DownloadManager.ACTION_DOWNLOAD_COMPLETE));
         } catch (Exception e) {
+            Toast.makeText(getApplicationContext(),e.toString(),Toast.LENGTH_LONG).show();
+
             e.printStackTrace();
             stopSelf();
         }
@@ -93,13 +98,14 @@ public class SetWallpaperService extends Service {
 
         mBuilder.setDefaults(defaults);
         mBuilder.setContentIntent(contentIntent);
+        mBuilder.setAutoCancel(true);
         Random rand = new Random();
         NOTIFICATION_ID = rand.nextInt((1000 - 10) + 1) + 10;
         mNotificationManager.notify(NOTIFICATION_ID, mBuilder.build());
         NOTIFICATION_ID++;
     }
 
-    private class DownLoadComplte extends BroadcastReceiver {
+    public class DownLoadComplte extends BroadcastReceiver {
 
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -128,6 +134,7 @@ public class SetWallpaperService extends Service {
                                     Bitmap bitmap = MediaStore.Images.Media.getBitmap(getApplicationContext().getContentResolver(), uri);
                                     Utils utils = new Utils(getApplicationContext());
                                     utils.setAsWallpaper(bitmap, imgText);
+                                    Toast.makeText(getApplicationContext(),"wall change",Toast.LENGTH_LONG).show();
                                 } catch (IOException e) {
                                     e.printStackTrace();
                                 }
@@ -137,9 +144,14 @@ public class SetWallpaperService extends Service {
 
 
                             }
+                        }else {
+                            Toast.makeText(getApplicationContext(),"else",Toast.LENGTH_LONG).show();
+
                         }
                     }
                 }
+                Toast.makeText(getApplicationContext(),"on receive",Toast.LENGTH_LONG).show();
+
             } catch (Exception e) {
                 e.printStackTrace();
             }

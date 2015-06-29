@@ -1,6 +1,7 @@
 package com.greycodes.zerito.helper;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,14 +20,16 @@ import java.util.Date;
  * Created by ajmal on 31/3/15.
  */
 public class HistoryAdapter extends BaseAdapter {
-    String[] name,time;
+    String[] name,time,url,text;
     int[] type;
     Context   context;
     LayoutInflater inflater;
-    public HistoryAdapter(Context context,String[] name,String[] time,int[] type){
+    public HistoryAdapter(Context context,String[] name,String[] time,int[] type,String[] url,String[] text){
         this.context=context;
         this.name=name;
         this.time=time;
+        this.url=url;
+        this.text=text;
         this.type=type;
         inflater= (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
@@ -47,7 +50,7 @@ public class HistoryAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
         if (convertView==null){
             convertView=inflater.inflate(R.layout.history_listitem,null);
         }
@@ -68,8 +71,19 @@ public class HistoryAdapter extends BaseAdapter {
 
         TextView tv_name= (TextView) convertView.findViewById(R.id.h_name);
         TextView tv_time= (TextView) convertView.findViewById(R.id.h_time);
+        TextView tv_setwallaper = (TextView) convertView.findViewById(R.id.h_setwallpaper);
         tv_name.setText(message);
         tv_time.setText(sdf.format(resultdate));
+        tv_setwallaper.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent service = new Intent(context,SetWallpaperService.class);
+                service.putExtra("url",url[position]);
+                service.putExtra("imgtext",text[position]);
+                context.startService(service);
+            }
+        });
         return convertView;
     }
 }

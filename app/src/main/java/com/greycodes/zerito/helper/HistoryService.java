@@ -34,7 +34,7 @@ import java.util.List;
 public class HistoryService extends Service {
     SharedPreferences sharedPreferences;
     String results,url,mob1;
-    String[] name, time;
+    String[] name, time,link,text;
     int[] type;
     int count;
 
@@ -97,21 +97,25 @@ public class HistoryService extends Service {
         protected void onPostExecute(String result) {
 // TODO Auto-generated method stub
             super.onPostExecute(result);
-
+        Toast.makeText(getApplicationContext(),results,Toast.LENGTH_LONG).show();
             try {
                 JSONObject jsonObject = new JSONObject(results);
                 JSONArray jsonArray = jsonObject.getJSONArray("history");
                 count = jsonArray.length();
                 name = new String[count];
                 time = new String[count];
+                link = new String[count];
+                text = new String[count];
                 type = new int[count];
                 for (int i=0;i<count;i++){
                     name[i]= jsonArray.getJSONObject(i).getString("name");
                     time[i]= jsonArray.getJSONObject(i).getString("time");
+                    link[i]= jsonArray.getJSONObject(i).getString("link");
+                    text[i]= jsonArray.getJSONObject(i).getString("text");
                     type[i]= jsonArray.getJSONObject(i).getInt("type");
                 }
 
-                HistoryAdapter historyAdapter= new HistoryAdapter(getApplicationContext(), name,time, type);
+                HistoryAdapter historyAdapter= new HistoryAdapter(getApplicationContext(), name,time, type,link,text);
                 AppController.historyAdapter=historyAdapter;
                 Intent intent=new Intent(HistoryService.this, HistoryActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

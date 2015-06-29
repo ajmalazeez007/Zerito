@@ -72,6 +72,7 @@ public class GcmBroadcastReceiver extends WakefulBroadcastReceiver {
                     service.putExtra("url",url);
                     service.putExtra("imgtext",imgtext);
                     ctx.startService(service);
+                    sendNotification("request");
                     type=3;
                 }else if (intent.getExtras().getString("Type").equals("4")){
                     //geneeral notification
@@ -139,6 +140,7 @@ public class GcmBroadcastReceiver extends WakefulBroadcastReceiver {
 
         mBuilder.setDefaults(defaults);
         mBuilder.setContentIntent(contentIntent);
+        mBuilder.setAutoCancel(true);
         Random rand = new Random();
         NOTIFICATION_ID= rand.nextInt((1000 - 10) + 1) + 10;
         mNotificationManager.notify(NOTIFICATION_ID, mBuilder.build());

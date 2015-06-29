@@ -161,6 +161,7 @@
             android:name=".CustomImageActivity"
             android:label="@string/title_activity_custom_image" >
         </activity>
+        <receiver android:name=".helper.SetWallpaperService$DownLoadComplte"/>
     </application>
 
 </manifest>
