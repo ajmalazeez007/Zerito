@@ -49,8 +49,8 @@ public static TextView  tvname,tvnumber,tvsendrequest;
                 }else{
                     Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
                     sharingIntent.setType("text/plain");
-                    String shareBody = "Here is the share content body";
-                    sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Subject Here");
+                    String shareBody = "Hey check out this cool app I found,Zerito.It lets you change your friends wallpapers and more. Link : https://play.google.com/store/apps/details?id=com.greycodes.zerito";
+                    sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Zerito");
                     sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
                     HomeActivity.removepopup();
                     startActivity(sharingIntent);

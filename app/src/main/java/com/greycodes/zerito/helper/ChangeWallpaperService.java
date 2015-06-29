@@ -70,7 +70,7 @@ public class ChangeWallpaperService extends Service {
     class ChangeWallpaperAsync extends AsyncTask<Void,Void,Void>{
         @Override
         protected void onPostExecute(Void aVoid) {
-            Toast.makeText(getApplicationContext(),results,Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(),"Wallpaper Changed",Toast.LENGTH_LONG).show();
 
             super.onPostExecute(aVoid);
 

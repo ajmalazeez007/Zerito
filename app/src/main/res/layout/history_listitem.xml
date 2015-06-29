@@ -17,8 +17,8 @@
             android:layout_width="wrap_content"
             android:textColor="@color/textmain"
             android:layout_height="wrap_content"
-            android:fontFamily="sans-serif-light"
-            android:textSize="16sp"
+            android:fontFamily="sans-serif-regular"
+            android:textSize="18sp"
             android:text="qweqweqwe"/>
 
         <TextView
@@ -29,5 +29,18 @@
             android:textSize="14sp"
             android:layout_marginTop="4dp"
             android:textColor="@color/textsub"/>
+
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Set as wallpaper"
+            android:background="@drawable/btn_rounded_corner_blue"
+            android:textColor="#fff"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="16dp"
+            />
     </LinearLayout>
+
 </LinearLayout>

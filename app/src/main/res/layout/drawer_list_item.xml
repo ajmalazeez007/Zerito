@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="50dp"
-    android:background="#90ffffff"
+    android:background="#00ffffff"
     >
 
     <TextView
@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:textSize="16sp"
-       android:textColor="@color/textsub"
+       android:textColor="#e3e3e3"
 
         android:gravity="center"
         android:paddingLeft="5dp"

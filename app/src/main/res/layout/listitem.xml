@@ -2,62 +2,60 @@
 <com.balysv.materialripple.MaterialRippleLayout xmlns:android="http://schemas.android.com/apk/res/android"
 
     android:id="@+id/ripple"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-   mrl_rippleOverlay="true"
-    mrl_rippleColor="#ff0000"
     mrl_rippleAlpha="0.1"
-    mrl_rippleInAdapter="true"
+    mrl_rippleColor="#ff0000"
+    mrl_rippleDelayClick="true"
     mrl_rippleDuration="350"
     mrl_rippleFadeDuration="75"
-    mrl_rippleDelayClick="true"
-    >
-
-
-<LinearLayout
-    android:layout_width="fill_parent"
+    mrl_rippleInAdapter="true"
+    mrl_rippleOverlay="true"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-<RelativeLayout
-    android:layout_width="fill_parent"
-    android:layout_height="wrap_content"
-    android:paddingLeft="16dp"
-    android:paddingRight="16dp"
-    android:paddingTop="8dp"
-    android:paddingBottom="8dp"
 
-    >
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
 
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="8dp"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:paddingTop="8dp"
 
-   <TextView
-       android:layout_width="wrap_content"
-       android:layout_height="wrap_content"
-       android:background="@drawable/circle_shape_red"
-       android:id="@+id/circleshape"
-       android:text="A"
-       android:textColor="#fff"
-       android:fontFamily="sans-serif-light"
-        android:gravity="center"
-       android:layout_marginLeft="5dp"
-      android:layout_centerVertical="true"
-       android:textSize="16sp"/>
+            >
 
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Name 1"
-        android:textSize="22sp"
-        android:id="@+id/litsitem_name"
-        android:textColor="@color/textsub"
-        android:fontFamily="sans-serif-light"
-        android:layout_marginLeft="18dp"
-        android:layout_toRightOf="@id/circleshape"
-        android:layout_centerVertical="true"/>
+            <TextView
+                android:id="@+id/circleshape"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="1dp"
+                android:background="@drawable/circle_shape_red"
+                android:fontFamily="sans-serif-light"
+                android:gravity="center"
+                android:text="A"
+                android:textColor="#fff"
+                android:textSize="24sp" />
 
 
+            <TextView
+                android:id="@+id/litsitem_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="8dp"
+                android:layout_toRightOf="@id/circleshape"
+                android:fontFamily="sans-serif"
+                android:text="Name 1"
+                android:textColor="@color/textsub"
+                android:textSize="22sp" />
 
-</RelativeLayout>
 
-</LinearLayout>
+        </RelativeLayout>
+
+    </LinearLayout>
 </com.balysv.materialripple.MaterialRippleLayout>
