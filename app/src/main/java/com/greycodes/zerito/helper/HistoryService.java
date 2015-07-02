@@ -97,7 +97,6 @@ public class HistoryService extends Service {
         protected void onPostExecute(String result) {
 // TODO Auto-generated method stub
             super.onPostExecute(result);
-        Toast.makeText(getApplicationContext(),results,Toast.LENGTH_LONG).show();
             try {
                 JSONObject jsonObject = new JSONObject(results);
                 JSONArray jsonArray = jsonObject.getJSONArray("history");

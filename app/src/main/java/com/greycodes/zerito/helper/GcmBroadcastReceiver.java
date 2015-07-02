@@ -39,15 +39,15 @@ public class GcmBroadcastReceiver extends WakefulBroadcastReceiver {
         ctx = context;
         String messageType = gcm.getMessageType(intent);
         if (GoogleCloudMessaging.MESSAGE_TYPE_SEND_ERROR.equals(messageType)) {
-            sendNotification("Send error: " + intent.getExtras().toString());
+          //  sendNotification("Send error: " + intent.getExtras().toString());
         } else if (GoogleCloudMessaging.MESSAGE_TYPE_DELETED.equals(messageType)) {
-            sendNotification("Deleted messages on server: " + intent.getExtras().toString());
+            sendNotification("Deleted messages on server: " + intent.getExtras().toString(),10);
         } else {
 
 
                 if(intent.getExtras().getString("Type").equals("1")){
                     type=1;
-                    sendNotification(intent.getExtras().getString("Message"));
+                    sendNotification(intent.getExtras().getString("Message"),1);
                     //register
 
                 }else  if(intent.getExtras().getString("Type").equals("2")){
@@ -56,7 +56,7 @@ public class GcmBroadcastReceiver extends WakefulBroadcastReceiver {
                     //mob2 gets the push
                     //mob1,mob2,pin    mob2=pin
                     //Mob_no,
-                    sendNotification(intent.getExtras().getString("Name")+intent.getExtras().getString("Mob_no"));
+                    sendNotification(intent.getExtras().getString("Name")+intent.getExtras().getString("Mob_no"),2);
                     type=2;
 
 
@@ -71,13 +71,13 @@ public class GcmBroadcastReceiver extends WakefulBroadcastReceiver {
                     Intent service = new Intent(ctx,SetWallpaperService.class);
                     service.putExtra("url",url);
                     service.putExtra("imgtext",imgtext);
+                    service.putExtra("message",intent.getExtras().getString("Message"));
                     ctx.startService(service);
-                    sendNotification("request");
                     type=3;
                 }else if (intent.getExtras().getString("Type").equals("4")){
                     //geneeral notification
                       type=4;
-                    sendNotification(intent.getExtras().getString("Message"));
+                    sendNotification(intent.getExtras().getString("Message"),4);
                 }
 
 
@@ -87,7 +87,7 @@ public class GcmBroadcastReceiver extends WakefulBroadcastReceiver {
     }
 
     // Put the GCM message into a notification and post it.
-    private void sendNotification(String msg) {
+    private void sendNotification(String msg,int id) {
         mNotificationManager = (NotificationManager)
                 ctx.getSystemService(Context.NOTIFICATION_SERVICE);
         PendingIntent contentIntent = null;
@@ -142,8 +142,7 @@ public class GcmBroadcastReceiver extends WakefulBroadcastReceiver {
         mBuilder.setContentIntent(contentIntent);
         mBuilder.setAutoCancel(true);
         Random rand = new Random();
-        NOTIFICATION_ID= rand.nextInt((1000 - 10) + 1) + 10;
+        NOTIFICATION_ID= id;
         mNotificationManager.notify(NOTIFICATION_ID, mBuilder.build());
-        NOTIFICATION_ID++;
     }
 }

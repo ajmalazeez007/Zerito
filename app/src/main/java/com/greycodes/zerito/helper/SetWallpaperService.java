@@ -18,8 +18,12 @@ import android.os.Environment;
 import android.os.IBinder;
 import android.provider.MediaStore;
 import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.TaskStackBuilder;
+import android.widget.RemoteViews;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.greycodes.zerito.GcmActivity;
 import com.greycodes.zerito.R;
 import com.greycodes.zerito.SplashActivity;
 import com.greycodes.zerito.util.Utils;
@@ -30,12 +34,11 @@ import java.util.Random;
 
 
 public class SetWallpaperService extends Service {
-    String imageURL, imgText;
+    String imageURL, imgText,message;
     private NotificationManager mNotificationManager;
     public static int NOTIFICATION_ID = 1;
     private DownloadManager downloadManager;
     private long downloadReference;
-
     @Override
     public IBinder onBind(Intent intent) {
         // TODO: Return the communication channel to the service.
@@ -44,120 +47,121 @@ public class SetWallpaperService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+
         try {
             imageURL = intent.getStringExtra("url");
             imgText = intent.getStringExtra("imgtext");
-            downloadManager = (DownloadManager) getSystemService(DOWNLOAD_SERVICE);
-            Uri Download_Uri = Uri.parse(imageURL);
-            DownloadManager.Request request = new DownloadManager.Request(Download_Uri);
-            request.setAllowedNetworkTypes(DownloadManager.Request.NETWORK_WIFI | DownloadManager.Request.NETWORK_MOBILE);
-            request.setAllowedOverRoaming(true);
-            request.setDestinationInExternalFilesDir(getApplicationContext(), Environment.DIRECTORY_DOWNLOADS, "wallpaper");
-            downloadReference = downloadManager.enqueue(request);
+            message = intent.getStringExtra("message");
         } catch (Exception e) {
-            stopSelf();
+
+            message="";
             e.printStackTrace();
         }
-        // new DownloadImage().execute();
-        try {
-            Toast.makeText(getApplicationContext(),"reg",Toast.LENGTH_LONG).show();
+        downloadManager  = (DownloadManager)getSystemService(DOWNLOAD_SERVICE);
+        Uri resource = Uri.parse(imageURL);
+        DownloadManager.Request request = new DownloadManager.Request(resource);
+        request.setTitle("Zerito");
+        request.setAllowedNetworkTypes(DownloadManager.Request.NETWORK_WIFI | DownloadManager.Request.NETWORK_MOBILE);
+        request.setAllowedOverRoaming(true);
+        request.setDestinationInExternalFilesDir(getApplicationContext(), Environment.DIRECTORY_DOWNLOADS, "wallpaper");
+        downloadReference = downloadManager.enqueue(request);
+        registerReceiver(receiver, new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
 
-            DownLoadComplte mDownload = new DownLoadComplte();
-            registerReceiver(mDownload, new IntentFilter(
-                    DownloadManager.ACTION_DOWNLOAD_COMPLETE));
-        } catch (Exception e) {
-            Toast.makeText(getApplicationContext(),e.toString(),Toast.LENGTH_LONG).show();
 
-            e.printStackTrace();
-            stopSelf();
-        }
-        stopSelf();
+//        stopSelf();
         return super.onStartCommand(intent, flags, startId);
     }
 
-
-
-    void sendNotification(String msg) {
-        mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        PendingIntent contentIntent = PendingIntent.getActivity(getApplicationContext(), 0, new Intent(getApplicationContext(), SplashActivity.class), 0);
-        //  contentIntent = PendingIntent.getActivity(getApplicationContext(), 0, new Intent(getApplicationContext(), MainActivity.class), 0);
-
-
-        int defaults = 0;
-        defaults = defaults | Notification.DEFAULT_LIGHTS;
-        defaults = defaults | Notification.DEFAULT_VIBRATE;
-        defaults = defaults | Notification.DEFAULT_SOUND;
-
-
-        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(getApplicationContext())
-                .setSmallIcon(R.drawable.ic_launcher)
-                .setContentTitle("Zerito")
-                .setStyle(new NotificationCompat.BigTextStyle()
-                        .bigText(msg))
-                .setContentText(msg);
-
-        mBuilder.setDefaults(defaults);
-        mBuilder.setContentIntent(contentIntent);
-        mBuilder.setAutoCancel(true);
-        Random rand = new Random();
-        NOTIFICATION_ID = rand.nextInt((1000 - 10) + 1) + 10;
-        mNotificationManager.notify(NOTIFICATION_ID, mBuilder.build());
-        NOTIFICATION_ID++;
-    }
-
-    public class DownLoadComplte extends BroadcastReceiver {
-
+    private BroadcastReceiver receiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            try {
-                if (intent.getAction().equalsIgnoreCase(
-                        DownloadManager.ACTION_DOWNLOAD_COMPLETE)) {
+            Toast.makeText(getApplicationContext(),"DOWnload complete",Toast.LENGTH_LONG).show();
+           // queryDownloadStatus();
+            long downloadId = intent.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, 0);
+            setWall(downloadId);
+        }
+    };
 
-                    String action = intent.getAction();
-                    if (DownloadManager.ACTION_DOWNLOAD_COMPLETE.equals(action)) {
-                        long downloadId = intent.getLongExtra(
-                                DownloadManager.EXTRA_DOWNLOAD_ID, 0);
-                        DownloadManager.Query query = new DownloadManager.Query();
-                        query.setFilterById(downloadReference);
-                        Cursor c = downloadManager.query(query);
-                        if (c.moveToFirst()) {
-                            int columnIndex = c
-                                    .getColumnIndex(DownloadManager.COLUMN_STATUS);
-                            if (DownloadManager.STATUS_SUCCESSFUL == c
-                                    .getInt(columnIndex)) {
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        unregisterReceiver(receiver);
+    }
 
-                                String uriString = c
-                                        .getString(c
-                                                .getColumnIndex(DownloadManager.COLUMN_LOCAL_URI));
-                                Uri uri = Uri.parse(uriString);
-                                try {
-                                    Bitmap bitmap = MediaStore.Images.Media.getBitmap(getApplicationContext().getContentResolver(), uri);
-                                    Utils utils = new Utils(getApplicationContext());
-                                    utils.setAsWallpaper(bitmap, imgText);
-                                    Toast.makeText(getApplicationContext(),"wall change",Toast.LENGTH_LONG).show();
-                                } catch (IOException e) {
-                                    e.printStackTrace();
-                                }
+    void setWall(long downloadId){
+     //   long downloadId = intent.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, 0);
+        DownloadManager.Query query = new DownloadManager.Query();
+        query.setFilterById(downloadReference);
+        Cursor c = downloadManager.query(query);
+        if (c.moveToFirst()) {
+            int columnIndex = c
+                    .getColumnIndex(DownloadManager.COLUMN_STATUS);
+            if (DownloadManager.STATUS_SUCCESSFUL == c
+                    .getInt(columnIndex)) {
 
-
-
-
-
-                            }
-                        }else {
-                            Toast.makeText(getApplicationContext(),"else",Toast.LENGTH_LONG).show();
-
-                        }
+                String uriString = c
+                        .getString(c
+                                .getColumnIndex(DownloadManager.COLUMN_LOCAL_URI));
+                Uri uri = Uri.parse(uriString);
+                try {
+                    Bitmap bitmap = MediaStore.Images.Media.getBitmap(getApplicationContext().getContentResolver(), uri);
+                    Utils utils = new Utils(getApplicationContext());
+                    utils.setAsWallpaper(bitmap, imgText);
+                    if (message.length()>2) {
+                        startNotification(message);
                     }
+                    stopSelf();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    stopSelf();
                 }
-                Toast.makeText(getApplicationContext(),"on receive",Toast.LENGTH_LONG).show();
 
-            } catch (Exception e) {
-                e.printStackTrace();
+
+
+
+
             }
-        }
+        }else {
+            Toast.makeText(getApplicationContext(),"else",Toast.LENGTH_LONG).show();
 
         }
+    }
+
+    private void startNotification(String message){
+        RemoteViews notificationView = new RemoteViews(getPackageName(),
+                R.layout.notification_xml);
+         notificationView.setTextViewText(R.id.message,message);
+        NotificationCompat.Builder mBuilder =
+                new NotificationCompat.Builder(this)
+                        .setSmallIcon(R.drawable.heart2)
+                        .setContentTitle("Zerito")
+                        .setContentText(message)
+                        .setContent(notificationView)
+                    ;
+        Intent resultIntent = new Intent(this, GcmActivity.class);
+        mBuilder.setAutoCancel(true);
+// The stack builder object will contain an artificial back stack for the
+// started Activity.
+// This ensures that navigating backward from the Activity leads out of
+// your application to the Home screen.
+        TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
+// Adds the back stack for the Intent (but not the Intent itself)
+        stackBuilder.addParentStack(GcmActivity.class);
+// Adds the Intent that starts the Activity to the top of the stack
+        stackBuilder.addNextIntent(resultIntent);
+        PendingIntent resultPendingIntent =
+                stackBuilder.getPendingIntent(
+                        0,
+                        PendingIntent.FLAG_UPDATE_CURRENT
+                );
+        mBuilder.setContentIntent(resultPendingIntent);
+        NotificationManager mNotificationManager =
+                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+// mId allows you to update the notification later on.
+        mNotificationManager.notify(3, mBuilder.build());
+
+    }
+
     }
 
 
